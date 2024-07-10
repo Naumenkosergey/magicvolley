@@ -1,0 +1,31 @@
+###
+GET http://localhost:8081/camps/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYXNzd29yZCIsIm5hbWUiOiJ1c2VyIiwiaWF0IjoxNTE2MjM5MDIyfQ.w2JbNj9Al5HLTkigmrHBuvzIRUrqesBK3udgf_q5dS4
+
+###
+GET http://localhost:8081/users/all
+###
+GET http://localhost:8081/coaches/all
+
+###
+POST http://localhost:8081/auth/login
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYXNzd29yZCIsIm5hbWUiOiJ1c2VyIiwiaWF0IjoxNTE2MjM5MDIyfQ.w2JbNj9Al5HLTkigmrHBuvzIRUrqesBK3udgf_q5dS4
+Content-type: application/json
+accept: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+###
+POST http://localhost:8081/auth/signup
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYXNzd29yZCIsIm5hbWUiOiJ1c2VyIiwiaWF0IjoxNTE2MjM5MDIyfQ.w2JbNj9Al5HLTkigmrHBuvzIRUrqesBK3udgf_q5dS4
+Content-type: application/json
+accept: application/json
+
+{
+  "username": "user",
+  "password": "password",
+  "email": "user@a.ru"
+}
