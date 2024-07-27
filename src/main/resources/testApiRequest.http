@@ -29,3 +29,7 @@ accept: application/json
   "password": "password",
   "email": "user@a.ru"
 }
+
+###
+GET http://localhost:8081/coaches/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwYXNzd29yZCIsIm5hbWUiOiJ1c2VyIiwiaWF0IjoxNTE2MjM5MDIyfQ.w2JbNj9Al5HLTkigmrHBuvzIRUrqesBK3udgf_q5dS4
