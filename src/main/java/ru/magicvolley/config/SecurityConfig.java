@@ -25,6 +25,15 @@ import ru.magicvolley.security.service.UserDetailsServiceImpl;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- swagger ui
+            //auth
+            "/auth/login",
+            "/auth/logout",
+            "/home",
+            "/media/**",
+    };
+
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
 
@@ -55,28 +64,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        return http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/home").permitAll()
-                                .requestMatchers("/auth/**").permitAll()
-//                                .requestMatchers("/coaches/**").permitAll()
-//                                .requestMatchers("/camps/**").permitAll()
-//                                .requestMatchers("/users/**").permitAll()
-                                .requestMatchers("/media/**").permitAll()
-//                                .requestMatchers("/profiles/**").permitAll()
+                        auth.requestMatchers(AUTH_WHITELIST).permitAll()
                                 .anyRequest().authenticated()
-                );
-
-        // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
-        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
-
-        http.authenticationProvider(authenticationProvider());
-
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+                )
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .build();
+//         fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
     }
 
 //    @Bean
