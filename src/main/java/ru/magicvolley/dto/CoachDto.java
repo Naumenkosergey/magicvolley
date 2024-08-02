@@ -1,10 +1,9 @@
-package ru.magicvolley.response;
+package ru.magicvolley.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.CoachEntity;
 
 import java.util.Arrays;
@@ -16,7 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CoachResponse {
+public class CoachDto {
 
     private UUID id;
     private String name;
@@ -24,7 +23,7 @@ public class CoachResponse {
     private List<String> infos;
     private MediaStorageInfo mainImage;
 
-    public CoachResponse(CoachEntity coach) {
+    public CoachDto(CoachEntity coach) {
         this.id = coach.getId();
         this.name = coach.getCoachName();
         this.surename = coach.getSurename();

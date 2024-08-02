@@ -9,7 +9,7 @@ import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CoachRepository;
 import ru.magicvolley.request.CoachRequest;
-import ru.magicvolley.response.CoachResponse;
+import ru.magicvolley.dto.CoachDto;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,16 +24,16 @@ public class CoachService {
     private final CampCoachRepository campCoachRepository;
 
     @Transactional
-    public List<CoachResponse> getAll() {
+    public List<CoachDto> getAll() {
         return coachRepository.findAll().stream()
-                .map(CoachResponse::new)
+                .map(CoachDto::new)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public CoachResponse getById(UUID id) {
+    public CoachDto getById(UUID id) {
         return coachRepository.findById(id)
-                .map(CoachResponse::new)
+                .map(CoachDto::new)
                 .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, id));
     }
 
@@ -68,8 +68,8 @@ public class CoachService {
     }
 
 
-    public List<CoachResponse> getCouches(Collection<CoachEntity> coaches) {
-        return coaches.stream().map(CoachResponse::new)
+    public List<CoachDto> getCouches(Collection<CoachEntity> coaches) {
+        return coaches.stream().map(CoachDto::new)
                 .collect(Collectors.toList());
 
     }

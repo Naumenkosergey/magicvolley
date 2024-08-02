@@ -32,6 +32,8 @@ public class SecurityConfig {
             "/auth/logout",
             "/home",
             "/media/**",
+            "/coaches/all",
+            "/camps/all",
     };
 
     private final UserDetailsServiceImpl userDetailsService;

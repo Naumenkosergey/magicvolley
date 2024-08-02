@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.CampDto;
+import ru.magicvolley.dto.CoachDto;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.repository.CampCoachRepository;
@@ -25,7 +26,8 @@ public class CampService {
     @Transactional
     public List<CampDto> getAll() {
         List<CampEntity> campEntities = campRepository.findAll();
-        return campEntities.stream().map(campEntity -> CampDto.builder()
+        return campEntities.stream()
+                .map(campEntity -> CampDto.builder()
                         .id(campEntity.getId())
                         .price(campEntity.getPrice())
                         .name(campEntity.getCampName())
@@ -34,7 +36,10 @@ public class CampService {
                         .dateEnd(campEntity.getDateEnd())
                         .countFree(campEntity.getCountFree())
                         .countAll(campEntity.getCountAll())
-//                        .coaches(campEntity.getCampCoaches().stream().map(x -> x.getId().getCoachId()).toList())
+                        .coaches(campEntity.getCoaches().stream()
+                                .map(CoachDto::new)
+                                .toList()
+                        )
                         .build()).
                 toList();
     }
@@ -59,26 +64,26 @@ public class CampService {
 
     @Transactional
     public CampEntity create(CampDto camp) {
+
         CampEntity campEntity = CampEntity.builder()
                 .id(UUID.randomUUID())
                 .campName(camp.getName())
                 .info(camp.getInfo())
                 .dateStart(camp.getDateStart())
-                .dateEnd( camp.getDateEnd())
+                .dateEnd(camp.getDateEnd())
                 .price(camp.getPrice())
                 .countAll(camp.getCountAll())
                 .countFree(camp.getCountFree())
                 .build();
         campRepository.saveAndFlush(campEntity);
+
         List<CampCoachEntity> campCoachEntities = camp.getCoaches().stream()
-                .map(coachId -> CampCoachEntity.builder()
+                .map(coach -> CampCoachEntity.builder()
                         .id(CampCoachEntity.Id.builder()
                                 .campId(campEntity.getId())
-                                .coachId(coachId)
+                                .coachId(coach.getId())
                                 .build())
                         .camp(campEntity)
-                        .coach(coachRepository.findById(coachId)
-                                .orElseThrow(() -> new EntityNotFoundException("не найден тренер по id " + coachId)))
                         .build())
                 .toList();
 

@@ -24,5 +24,5 @@ public class CampDto {
     private LocalDate dateEnd;
     private Integer countAll;
     private Integer countFree;
-    private List<UUID> coaches;
+    private List<CoachDto> coaches;
 }

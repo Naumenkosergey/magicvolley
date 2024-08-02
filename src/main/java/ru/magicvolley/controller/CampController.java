@@ -2,6 +2,7 @@ package ru.magicvolley.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.dto.CampDto;
@@ -13,20 +14,20 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/camps")
+@RequestMapping(value = "/camps", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class CampController {
 
     private final CampService campService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ApiResponse<List<CampDto>> getAll() {
         return new ApiResponse<>(campService.getAll());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ApiResponse<CampDto> getAll(@PathVariable UUID id) {
         return new ApiResponse<>(campService.getById(id));
     }

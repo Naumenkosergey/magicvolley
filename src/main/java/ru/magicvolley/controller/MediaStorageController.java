@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.response.MediaResponse;
+import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.MediaService;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/media")
+@RequestMapping(value = "/media", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MediaStorageController {
 
     private final MediaService mediaService;
@@ -50,7 +51,8 @@ public class MediaStorageController {
     }
 
     @GetMapping("/all")
-    public List<MediaResponse> list() {
-        return mediaService.getAllFiles();
+    public ApiResponse<List<MediaResponse>> list() {
+        List<MediaResponse> allFiles = mediaService.getAllFiles();
+        return new ApiResponse<>(allFiles);
     }
 }

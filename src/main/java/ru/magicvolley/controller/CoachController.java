@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.entity.CoachEntity;
 import ru.magicvolley.request.CoachRequest;
-import ru.magicvolley.response.CoachResponse;
+import ru.magicvolley.dto.CoachDto;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.CoachService;
 
@@ -21,14 +21,14 @@ public class CoachController {
     private final CoachService coachService;
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<List<CoachResponse>> getAll(){
+//    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+    public ApiResponse<List<CoachDto>> getAll(){
         return new ApiResponse<>(coachService.getAll());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<CoachResponse> getById(@PathVariable UUID id){
+//    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+    public ApiResponse<CoachDto> getById(@PathVariable UUID id){
         return new ApiResponse<>(coachService.getById(id));
     }
 

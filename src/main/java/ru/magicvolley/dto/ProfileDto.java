@@ -1,7 +1,5 @@
 package ru.magicvolley.dto;
 
-import ru.magicvolley.response.CoachResponse;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -23,7 +21,7 @@ public record ProfileDto(
             BigDecimal price,
             LocalDate dateStart,
             LocalDate dateEnd,
-            List<CoachResponse> coaches) {
+            List<CoachDto> coaches) {
     }
 }
 
