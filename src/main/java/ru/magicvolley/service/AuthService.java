@@ -96,7 +96,7 @@ public class AuthService {
 //
 //            Claims refreshClaims = jwtProvider.getRefreshClaims(refreshToken);
 //            String login = refreshClaims.getSubject();
-//            String saveRefreshToken = refreshStorage.get(login);
+//            String saveRefreshToken = refreshStorage.getHome(login);
 //            if (Objects.nonNull(saveRefreshToken) && saveRefreshToken.equals(refreshToken)) {
 //                UserEntity userEntity = userRepository.findByLogin(login)
 //                        .orElseThrow(() -> new AuthException(String.format("Пользователь %s не найден", login)));
@@ -113,7 +113,7 @@ public class AuthService {
 //
 //            Claims refreshClaims = jwtProvider.getRefreshClaims(refreshToken);
 //            String login = refreshClaims.getSubject();
-//            String saveRefreshToken = refreshStorage.get(login);
+//            String saveRefreshToken = refreshStorage.getHome(login);
 //            if (Objects.nonNull(saveRefreshToken) && saveRefreshToken.equals(refreshToken)) {
 //                UserEntity userEntity = userRepository.findByLogin(login)
 //                        .orElseThrow(() -> new AuthException(String.format("Пользователь %s не найден", login)));

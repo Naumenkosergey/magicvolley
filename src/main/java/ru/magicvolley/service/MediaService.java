@@ -52,7 +52,7 @@ public class MediaService {
 
     private MediaResponse mapToFileResponse(MediaStorageEntity mediaStorage) {
         String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/files/")
+                .path("/media/")
                 .path(mediaStorage.getId().toString())
                 .toUriString();
         return MediaResponse.builder()

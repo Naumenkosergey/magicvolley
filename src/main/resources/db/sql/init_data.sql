@@ -21,9 +21,9 @@ insert into user_roles (role_id, user_id, version)
 values('1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 'e5050cc4-98c4-4b48-9e47-8b5057c6b46c', 0);
 
 
-insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
+insert into media_storages(id, content_type, data, file_name, size, type_entity, version, created_at, updated_at)
 values('5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/db/sql/image.png')::bytea,
-'QR-code.png',547840, 'COACH', 0);
+'QR-code.png',547840, 'COACH', 0, now(), now());
 
 
 insert into coaches(id, coach_name, surename, info, image_id, version)
@@ -82,3 +82,14 @@ INSERT INTO profile_camps (profile_id, camp_id, is_past, is_booked, version)
 VALUES ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', '7573f07f-3769-4f34-90cd-412fa1aab705', true, false, 0);
 INSERT INTO profile_camps (profile_id, camp_id, is_past, is_booked, version)
 VALUES ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', 'df9bacad-8a55-418c-a654-39a02344c09a', false, true, 0);
+
+
+INSERT INTO questions (id, question, answer, version)
+VALUES ('d1ee3bef-9295-4b2f-8c07-6abf16c5d7f9', 'вопрос1','ответ1', 0);
+INSERT INTO questions (id, question, answer, version)
+VALUES ('7a869b3c-f152-42e8-965d-75b3d694702b', 'вопрос2','ответ2', 0);
+INSERT INTO questions (id, question, answer, version)
+VALUES ('42ecaf3b-7854-4709-89c9-f1e00ea65355', 'вопрос3','ответ3', 0);
+
+
+

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.magicvolley.entity.MediaStorageEntity;
@@ -26,7 +25,7 @@ public class MediaStorageController {
     private final MediaService mediaService;
 
     @PostMapping("/upload")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file,
                                          @RequestParam("typeEntity") TypeEntity typeEntity) {
 

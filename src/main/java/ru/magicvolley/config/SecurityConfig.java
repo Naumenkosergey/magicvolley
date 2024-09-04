@@ -34,6 +34,7 @@ public class SecurityConfig {
             "/media/**",
             "/coaches/all",
             "/camps/all",
+            "/questions/all"
     };
 
     private final UserDetailsServiceImpl userDetailsService;

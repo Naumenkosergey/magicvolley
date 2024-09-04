@@ -27,7 +27,9 @@ create table if not exists media_storages (
     file_name varchar(255),
     size integer,
     type_entity varchar(30),
-    version bigint
+    version bigint,
+    created_at timestamp,
+    updated_at timestamp
 );
 
 
@@ -94,6 +96,14 @@ create table if not exists profile_camps(
     is_booked boolean,
     version bigint,
     constraint profile_camp_pk primary key (profile_id, camp_id)
+);
+
+create table if not exists questions(
+
+    id uuid primary key not null,
+    question varchar(255),
+    answer text,
+    version bigint
 );
 
 
