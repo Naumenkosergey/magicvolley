@@ -9,7 +9,7 @@ import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.HomeService;
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/magicvolley/home")
 @AllArgsConstructor
 public class HomeController {
 
