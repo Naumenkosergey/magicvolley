@@ -1,12 +1,10 @@
 package ru.magicvolley.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.dto.CampDto;
-import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.CampService;
 
@@ -14,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/camps", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/magicvolley/camps", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class CampController {
 
@@ -34,20 +32,19 @@ public class CampController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<CampEntity> create(@RequestBody CampDto camp) {
+    public ApiResponse<UUID> create(@RequestBody CampDto camp) {
         return new ApiResponse<>(campService.create(camp));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<CampEntity> update(@RequestBody CampEntity camp) {
+    public ApiResponse<UUID> update(@RequestBody CampDto camp) {
         return new ApiResponse<>(campService.update(camp));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public HttpStatus delete(@PathVariable UUID id) {
-        campService.delete(id);
-        return HttpStatus.OK;
+    public ApiResponse<Boolean> delete(@PathVariable UUID id) {
+        return new ApiResponse<>(campService.delete(id));
     }
 }

@@ -39,32 +39,23 @@ public class ProfileService {
         return mapProfileEntityToProfileDto(profileEntity);
     }
 
-    //
-//    public UserEntity create(UserDto user) {
-//        return userRepository.save(UserEntity.builder()
-//                .id(UUID.randomUUID())
-//                .email(user.getEmail())
-//                .login(user.getLogin())
-//                .build());
-//    }
-//
     @Transactional
-    public ProfileEntity update(ProfileForUpdate profile) {
+    public UUID update(ProfileForUpdate profile) {
         ProfileEntity profileEntity = profileRepository.findById(profile.id())
                 .orElseThrow(() -> new EntityNotFoundException(ProfileEntity.class, profile.id()));
         profileEntity.setBirthday(profile.birthday());
         profileEntity.setFulName(profile.fulName());
         profileEntity.setTelephone(profile.telephone());
-        return profileRepository.save(profileEntity);
+        profileRepository.save(profileEntity);
+        return profileEntity.getUserId();
     }
 
-    //
 //    @Transactional
 //    public void delete(UUID id){
 //        userRepository.deleteById(id);
 //    }
-//
-//
+
+
     private ProfileDto mapProfileEntityToProfileDto(ProfileEntity profile) {
         List<ProfileDto.Camp> pastCamps = new ArrayList<>();
         List<ProfileDto.Camp> nearestCamps = new ArrayList<>();

@@ -28,13 +28,13 @@ public class SecurityConfig {
     private static final String[] AUTH_WHITELIST = {
             // -- swagger ui
             //auth
-            "/auth/login",
-            "/auth/logout",
-            "/home",
-            "/media/**",
-            "/coaches/all",
-            "/camps/all",
-            "/questions/all"
+            "/magicvolley/auth/login",
+            "/magicvolley/auth/logout",
+            "/magicvolley/home",
+            "/magicvolley/media/**",
+            "/magicvolley/coaches/all",
+            "/magicvolley/camps/all",
+            "/magicvolley/questions/all"
     };
 
     private final UserDetailsServiceImpl userDetailsService;

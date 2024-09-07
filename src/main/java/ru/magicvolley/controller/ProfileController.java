@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/profiles")
+@RequestMapping("/magicvolley/profiles")
 @AllArgsConstructor
 public class ProfileController {
 
@@ -40,7 +40,7 @@ public class ProfileController {
 //
     @PutMapping
     @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<ProfileEntity> update(@RequestBody ProfileForUpdate profile){
+    public ApiResponse<UUID> update(@RequestBody ProfileForUpdate profile){
         return new ApiResponse<>(profileService.update(profile));
     }
 

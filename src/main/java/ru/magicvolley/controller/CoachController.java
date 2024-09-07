@@ -1,12 +1,10 @@
 package ru.magicvolley.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.magicvolley.entity.CoachEntity;
-import ru.magicvolley.request.CoachRequest;
 import ru.magicvolley.dto.CoachDto;
+import ru.magicvolley.request.CoachRequest;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.CoachService;
 
@@ -14,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/coaches")
+@RequestMapping("/magicvolley/coaches")
 @AllArgsConstructor
 public class CoachController {
 
@@ -34,21 +32,19 @@ public class CoachController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<CoachEntity> create(@RequestBody CoachRequest coach){
+    public ApiResponse<UUID> create(@RequestBody CoachRequest coach){
         return new ApiResponse<>(coachService.create(coach));
     }
 
-    @PutMapping
+    @PutMapping("/{coachId}")
     @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-
-    public ApiResponse<CoachEntity> update(@RequestBody CoachEntity coach){
-        return new ApiResponse<>(coachService.update(coach));
+    public ApiResponse<UUID> update(@RequestBody CoachDto coach, @PathVariable UUID coachId){
+        return new ApiResponse<>(coachService.update(coach, coachId));
     }
 
     @DeleteMapping("/{coachId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public HttpStatus delete(@PathVariable UUID coachId){
-        coachService.delete(coachId);
-        return HttpStatus.OK;
+    public ApiResponse<Boolean>delete(@PathVariable UUID coachId){
+        return new ApiResponse<>(coachService.delete(coachId));
     }
 }

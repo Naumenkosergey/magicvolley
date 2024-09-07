@@ -1,17 +1,18 @@
 package ru.magicvolley.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import ru.magicvolley.dto.CampDto;
 import ru.magicvolley.dto.CoachDto;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
+import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CampRepository;
-import ru.magicvolley.repository.CoachRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +21,6 @@ import java.util.UUID;
 public class CampService {
 
     private final CampRepository campRepository;
-    private final CoachRepository coachRepository;
     private final CampCoachRepository campCoachRepository;
 
     @Transactional
@@ -57,13 +57,13 @@ public class CampService {
                 .dateEnd(campEntity.getDateEnd())
                 .countFree(campEntity.getCountFree())
                 .countAll(campEntity.getCountAll())
-//                .coaches(campEntity.getCampCoaches().stream().map(coach -> coach.getId().getCoachId()).toList())
+                .coaches(campEntity.getCoaches().stream().map(CoachDto::new).toList())
                 .build();
 
     }
 
     @Transactional
-    public CampEntity create(CampDto camp) {
+    public UUID create(CampDto camp) {
 
         CampEntity campEntity = CampEntity.builder()
                 .id(UUID.randomUUID())
@@ -77,31 +77,61 @@ public class CampService {
                 .build();
         campRepository.saveAndFlush(campEntity);
 
-        List<CampCoachEntity> campCoachEntities = camp.getCoaches().stream()
-                .map(coach -> CampCoachEntity.builder()
-                        .id(CampCoachEntity.Id.builder()
-                                .campId(campEntity.getId())
-                                .coachId(coach.getId())
-                                .build())
-                        .camp(campEntity)
-                        .build())
-                .toList();
+        createCampCoaches(camp.getCoaches(), campEntity);
+//        campEntity.setCoaches(campCoaches);
+        return campEntity.getId();
+    }
 
-        campCoachRepository.saveAll(campCoachEntities);
-        return campEntity;
+    private void createCampCoaches(Collection<CoachDto> coaches, CampEntity campEntity) {
+        if (!CollectionUtils.isEmpty(coaches)) {
+            List<CampCoachEntity> campCoachEntities = coaches.stream()
+                    .map(coach -> CampCoachEntity.builder()
+                            .id(CampCoachEntity.Id.builder()
+                                    .campId(campEntity.getId())
+                                    .coachId(coach.getId())
+                                    .build())
+                            .camp(campEntity)
+                            .build())
+                    .toList();
+
+            campCoachRepository.saveAll(campCoachEntities);
+        }
+//        return campCoachEntities;
     }
 
     @Transactional
-    public CampEntity update(CampEntity camp) {
-        return campRepository.save(camp);
+    public UUID update(CampDto camp) {
+        CampEntity campFromDb = campRepository.findById(camp.getId())
+                .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, camp.getId()));
+
+        campFromDb.setCampName(camp.getName());
+        campFromDb.setInfo(camp.getInfo());
+        campFromDb.setDateStart(camp.getDateStart());
+        campFromDb.setDateEnd(camp.getDateEnd());
+        campFromDb.setPrice(camp.getPrice());
+        campFromDb.setCountAll(camp.getCountAll());
+        campFromDb.setCountFree(camp.getCountFree());
+
+        replaceCampCoaches(camp.getCoaches(), campFromDb);
+        campRepository.save(campFromDb);
+        return campFromDb.getId();
+    }
+
+    private void replaceCampCoaches(List<CoachDto> coaches, CampEntity campFromDb) {
+        List<CampCoachEntity> campCoaches = campCoachRepository.findAllByIdCampId(campFromDb.getId());
+        if (!CollectionUtils.isEmpty(coaches)) {
+            campCoachRepository.deleteAll(campCoaches);
+        }
+        createCampCoaches(coaches, campFromDb);
     }
 
     @Transactional
-    public void delete(UUID campId) {
+    public Boolean delete(UUID campId) {
         CampEntity campFromDb = campRepository.findById(campId)
-                .orElseThrow(() -> new RuntimeException("ERROR"));
+                .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, campId));
         List<CampCoachEntity> campCoaches = campCoachRepository.findAllByIdCoachId(campId);
         campCoachRepository.deleteAll(campCoaches);
         campRepository.delete(campFromDb);
+        return true;
     }
 }

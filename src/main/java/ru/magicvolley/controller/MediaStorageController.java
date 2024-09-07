@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/media", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/magicvolley/media", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MediaStorageController {
 
     private final MediaService mediaService;

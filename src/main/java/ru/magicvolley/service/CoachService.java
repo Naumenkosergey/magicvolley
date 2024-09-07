@@ -38,33 +38,36 @@ public class CoachService {
     }
 
     @Transactional
-    public CoachEntity create(CoachRequest coach) {
-        return coachRepository.save(CoachEntity.builder()
+    public UUID create(CoachRequest coach) {
+        CoachEntity coachEntity = coachRepository.save(CoachEntity.builder()
                 .id(UUID.randomUUID())
                 .coachName(coach.getName())
                 .surename(coach.getSurename())
                 .info(coach.getInfos())
                 .build());
+        return coachEntity.getId();
     }
 
     @Transactional
-    public CoachEntity update(CoachEntity coach) {
-        CoachEntity coachFromDb = coachRepository.findById(coach.getId())
-                .orElseThrow(() -> new RuntimeException("ERROR"));
+    public UUID update(CoachDto coach, UUID coachId) {
+        CoachEntity coachFromDb = coachRepository.findById(coachId)
+                .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, coach.getId()));
         coachFromDb.setSurename(coach.getSurename());
-        coachFromDb.setCoachName(coach.getCoachName());
-        coachFromDb.setInfo(coach.getInfo());
+        coachFromDb.setCoachName(coach.getName());
+        coachFromDb.setInfo(String.join(";", coach.getInfos()));
 
-        return coachRepository.save(coachFromDb);
+        coachRepository.save(coachFromDb);
+        return coachFromDb.getId();
     }
 
     @Transactional
-    public void delete(UUID coachId) {
+    public Boolean delete(UUID coachId) {
         CoachEntity coachFomDb = coachRepository.findById(coachId)
-                .orElseThrow(() -> new RuntimeException("ERROR"));
+                .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, coachId));
         List<CampCoachEntity> campCoaches = campCoachRepository.findAllByIdCoachId(coachId);
         campCoachRepository.deleteAll(campCoaches);
         coachRepository.delete(coachFomDb);
+        return true;
     }
 
 

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/magicvolley/users")
 @AllArgsConstructor
 public class UserController {
 
@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<UserEntity> create(@RequestBody UserDto user){
+    public ApiResponse<UUID> create(@RequestBody UserDto user){
         return new ApiResponse<>(userService.create(user));
     }
 

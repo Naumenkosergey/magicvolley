@@ -42,7 +42,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserEntity create(UserDto user) {
+    public UUID create(UserDto user) {
 
         Set<RoleEntity> roles = roleService.getRoles(user.getRoles());
         UserEntity userEntity = UserEntity.builder()
@@ -54,7 +54,7 @@ public class UserService {
         return create(userEntity);
     }
 
-    public UserEntity create(UserEntity user) {
+    public UUID create(UserEntity user) {
 
         userRepository.save(user);
         ProfileEntity profile = ProfileEntity.builder()
@@ -62,7 +62,7 @@ public class UserService {
                 .fulName(user.getLogin())
                 .build();
         profileRepository.save(profile);
-        return user;
+        return user.getId();
     }
 
     @Transactional
