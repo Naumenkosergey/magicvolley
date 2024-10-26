@@ -17,7 +17,7 @@ public class CoachRequest {
 
     private UUID id;
     private String name;
-    private String surename;
     private String infos;
+    private String promo;
     private MediaStorageInfo mainImage;
 }

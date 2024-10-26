@@ -19,15 +19,15 @@ public class CoachDto {
 
     private UUID id;
     private String name;
-    private String surename;
     private List<String> infos;
+    private String promo;
     private MediaStorageInfo mainImage;
 
     public CoachDto(CoachEntity coach) {
         this.id = coach.getId();
         this.name = coach.getCoachName();
-        this.surename = coach.getSurename();
         this.infos = Arrays.stream(coach.getInfo().split(";")).toList();
+        this.promo = coach.getPromo();
         this.mainImage = new MediaStorageInfo(coach.getAvatar());
     }
 }

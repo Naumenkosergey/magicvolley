@@ -42,8 +42,8 @@ public class CoachService {
         CoachEntity coachEntity = coachRepository.save(CoachEntity.builder()
                 .id(UUID.randomUUID())
                 .coachName(coach.getName())
-                .surename(coach.getSurename())
                 .info(coach.getInfos())
+                .promo(coach.getPromo())
                 .build());
         return coachEntity.getId();
     }
@@ -52,7 +52,6 @@ public class CoachService {
     public UUID update(CoachDto coach, UUID coachId) {
         CoachEntity coachFromDb = coachRepository.findById(coachId)
                 .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, coach.getId()));
-        coachFromDb.setSurename(coach.getSurename());
         coachFromDb.setCoachName(coach.getName());
         coachFromDb.setInfo(String.join(";", coach.getInfos()));
 

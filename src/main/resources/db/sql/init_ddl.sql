@@ -36,8 +36,8 @@ create table if not exists media_storages (
 create table if not exists coaches (
    id uuid primary key,
    coach_name varchar(100),
-   surename varchar(100),
    info text,
+   promo text,
    version bigint,
    image_id uuid references media_storages (id)
 );

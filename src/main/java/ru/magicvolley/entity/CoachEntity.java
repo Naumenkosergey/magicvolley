@@ -19,8 +19,8 @@ public class CoachEntity {
     @Id
     private UUID id;
     private String coachName;
-    private String surename;
     private String info;
+    private String promo;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private MediaStorageEntity avatar;

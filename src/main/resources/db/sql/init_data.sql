@@ -26,13 +26,13 @@ values('5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/png', pg_read_binary_file(
 'QR-code.png',547840, 'COACH', 0, now(), now());
 
 
-insert into coaches(id, coach_name, surename, info, image_id, version)
-values('3deeb485-e987-48cf-91c1-377a420702f1','Михаил','Кочетков',
-'Основтель школы Magic Volley;Тренер школы Magic Volley;Тренерский стаж 10 лет;КМС по волейболу',
+insert into coaches(id, coach_name, info, promo, image_id, version)
+values('3deeb485-e987-48cf-91c1-377a420702f1','Михаил Кочетков',
+'Основтель школы Magic Volley;Тренер школы Magic Volley;Тренерский стаж 10 лет;КМС по волейболу', 'promo',
 '5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
-insert into coaches(id, coach_name, surename, info, image_id, version)
-values('1c62bad8-8faf-43af-8f77-85fdc7eb72b7','Андрей','Волков',
-'Тренер школы Magic Volley;Тренерский стаж 8 лет;КМС по волейболу',
+insert into coaches(id, coach_name, info, promo, image_id, version)
+values('1c62bad8-8faf-43af-8f77-85fdc7eb72b7','Андрей Волков',
+'Тренер школы Magic Volley;Тренерский стаж 8 лет;КМС по волейболу', 'promo',
 '5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
 
 
