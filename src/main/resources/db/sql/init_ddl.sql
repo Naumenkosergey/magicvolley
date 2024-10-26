@@ -106,6 +106,45 @@ create table if not exists questions(
     version bigint
 );
 
+create table if not exists subscriptions(
+
+    id uuid primary key not null,
+    subscription_name varchar(255),
+    version bigint,
+    order_number integer
+);
+
+create table if not exists subscription_prices(
+
+    id uuid primary key not null,
+    title varchar(255),
+    sub_title varchar(255),
+    price numeric,
+    subscription_id uuid not null
+    constraint subscription_prices_subscription_fk references subscriptions,
+    version bigint
+);
+
+create table if not exists schedule_groups(
+
+    id uuid primary key not null,
+    group_name varchar(255),
+    version bigint,
+    order_number integer
+);
+
+create table if not exists schedule(
+
+    id uuid primary key not null,
+    day varchar(255),
+    start_time time,
+    end_time time,
+    address varchar(255),
+    schedule_group_id uuid not null
+    constraint schedule_schedule_groups_fk references schedule_groups,
+    version bigint
+);
+
 
 
 

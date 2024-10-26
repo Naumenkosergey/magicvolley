@@ -1,6 +1,5 @@
 package ru.magicvolley.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +17,6 @@ public class UserInfoResponse {
 	private UUID id;
 	private String username;
 	private String email;
-	@JsonIgnore
 	private String cookie;
 	private List<String> roles;
 

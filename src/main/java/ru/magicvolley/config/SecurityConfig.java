@@ -34,7 +34,9 @@ public class SecurityConfig {
             "/magicvolley/media/**",
             "/magicvolley/coaches/all",
             "/magicvolley/camps/all",
-            "/magicvolley/questions/all"
+            "/magicvolley/questions/all",
+            "/magicvolley/shedule",
+            "/magicvolley/price"
     };
 
     private final UserDetailsServiceImpl userDetailsService;

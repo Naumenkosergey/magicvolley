@@ -59,37 +59,131 @@ values('df9bacad-8a55-418c-a654-39a02344c09a','киргизия','LONG','кир�
 'Киргизия', '2024-07-09', '2024-07-19', 70, 70, 70.99,'5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
 --
 --
-INSERT INTO camp_users(camp_id, user_id, is_apruve, is_brone, is_past)
-VALUES('dd5dc5ea-f858-47c0-b518-be2d1565856d', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, true);
-INSERT INTO camp_users(camp_id, user_id, is_apruve, is_brone, is_past)
-VALUES('7573f07f-3769-4f34-90cd-412fa1aab705', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, false);
-INSERT INTO camp_users(camp_id, user_id, is_apruve, is_brone, is_past)
-VALUES('df9bacad-8a55-418c-a654-39a02344c09a', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', false, true, false);
+insert into camp_users(camp_id, user_id, is_apruve, is_brone, is_past)
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, true);
+insert into camp_users(camp_id, user_id, is_apruve, is_brone, is_past)
+values('7573f07f-3769-4f34-90cd-412fa1aab705', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, false);
+insert into camp_users(camp_id, user_id, is_apruve, is_brone, is_past)
+values('df9bacad-8a55-418c-a654-39a02344c09a', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', false, true, false);
 --
 --
-INSERT INTO camp_coaches(camp_id, coach_id) VALUES ('dd5dc5ea-f858-47c0-b518-be2d1565856d','3deeb485-e987-48cf-91c1-377a420702f1');
-INSERT INTO camp_coaches(camp_id, coach_id) VALUES ('df9bacad-8a55-418c-a654-39a02344c09a','3deeb485-e987-48cf-91c1-377a420702f1');
-INSERT INTO camp_coaches(camp_id, coach_id) VALUES ('dd5dc5ea-f858-47c0-b518-be2d1565856d','1c62bad8-8faf-43af-8f77-85fdc7eb72b7');
-INSERT INTO camp_coaches(camp_id, coach_id) VALUES ('7573f07f-3769-4f34-90cd-412fa1aab705','1c62bad8-8faf-43af-8f77-85fdc7eb72b7');
+insert into camp_coaches(camp_id, coach_id) values ('dd5dc5ea-f858-47c0-b518-be2d1565856d','3deeb485-e987-48cf-91c1-377a420702f1');
+insert into camp_coaches(camp_id, coach_id) values ('df9bacad-8a55-418c-a654-39a02344c09a','3deeb485-e987-48cf-91c1-377a420702f1');
+insert into camp_coaches(camp_id, coach_id) values ('dd5dc5ea-f858-47c0-b518-be2d1565856d','1c62bad8-8faf-43af-8f77-85fdc7eb72b7');
+insert into camp_coaches(camp_id, coach_id) values ('7573f07f-3769-4f34-90cd-412fa1aab705','1c62bad8-8faf-43af-8f77-85fdc7eb72b7');
 
-INSERT INTO user_profile (user_id, image_id, ful_name, telephone, birthday, version)
-VALUES ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', '5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'Науменко Сергей',
+insert into user_profile (user_id, image_id, ful_name, telephone, birthday, version)
+values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', '5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'Науменко Сергей',
 '+7998620452','1993-03-24', 0);
 
-INSERT INTO profile_camps (profile_id, camp_id, is_past, is_booked, version)
-VALUES ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', 'dd5dc5ea-f858-47c0-b518-be2d1565856d', true, false, 0);
-INSERT INTO profile_camps (profile_id, camp_id, is_past, is_booked, version)
-VALUES ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', '7573f07f-3769-4f34-90cd-412fa1aab705', true, false, 0);
-INSERT INTO profile_camps (profile_id, camp_id, is_past, is_booked, version)
-VALUES ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', 'df9bacad-8a55-418c-a654-39a02344c09a', false, true, 0);
+insert into profile_camps (profile_id, camp_id, is_past, is_booked, version)
+values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', 'dd5dc5ea-f858-47c0-b518-be2d1565856d', true, false, 0);
+insert into profile_camps (profile_id, camp_id, is_past, is_booked, version)
+values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', '7573f07f-3769-4f34-90cd-412fa1aab705', true, false, 0);
+insert into profile_camps (profile_id, camp_id, is_past, is_booked, version)
+values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', 'df9bacad-8a55-418c-a654-39a02344c09a', false, true, 0);
 
 
-INSERT INTO questions (id, question, answer, version)
-VALUES ('d1ee3bef-9295-4b2f-8c07-6abf16c5d7f9', 'вопрос1','ответ1', 0);
-INSERT INTO questions (id, question, answer, version)
-VALUES ('7a869b3c-f152-42e8-965d-75b3d694702b', 'вопрос2','ответ2', 0);
-INSERT INTO questions (id, question, answer, version)
-VALUES ('42ecaf3b-7854-4709-89c9-f1e00ea65355', 'вопрос3','ответ3', 0);
+insert into questions (id, question, answer, version)
+values ('d1ee3bef-9295-4b2f-8c07-6abf16c5d7f9', 'вопрос1','ответ1', 0);
+insert into questions (id, question, answer, version)
+values ('7a869b3c-f152-42e8-965d-75b3d694702b', 'вопрос2','ответ2', 0);
+insert into questions (id, question, answer, version)
+values ('42ecaf3b-7854-4709-89c9-f1e00ea65355', 'вопрос3','ответ3', 0);
+
+
+insert into subscriptions (id, subscription_name, version, order_number)
+values ('f4ffa742-5277-4f90-813e-9817a5304be9', 'Разовые тренировки', 0, 0);
+insert into subscriptions (id, subscription_name, version, order_number)
+values ('b760cd06-7c98-490f-98d0-f2e25450f92e', 'Абонемент на 4 занятияй', 0, 1);
+insert into subscriptions (id, subscription_name, version, order_number)
+values ('5af0e36c-3ec1-463c-801e-6d1c41fa5fa0', 'Абонемент на 8 занятияй', 0, 2);
+
+
+insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
+values ('6602547c-b9e2-45ba-9063-6776d6b2a86e', 'Взрослые', null, 750, 0, 'f4ffa742-5277-4f90-813e-9817a5304be9');
+insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
+values ('a95cff8c-abd7-4a04-ace6-26926551c085', 'Детские группы', null, 650, 0, 'f4ffa742-5277-4f90-813e-9817a5304be9');
+
+insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
+values ('93ed7d77-95e1-421b-b8bd-784025807ff5', 'Взрослые', '650 ₽ за тренировку', 2600, 0, 'b760cd06-7c98-490f-98d0-f2e25450f92e');
+insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
+values ('43049277-65ae-4e9a-9e0a-85a9671c3b2e', 'Детские группы', '380 ₽ за тренировку', 1500, 0, 'b760cd06-7c98-490f-98d0-f2e25450f92e');
+
+insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
+values ('46c5a9c6-0cc1-4433-a47e-4d093bbee9ab', 'Взрослые', '525 ₽ за тренировку', 4200, 0, '5af0e36c-3ec1-463c-801e-6d1c41fa5fa0');
+insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
+values ('ae733b64-6661-41a6-9e11-a2fba8e12e35', 'Детские группы', '490 ₽ за тренировку', 3900, 0, '5af0e36c-3ec1-463c-801e-6d1c41fa5fa0');
+
+insert into schedule_groups (id, group_name, version, order_number)
+values ('0c6e0dfd-5d79-4e2c-89ab-c7ab53b67d75', 'Дети 7-11 лет', 0, 0);
+
+insert into schedule_groups (id, group_name, version, order_number)
+values ('426e8a14-f426-4ed8-b7db-40ab72345166', 'Дети 12-15 лет', 0, 1);
+
+insert into schedule_groups (id, group_name, version, order_number)
+values ('cc7d3de2-e451-4d9d-a55d-35fcca88332e', 'Взрослая начальная', 0, 2);
+
+insert into schedule_groups (id, group_name, version, order_number)
+values ('ed1c5e9c-1027-4599-9f00-e8df5d251987', 'Средняя', 0, 3);
+
+insert into schedule_groups (id, group_name, version, order_number)
+values ('7db95126-90dd-4cc0-b35f-ab6021b0c1ec', 'Продвинутая', 0, 4);
+
+insert into schedule_groups (id, group_name, version, order_number)
+values ('afbd13e0-f551-4369-bfd2-08e5177ec5fe', 'Мужкая средняя+', 0, 5);
+
+insert into schedule_groups (id, group_name, version, order_number)
+values ('5d6c06e9-d873-468a-8f35-9c0d3cd7fe39', 'Женская средняя+', 0, 6);
+
+--'Дети 7-11 лет'
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('72e047e1-8d21-41a8-a9a4-0fba52a6855d','MONDAY', '17:15:00','18:45:00', 'Адрес проведения тренировки', 0, '0c6e0dfd-5d79-4e2c-89ab-c7ab53b67d75');
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('d9211366-0907-4e0f-ba38-e2011afe42bf','WEDNESDAY', '17:15:00','18:45:00', 'Адрес проведения тренировки', 0, '0c6e0dfd-5d79-4e2c-89ab-c7ab53b67d75');
+
+--'Дети 12-15 лет'
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('c054ba6a-b8d9-406d-965b-dbf653485bd0','TUESDAY', '17:15:00','18:45:00', 'Адрес проведения тренировки', 0, '426e8a14-f426-4ed8-b7db-40ab72345166');
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('7214b9de-05bf-43dd-a274-649d95266600','THURSDAY', '17:15:00','18:45:00', 'Адрес проведения тренировки', 0, '426e8a14-f426-4ed8-b7db-40ab72345166');
+
+--'Взрослая начальная'
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('3728b141-e483-4d0f-a00a-94d64204cdda','MONDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, 'cc7d3de2-e451-4d9d-a55d-35fcca88332e');
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('7bdd55c0-5daf-4718-8da7-e27d45209707','WEDNESDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, 'cc7d3de2-e451-4d9d-a55d-35fcca88332e');
+
+--'Средняя'
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('d36d01dd-7dd4-4493-9fc9-8fea949fb881','TUESDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, 'ed1c5e9c-1027-4599-9f00-e8df5d251987');
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('d54e4d1f-d0c1-4774-b946-df60912960bc','THURSDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, 'ed1c5e9c-1027-4599-9f00-e8df5d251987');
+
+
+--'Продвинутая'
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('dbdb413b-fed1-45a0-8eb8-7581b631fb69','TUESDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, '7db95126-90dd-4cc0-b35f-ab6021b0c1ec');
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('b771c31a-6119-455c-9aa4-49f56b441702','THURSDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, '7db95126-90dd-4cc0-b35f-ab6021b0c1ec');
+
+--'Мужкая средняя+'
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('6837de31-0436-4fd3-a4f8-f94d725021dd','MONDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, 'afbd13e0-f551-4369-bfd2-08e5177ec5fe');
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('a785d7a2-6760-4c3d-8b27-595abd988030','FRIDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, 'afbd13e0-f551-4369-bfd2-08e5177ec5fe');
+
+--'Женская средняя+'
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('183811d8-59df-4976-80cb-8b3d19f539b2','MONDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, '5d6c06e9-d873-468a-8f35-9c0d3cd7fe39');
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('e4dc9ed5-0c33-4ecc-adf0-5ac1c3e70424','WEDNESDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, '5d6c06e9-d873-468a-8f35-9c0d3cd7fe39');
+insert into schedule (id, day, start_time, end_time, address, version, schedule_group_id)
+values ('aba123d8-24ff-48c1-820b-58ad329c970e','FRIDAY', '18:45:00','20:15:00', 'Адрес проведения тренировки', 0, '5d6c06e9-d873-468a-8f35-9c0d3cd7fe39');
+
+
+
+
 
 
 
