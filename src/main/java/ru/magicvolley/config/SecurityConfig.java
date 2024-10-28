@@ -32,11 +32,12 @@ public class SecurityConfig {
             "/magicvolley/auth/logout",
             "/magicvolley/home",
             "/magicvolley/media/**",
-            "/magicvolley/coaches/all",
+            "/magicvolley/coaches/**",
             "/magicvolley/camps/all",
             "/magicvolley/questions/all",
             "/magicvolley/shedule",
-            "/magicvolley/price"
+            "/magicvolley/price",
+            "/swagger-ui/"
     };
 
     private final UserDetailsServiceImpl userDetailsService;

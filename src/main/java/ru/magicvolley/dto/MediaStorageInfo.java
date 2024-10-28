@@ -10,7 +10,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -27,7 +26,6 @@ public class MediaStorageInfo {
     private TypeEntity typeEntity;
     private byte[] data;
     private String url;
-    private LocalDateTime updateAt;
 
     public MediaStorageInfo(MediaStorageEntity imageStorage) {
 
@@ -41,7 +39,6 @@ public class MediaStorageInfo {
         this.contentType = imageStorage.getContentType();
         this.size = imageStorage.getSize();
         this.typeEntity = imageStorage.getTypeEntity();
-        this.updateAt = imageStorage.getUpdatedAt();
         this.data = imageStorage.getData();
         this.url = urlPath;
     }

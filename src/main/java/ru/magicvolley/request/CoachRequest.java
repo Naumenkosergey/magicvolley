@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.magicvolley.dto.MediaStorageInfo;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -17,7 +18,7 @@ public class CoachRequest {
 
     private UUID id;
     private String name;
-    private String infos;
+    private List<String> infos;
     private String promo;
     private MediaStorageInfo mainImage;
 }

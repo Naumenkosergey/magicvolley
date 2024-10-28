@@ -3,11 +3,9 @@ package ru.magicvolley.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import ru.magicvolley.enums.TypeEntity;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -33,15 +31,12 @@ public class MediaStorageEntity {
     @Version
     private Long version;
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "camp_id", insertable = false, updatable = false)
     private CampEntity camp;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "avatar")
+    private List<CoachEntity> coaches;
 
 
 }

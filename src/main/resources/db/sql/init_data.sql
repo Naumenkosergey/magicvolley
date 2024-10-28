@@ -21,19 +21,19 @@ insert into user_roles (role_id, user_id, version)
 values('1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 'e5050cc4-98c4-4b48-9e47-8b5057c6b46c', 0);
 
 
-insert into media_storages(id, content_type, data, file_name, size, type_entity, version, created_at, updated_at)
-values('5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\db\sql\image.png')::bytea,
-'QR-code.png',547840, 'COACH', 0, now(), now());
+insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
+values('5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/db/sql/image.png')::bytea,
+'QR-code.png',547840, 'COACH', 0);
 
 
-insert into coaches(id, coach_name, info, promo, image_id, version)
+insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at)
 values('3deeb485-e987-48cf-91c1-377a420702f1','Михаил Кочетков',
 'Основтель школы Magic Volley;Тренер школы Magic Volley;Тренерский стаж 10 лет;КМС по волейболу', 'promo',
-'5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
-insert into coaches(id, coach_name, info, promo, image_id, version)
+'5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0, '2024-10-27T15:56:59.069749', '2024-10-27T15:56:59.069749');
+insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at)
 values('1c62bad8-8faf-43af-8f77-85fdc7eb72b7','Андрей Волков',
 'Тренер школы Magic Volley;Тренерский стаж 8 лет;КМС по волейболу', 'promo',
-'5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
+'5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0, '2024-10-27T15:57:59.069749', '2024-10-27T15:57:59.069749');
 
 
 

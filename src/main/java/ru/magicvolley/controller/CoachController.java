@@ -31,13 +31,13 @@ public class CoachController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse<UUID> create(@RequestBody CoachRequest coach){
         return new ApiResponse<>(coachService.create(coach));
     }
 
     @PutMapping("/{coachId}")
-    @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse<UUID> update(@RequestBody CoachDto coach, @PathVariable UUID coachId){
         return new ApiResponse<>(coachService.update(coach, coachId));
     }

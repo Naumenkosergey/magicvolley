@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.repository.MediaStorageRepository;
@@ -74,4 +75,17 @@ public class MediaService {
                 .typeEntity(typeEntity)
                 .build();
     }
-}
+
+    public MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo) throws IOException {
+        MediaStorageEntity mediaStorageEntity = MediaStorageEntity.builder()
+                .id(UUID.randomUUID())
+                .fileName(StringUtils.cleanPath(Objects.requireNonNull(mediaStorageInfo.getFileName())))
+                .data(mediaStorageInfo.getData())
+                .contentType(mediaStorageInfo.getContentType())
+                .size(mediaStorageInfo.getSize())
+                .typeEntity(mediaStorageInfo.getTypeEntity())
+                .build();
+        mediaRepository.save(mediaStorageEntity);
+        return mediaStorageEntity;
+
+    }}

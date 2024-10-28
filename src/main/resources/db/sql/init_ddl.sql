@@ -27,9 +27,7 @@ create table if not exists media_storages (
     file_name varchar(255),
     size integer,
     type_entity varchar(30),
-    version bigint,
-    created_at timestamp,
-    updated_at timestamp
+    version bigint
 );
 
 
@@ -39,7 +37,9 @@ create table if not exists coaches (
    info text,
    promo text,
    version bigint,
-   image_id uuid references media_storages (id)
+   image_id uuid constraint coaches_image_fk references media_storages (id),
+   created_at timestamp,
+   updated_at timestamp
 );
 
 create table if not exists camps (
