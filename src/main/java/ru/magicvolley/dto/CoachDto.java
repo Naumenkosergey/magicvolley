@@ -8,6 +8,7 @@ import ru.magicvolley.entity.CoachEntity;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -28,6 +29,6 @@ public class CoachDto {
         this.name = coach.getCoachName();
         this.infos = Arrays.stream(coach.getInfo().split(";")).toList();
         this.promo = coach.getPromo();
-        this.mainImage = new MediaStorageInfo(coach.getAvatar());
+        this.mainImage = Objects.nonNull(coach.getAvatar()) ? new MediaStorageInfo(coach.getAvatar()) : null;
     }
 }

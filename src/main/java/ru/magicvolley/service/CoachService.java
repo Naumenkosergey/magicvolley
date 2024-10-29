@@ -12,7 +12,6 @@ import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CoachRepository;
 import ru.magicvolley.request.CoachRequest;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,35 +40,38 @@ public class CoachService {
 
     @Transactional
     public UUID create(CoachRequest coach) {
-        MediaStorageEntity avatar = null;
-        if (Objects.nonNull(coach.getMainImage())) {
-            try {
-                avatar = mediaService.createMediaStorage(coach.getMainImage());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
         CoachEntity coachEntity = coachRepository.save(CoachEntity.builder()
                 .id(UUID.randomUUID())
                 .coachName(coach.getName())
                 .info(String.join(";", coach.getInfos()))
                 .promo(coach.getPromo())
-//                        .imageId(avatar.getId())
-                .avatar(avatar)
                 .build());
+        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage());
+        setAvatar(mediaStorage, coachEntity);
+        coachRepository.save(coachEntity);
         return coachEntity.getId();
     }
 
     @Transactional
     public UUID update(CoachDto coach, UUID coachId) {
+
         CoachEntity coachFromDb = coachRepository.findById(coachId)
                 .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, coach.getId()));
         coachFromDb.setCoachName(coach.getName());
         coachFromDb.setInfo(String.join(";", coach.getInfos()));
         coachFromDb.setPromo(coach.getPromo());
 
+        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage());
+        setAvatar(mediaStorage, coachFromDb);
         coachRepository.save(coachFromDb);
         return coachFromDb.getId();
+    }
+
+    private static void setAvatar(MediaStorageEntity mediaStorage, CoachEntity coachEntity) {
+        if(Objects.nonNull(mediaStorage)){
+            coachEntity.setAvatar(mediaStorage);
+        }
     }
 
     @Transactional

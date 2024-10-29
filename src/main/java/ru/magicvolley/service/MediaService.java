@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
+import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.MediaStorageRepository;
 import ru.magicvolley.response.MediaResponse;
 
@@ -65,6 +66,7 @@ public class MediaService {
                 .build();
 
     }
+
     private MediaStorageEntity mapToMediaStorageEntity(MultipartFile file, TypeEntity typeEntity) throws IOException {
         return MediaStorageEntity.builder()
                 .id(UUID.randomUUID())
@@ -76,7 +78,23 @@ public class MediaService {
                 .build();
     }
 
-    public MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo) throws IOException {
+    public MediaStorageEntity mediaInfoToMediaStorage(MediaStorageInfo mediaInfo) {
+        if (Objects.nonNull(mediaInfo)) {
+            try {
+                if (Objects.isNull(mediaInfo.getId())) {
+                    return createMediaStorage(mediaInfo);
+                } else {
+                    return mediaRepository.findById(mediaInfo.getId())
+                            .orElseThrow(() -> new EntityNotFoundException(MediaStorageEntity.class, mediaInfo.getId()));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
+    }
+
+    private MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo) throws IOException {
         MediaStorageEntity mediaStorageEntity = MediaStorageEntity.builder()
                 .id(UUID.randomUUID())
                 .fileName(StringUtils.cleanPath(Objects.requireNonNull(mediaStorageInfo.getName())))
@@ -88,4 +106,7 @@ public class MediaService {
         mediaRepository.save(mediaStorageEntity);
         return mediaStorageEntity;
 
-    }}
+    }
+}
+
+
