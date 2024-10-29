@@ -22,7 +22,15 @@ values('1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 'e5050cc4-98c4-4b48-9e47-8b5057c6
 
 
 insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
-values('5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\kochetkov.jpg')::bytea,
+values('5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
+'naumenko.png',547840, 'CAMP', 0);
+
+insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
+values('5751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\naumenko.png')::bytea,
+'naumenko.png',547840, 'USER', 0);
+
+insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
+values('6395feba-bbca-4215-83be-8fe7be869bc0', 'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\naumenko.jpg')::bytea,
 'kochetkov.jpg',547840, 'COACH', 0);
 
 insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
@@ -33,7 +41,7 @@ values('b1eb52d7-47f5-4106-a87e-bd8b5bdb6a37', 'image/jpg', pg_read_binary_file(
 insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at)
 values('3deeb485-e987-48cf-91c1-377a420702f1','Михаил Кочетков',
 'Основтель школы Magic Volley;Тренер школы Magic Volley;Тренерский стаж 10 лет;КМС по волейболу', 'promo',
-'5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0, '2024-10-27T15:56:59.069749', '2024-10-27T15:56:59.069749');
+'6395feba-bbca-4215-83be-8fe7be869bc0', 0, '2024-10-27T15:56:59.069749', '2024-10-27T15:56:59.069749');
 insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at)
 values('1c62bad8-8faf-43af-8f77-85fdc7eb72b7','Андрей Волков',
 'Тренер школы Magic Volley;Тренерский стаж 8 лет;КМС по волейболу', 'promo',
@@ -78,7 +86,7 @@ insert into camp_coaches(camp_id, coach_id) values ('dd5dc5ea-f858-47c0-b518-be2
 insert into camp_coaches(camp_id, coach_id) values ('7573f07f-3769-4f34-90cd-412fa1aab705','1c62bad8-8faf-43af-8f77-85fdc7eb72b7');
 
 insert into user_profile (user_id, image_id, ful_name, telephone, birthday, version)
-values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', '5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'Науменко Сергей',
+values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', '5751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'Науменко Сергей',
 '+7998620452','1993-03-24', 0);
 
 insert into profile_camps (profile_id, camp_id, is_past, is_booked, version)
