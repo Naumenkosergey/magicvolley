@@ -19,7 +19,7 @@ import java.util.UUID;
 public class MediaStorageInfo {
 
     private UUID id;
-    private String fileName;
+    private String name;
     private String contentType;
     private Long size;
     @Enumerated(EnumType.STRING)
@@ -35,7 +35,7 @@ public class MediaStorageInfo {
                 .toUriString();
 
         this.id = imageStorage.getId();
-        this.fileName = imageStorage.getFileName();
+        this.name = imageStorage.getFileName();
         this.contentType = imageStorage.getContentType();
         this.size = imageStorage.getSize();
         this.typeEntity = imageStorage.getTypeEntity();

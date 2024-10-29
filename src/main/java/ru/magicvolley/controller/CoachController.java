@@ -31,7 +31,7 @@ public class CoachController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse<UUID> create(@RequestBody CoachRequest coach){
         return new ApiResponse<>(coachService.create(coach));
     }

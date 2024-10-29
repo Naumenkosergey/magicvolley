@@ -79,7 +79,7 @@ public class MediaService {
     public MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo) throws IOException {
         MediaStorageEntity mediaStorageEntity = MediaStorageEntity.builder()
                 .id(UUID.randomUUID())
-                .fileName(StringUtils.cleanPath(Objects.requireNonNull(mediaStorageInfo.getFileName())))
+                .fileName(StringUtils.cleanPath(Objects.requireNonNull(mediaStorageInfo.getName())))
                 .data(mediaStorageInfo.getData())
                 .contentType(mediaStorageInfo.getContentType())
                 .size(mediaStorageInfo.getSize())
