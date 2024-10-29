@@ -107,6 +107,15 @@ public class MediaService {
         return mediaStorageEntity;
 
     }
+
+    public void delete(MediaStorageEntity mediaStorage) {
+        if (Objects.nonNull(mediaStorage) && Objects.nonNull(mediaStorage.getId())) {
+            MediaStorageEntity mediaStorageFromDb = mediaRepository.findById(mediaStorage.getId())
+                    .orElseThrow(() -> new EntityNotFoundException(MediaStorageEntity.class, mediaStorage.getId()));
+            mediaRepository.delete(mediaStorageFromDb);
+        }
+
+    }
 }
 
 

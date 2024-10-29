@@ -22,8 +22,12 @@ values('1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 'e5050cc4-98c4-4b48-9e47-8b5057c6
 
 
 insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
-values('5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\db\sql\image.png')::bytea,
-'QR-code.png',547840, 'COACH', 0);
+values('5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\kochetkov.jpg')::bytea,
+'kochetkov.jpg',547840, 'COACH', 0);
+
+insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
+values('b1eb52d7-47f5-4106-a87e-bd8b5bdb6a37', 'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\volkov.jpg')::bytea,
+'volkov.jpg',547840, 'COACH', 0);
 
 
 insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at)
@@ -33,7 +37,7 @@ values('3deeb485-e987-48cf-91c1-377a420702f1','Михаил Кочетков',
 insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at)
 values('1c62bad8-8faf-43af-8f77-85fdc7eb72b7','Андрей Волков',
 'Тренер школы Magic Volley;Тренерский стаж 8 лет;КМС по волейболу', 'promo',
-'5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0, '2024-10-27T15:57:59.069749', '2024-10-27T15:57:59.069749');
+'b1eb52d7-47f5-4106-a87e-bd8b5bdb6a37', 0, '2024-10-27T15:57:59.069749', '2024-10-27T15:57:59.069749');
 
 
 
@@ -43,6 +47,7 @@ values('1c62bad8-8faf-43af-8f77-85fdc7eb72b7','Андрей Волков',
 --INSERT INTO magic_volley.status(id, name, code) VALUES (3,'Архивный','ARCHIVE');
 --
 --
+
 insert into camps(id, camp_name, camp_type, info, place, date_start, date_end, count_all,
 count_free, price, image_id, version)
 values('dd5dc5ea-f858-47c0-b518-be2d1565856d', '23 февраля день защитника отечества', 'SHORT',

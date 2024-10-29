@@ -81,6 +81,7 @@ public class CoachService {
         List<CampCoachEntity> campCoaches = campCoachRepository.findAllByIdCoachId(coachId);
         campCoachRepository.deleteAll(campCoaches);
         coachRepository.delete(coachFomDb);
+        mediaService.delete(coachFomDb.getAvatar());
         return true;
     }
 
