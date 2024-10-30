@@ -23,14 +23,14 @@ values('1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 'e5050cc4-98c4-4b48-9e47-8b5057c6
 
 insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
 values('5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
-'naumenko.png',547840, 'CAMP', 0);
+'image.png',547840, 'CAMP', 0);
 
 insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
 values('5751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\naumenko.png')::bytea,
 'naumenko.png',547840, 'USER', 0);
 
 insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
-values('6395feba-bbca-4215-83be-8fe7be869bc0', 'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\naumenko.jpg')::bytea,
+values('6395feba-bbca-4215-83be-8fe7be869bc0', 'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\kochetkov.jpg')::bytea,
 'kochetkov.jpg',547840, 'COACH', 0);
 
 insert into media_storages(id, content_type, data, file_name, size, type_entity, version)
