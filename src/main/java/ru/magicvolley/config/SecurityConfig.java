@@ -36,8 +36,7 @@ public class SecurityConfig {
             "/magicvolley/camps/all",
             "/magicvolley/questions/all",
             "/magicvolley/shedule",
-            "/magicvolley/price",
-            "/swagger-ui/"
+            "/magicvolley/price"
     };
 
     private final UserDetailsServiceImpl userDetailsService;
