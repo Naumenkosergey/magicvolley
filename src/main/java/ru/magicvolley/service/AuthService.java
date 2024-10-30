@@ -1,7 +1,8 @@
 package ru.magicvolley.service;
 
 import jakarta.security.auth.message.AuthException;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,19 +29,22 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class AuthService {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder encoder;
-    private final UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtUtils jwtUtils;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder encoder;
+    @Autowired
 
-
-//    private Map<String, String> refreshStorage = new HashMap<>();
-
+    private UserService userService;
 
     @Transactional
     public UserInfoResponse login(LoginRequest loginRequest) throws AuthException {
@@ -128,4 +132,5 @@ public class AuthService {
 //        throw new AuthException("Невалидный JWT токен");
 //
 //    }
+
 }
