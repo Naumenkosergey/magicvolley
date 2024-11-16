@@ -145,6 +145,34 @@ create table if not exists schedule(
     version bigint
 );
 
+create table if not exists package_card (
+
+    id integer primary key not null,
+    name varchar(255),
+    info text,
+    cost_naming_link varchar(100),
+    version bigint
+);
+
+create table if not exists camp_package_card (
+
+    camp_id uuid,
+    package_card_id integer,
+    info text,
+    total_price numeric,
+    booking_price numeric,
+    first_price numeric,
+    first_limitation varchar(25),
+    second_price numeric,
+    second_limitation varchar(25),
+    third_price numeric,
+    third_limitation varchar(25),
+    version bigint,
+    primary key (camp_id, package_card_id),
+    foreign key (camp_id) references camps(id),
+    foreign key (package_card_id) references package_card(id)
+);
+
 
 
 

@@ -47,6 +47,11 @@ public class CampEntity {
     )
     private List<CoachEntity> coaches;
 
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id.camp_id", insertable = false, updatable = false)
+    private List<CampPackageCardEntity> packages;
+
 //    @OneToMany(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id", insertable = false, updatable = false)
 //    private List<CoachEntity> coaches;

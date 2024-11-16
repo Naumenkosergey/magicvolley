@@ -25,4 +25,5 @@ public class CampDto {
     private Integer countAll;
     private Integer countFree;
     private List<CoachDto> coaches;
+    private List<CampPackageCardDto> packages;
 }
