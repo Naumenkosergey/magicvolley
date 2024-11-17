@@ -1,10 +1,7 @@
 package ru.magicvolley.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -14,6 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "camp_package_card")
+@EqualsAndHashCode(of = "id")
 public class CampPackageCardEntity {
 
     @EmbeddedId

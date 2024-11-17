@@ -84,7 +84,7 @@ public class ProfileService {
                 profileCamp.getId().getCampId(),
                 profileCamp.getCamp().getCampName(),
                 profileCamp.getCamp().getInfo(),
-                profileCamp.getCamp().getPrice(),
+//                profileCamp.getCamp().getPrice(),
                 profileCamp.getCamp().getDateStart(),
                 profileCamp.getCamp().getDateEnd(),
                 coachService.getCouches(profileCamp.getCamp().getCoaches()));

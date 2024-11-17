@@ -1,6 +1,5 @@
 package ru.magicvolley.dto;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,7 @@ public record ProfileDto(
             UUID id,
             String name,
             String info,
-            BigDecimal price,
+//            BigDecimal price,
             LocalDate dateStart,
             LocalDate dateEnd,
             List<CoachDto> coaches) {

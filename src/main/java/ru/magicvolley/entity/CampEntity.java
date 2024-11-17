@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import ru.magicvolley.enums.CampType;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +23,6 @@ public class CampEntity {
     private String campName;
     private String info;
     private String place;
-    private BigDecimal price;
     private LocalDate dateStart;
     private LocalDate dateEnd;
     private Integer countAll;

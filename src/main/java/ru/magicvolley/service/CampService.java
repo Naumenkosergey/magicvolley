@@ -35,7 +35,6 @@ public class CampService {
         return campEntities.stream()
                 .map(campEntity -> CampDto.builder()
                         .id(campEntity.getId())
-                        .price(campEntity.getPrice())
                         .name(campEntity.getCampName())
                         .info(campEntity.getInfo())
                         .dateStart(campEntity.getDateStart())
@@ -56,7 +55,6 @@ public class CampService {
                 .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
         return CampDto.builder()
                 .id(id)
-                .price(campEntity.getPrice())
                 .name(campEntity.getCampName())
                 .info(campEntity.getInfo())
                 .dateStart(campEntity.getDateStart())
@@ -78,7 +76,6 @@ public class CampService {
                 .info(camp.getInfo())
                 .dateStart(camp.getDateStart())
                 .dateEnd(camp.getDateEnd())
-                .price(camp.getPrice())
                 .campType(campType)
                 .countAll(camp.getCountAll())
                 .countFree(camp.getCountFree())
@@ -142,7 +139,6 @@ public class CampService {
         campFromDb.setInfo(camp.getInfo());
         campFromDb.setDateStart(camp.getDateStart());
         campFromDb.setDateEnd(camp.getDateEnd());
-        campFromDb.setPrice(camp.getPrice());
         campFromDb.setCountAll(camp.getCountAll());
         campFromDb.setCountFree(camp.getCountFree());
 

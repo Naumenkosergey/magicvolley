@@ -47,7 +47,6 @@ create table if not exists camps (
    camp_name varchar(100),
    info text,
    place varchar(255),
-   price numeric,
    date_start date,
    date_end date,
    count_all integer,
