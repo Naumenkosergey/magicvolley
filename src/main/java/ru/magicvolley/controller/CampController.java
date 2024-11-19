@@ -20,13 +20,11 @@ public class CampController {
     private final CampService campService;
 
     @GetMapping("/all")
-//    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ApiResponse<List<CampDto>> getAll() {
         return new ApiResponse<>(campService.getAll());
     }
 
     @GetMapping("/{id}")
-//    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ApiResponse<CampDto> getById(@PathVariable UUID id) {
         return new ApiResponse<>(campService.getById(id));
     }

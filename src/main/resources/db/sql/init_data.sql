@@ -197,29 +197,29 @@ values ('aba123d8-24ff-48c1-820b-58ad329c970e','FRIDAY', '18:45:00','20:15:00', 
 
 
 insert into package_card (id, name, info, cost_naming_link, version)
-values(1, 'Premium','пункт1;geyrn2;пункт3;пункт4;пункт5;пункт6;пункт7','Повышение цен согласно графику',0);
+values(1, 'Premium','пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6;пункт7','Повышение цен согласно графику',0);
 insert into package_card (id, name, info, cost_naming_link, version)
-values(2, 'Gold','пункт1;geyrn2;пункт3;пункт4;пункт5;пункт6','Повышение цен согласно графику',0);
+values(2, 'Gold','пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6','Повышение цен согласно графику',0);
 insert into package_card (id, name, info, cost_naming_link, version)
-values(3, 'Silver','пункт1;geyrn2;пункт3;пункт4;пункт5','Повышение цен согласно графику',0);
+values(3, 'Silver','пункт1;пкнкт2;пункт3;пункт4;пункт5','Повышение цен согласно графику',0);
 insert into package_card (id, name, info, cost_naming_link, version)
-values(4, 'Tur','пункт1;geyrn2;пункт3','Детский тариф',0);
+values(4, 'Tur','пункт1;пкнкт2;пункт3','Детский тариф',0);
 
 
 
 insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
  second_price, second_limitation, third_price, third_limitation, version)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 1, 'пункт1;geyrn2;пункт3;пункт4;пункт5;пункт6;пункт7', 
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 1, 'пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6;пункт7', 
 29990, 7000, 23000, '2023-12-01', 25000, '2024-01-01', 29000, '2024-02-01', 0);
 insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
  second_price, second_limitation, third_price, third_limitation, version)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 2, 'пункт1;geyrn2;пункт3;пункт4;пункт5;пункт6', 
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 2, 'пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6', 
 25900, 7000, 19000, '2023-12-01', 23000, '2024-01-01', 25000, '2024-02-01', 0);
 insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
  second_price, second_limitation, third_price, third_limitation, version)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 3, 'пункт1;geyrn2;пункт3;пункт4;пункт5',
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 3, 'пункт1;пкнкт2;пункт3;пункт4;пункт5',
 22900, 7000, 17000, '2023-12-01', 19000, '2024-01-01', 22000, '2024-02-01', 0);
 insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
  second_price, second_limitation, third_price, third_limitation, version)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 4, 'пункт1;geyrn2;пункт3',
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 4, 'пункт1;пкнкт2;пункт3',
 9900, 3000, 5000, 'до 3 лет', 7000, 'до 6 лет', 8000, 'до 10 лет', 0);

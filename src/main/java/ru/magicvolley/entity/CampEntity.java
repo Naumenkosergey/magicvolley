@@ -46,8 +46,13 @@ public class CampEntity {
     private List<CoachEntity> coaches;
 
 
+//    @ManyToMany(cascade = {CascadeType.ALL})
+//    @JoinTable(name = "camp_package_card",
+//            joinColumns = @JoinColumn(name = "camp_id"),
+//            inverseJoinColumns = @JoinColumn(name = "package_card_id")
+//    )
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id.camp_id", insertable = false, updatable = false)
+    @JoinColumn(name = "camp_id", insertable = false, updatable = false)
     private List<CampPackageCardEntity> packages;
 
 //    @OneToMany(fetch = FetchType.LAZY)
