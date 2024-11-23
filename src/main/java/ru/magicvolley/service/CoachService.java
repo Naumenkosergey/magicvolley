@@ -47,7 +47,7 @@ public class CoachService {
                 .info(String.join(";", coach.getInfos()))
                 .promo(coach.getPromo())
                 .build());
-        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage());
+        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachEntity.getId());
         setAvatar(mediaStorage, coachEntity);
         coachRepository.save(coachEntity);
         return coachEntity.getId();
@@ -62,7 +62,7 @@ public class CoachService {
         coachFromDb.setInfo(String.join(";", coach.getInfos()));
         coachFromDb.setPromo(coach.getPromo());
 
-        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage());
+        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachFromDb.getId());
         setAvatar(mediaStorage, coachFromDb);
         coachRepository.save(coachFromDb);
         return coachFromDb.getId();

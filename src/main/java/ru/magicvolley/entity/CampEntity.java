@@ -31,15 +31,15 @@ public class CampEntity {
     private CampType campType;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id", insertable = false, updatable = false)
+    @JoinColumn(name = "main_image_id", insertable = false, updatable = false)
     private MediaStorageEntity mainImage;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id", insertable = false, updatable = false)
+    @JoinColumn(name = "cart_image_id", insertable = false, updatable = false)
     private MediaStorageEntity imageCart;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id", insertable = false, updatable = false)
+    @JoinColumn(name = "entity_id", insertable = false, updatable = false)
     private List<MediaStorageEntity> images;
 
     @ManyToMany(cascade = {CascadeType.ALL})

@@ -76,11 +76,11 @@ public class MediaService {
                 .build();
     }
 
-    public MediaStorageEntity mediaInfoToMediaStorage(MediaStorageInfo mediaInfo) {
+    public MediaStorageEntity mediaInfoToMediaStorage(MediaStorageInfo mediaInfo, UUID entityId) {
         if (Objects.nonNull(mediaInfo)) {
             try {
                 if (Objects.isNull(mediaInfo.getId())) {
-                    return createMediaStorage(mediaInfo);
+                    return createMediaStorage(mediaInfo, entityId);
                 } else {
                     return mediaRepository.findById(mediaInfo.getId())
                             .orElseThrow(() -> new EntityNotFoundException(MediaStorageEntity.class, mediaInfo.getId()));
@@ -92,14 +92,14 @@ public class MediaService {
         return null;
     }
 
-    public List<MediaStorageEntity> mediaInfoToMediaStorage(List<MediaStorageInfo> mediaInfos)  {
+    public List<MediaStorageEntity> mediaInfoToMediaStorage(List<MediaStorageInfo> mediaInfos, UUID entityId)  {
 
         List<MediaStorageEntity> mediaStorageEntities = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(mediaInfos)) {
             mediaInfos.forEach(mediaStorageInfo -> {
                 if (Objects.isNull(mediaStorageInfo.getId())) {
                     try {
-                        MediaStorageEntity mediaStorage = createMediaStorage(mediaStorageInfo);
+                        MediaStorageEntity mediaStorage = createMediaStorage(mediaStorageInfo, entityId);
                         mediaStorageEntities.add(mediaStorage);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -114,7 +114,7 @@ public class MediaService {
     }
 
 
-    private MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo) throws IOException {
+    private MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo, UUID entityId) throws IOException {
         MediaStorageEntity mediaStorageEntity = MediaStorageEntity.builder()
                 .id(UUID.randomUUID())
                 .fileName(StringUtils.cleanPath(Objects.requireNonNull(mediaStorageInfo.getName())))
@@ -122,6 +122,7 @@ public class MediaService {
                 .contentType(mediaStorageInfo.getContentType())
                 .size(mediaStorageInfo.getSize())
                 .typeEntity(mediaStorageInfo.getTypeEntity())
+                .entityId(entityId)
                 .build();
         mediaRepository.save(mediaStorageEntity);
         return mediaStorageEntity;

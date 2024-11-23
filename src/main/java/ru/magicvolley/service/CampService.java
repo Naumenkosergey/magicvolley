@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.CampDto;
 import ru.magicvolley.dto.CampPackageCardDto;
 import ru.magicvolley.dto.CoachDto;
+import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.entity.CampPackageCardEntity;
@@ -63,6 +64,9 @@ public class CampService {
                         .packages(campEntity.getPackages().stream()
                                 .map(CampPackageCardDto::new)
                                 .toList())
+                        .mainImage(new MediaStorageInfo(campEntity.getMainImage()))
+                        .imageCart(new MediaStorageInfo(campEntity.getImageCart()))
+                        .images(MediaStorageInfo.getMediaStorageInfo(campEntity.getImages()))
                         .build()).
                 toList();
     }
@@ -81,6 +85,9 @@ public class CampService {
                 .countAll(campEntity.getCountAll())
                 .coaches(campEntity.getCoaches().stream().map(CoachDto::new).toList())
                 .packages(campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
+                .mainImage(new MediaStorageInfo(campEntity.getMainImage()))
+                .imageCart(new MediaStorageInfo(campEntity.getImageCart()))
+                .images(MediaStorageInfo.getMediaStorageInfo(campEntity.getImages()))
                 .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
                 .build();
 
@@ -132,9 +139,9 @@ public class CampService {
                 .build();
         campRepository.saveAndFlush(campEntity);
 
-        MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(camp.getMainImage());
-        MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(camp.getImageCart());
-        List<MediaStorageEntity> images = mediaService.mediaInfoToMediaStorage(camp.getImages());
+        MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(camp.getMainImage(), campEntity.getId());
+        MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(camp.getImageCart(), campEntity.getId());
+        List<MediaStorageEntity> images = mediaService.mediaInfoToMediaStorage(camp.getImages(), campEntity.getId());
         setMainImage(mainImage, campEntity);
         setImageCart(imageCart, campEntity);
         setImages(images, campEntity);

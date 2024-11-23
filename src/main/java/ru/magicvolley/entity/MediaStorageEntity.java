@@ -20,6 +20,7 @@ public class MediaStorageEntity {
 
     @Id
     private UUID id;
+    private UUID entityId;
     @Column(name = "file_name")
     private String fileName;
     private Long size;

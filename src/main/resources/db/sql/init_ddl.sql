@@ -22,6 +22,7 @@ create table if not exists user_roles (
 
 create table if not exists media_storages (
     id uuid not null constraint media_storage_pk primary key,
+    entity_id uuid,
     content_type varchar(255),
     data bytea,
     file_name varchar(255),
@@ -53,7 +54,8 @@ create table if not exists camps (
    count_free integer,
    camp_type varchar(10),
    version bigint,
-   image_id uuid references media_storages (id)
+   main_image_id uuid references media_storages (id),
+   cart_image_id uuid references media_storages (id)
 );
 
 create table if not exists camp_users(
