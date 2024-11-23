@@ -27,6 +27,16 @@ values('8651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'dd5dc5ea-f858-47c0-b518-be2d1565
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
+values('3551fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'dd5dc5ea-f858-47c0-b518-be2d1565856d',
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
+'image.png', 547840, 'CAMP', 0);
+
+insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
+values('3751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'dd5dc5ea-f858-47c0-b518-be2d1565856d',
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
+'image.png', 547840, 'CAMP', 0);
+
+insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('6651fdf6-6f7b-482d-97eb-4d9c7165e8a0', '7573f07f-3769-4f34-90cd-412fa1aab705',
 'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
