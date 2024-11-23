@@ -38,34 +38,18 @@ public class CampEntity {
     @JoinColumn(name = "cart_image_id", insertable = false, updatable = false)
     private MediaStorageEntity imageCart;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "entity_id", insertable = false, updatable = false)
-    private List<MediaStorageEntity> images;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "camp_coaches",
             joinColumns = @JoinColumn(name = "camp_id"),
             inverseJoinColumns = @JoinColumn(name = "coach_id")
     )
     private List<CoachEntity> coaches;
 
-
-//    @ManyToMany(cascade = {CascadeType.ALL})
-//    @JoinTable(name = "camp_package_card",
-//            joinColumns = @JoinColumn(name = "camp_id"),
-//            inverseJoinColumns = @JoinColumn(name = "package_card_id")
-//    )
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "camp_id", insertable = false, updatable = false)
     private List<CampPackageCardEntity> packages;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "id", insertable = false, updatable = false)
-//    private List<CoachEntity> coaches;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "id", insertable = false, updatable = false)
-//    private ProfileEntity userProfile;
 
 
     @Version

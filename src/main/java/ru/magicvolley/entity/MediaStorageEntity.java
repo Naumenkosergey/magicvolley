@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import ru.magicvolley.enums.TypeEntity;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +19,7 @@ public class MediaStorageEntity {
 
     @Id
     private UUID id;
+    @Column(name = "entity_id")
     private UUID entityId;
     @Column(name = "file_name")
     private String fileName;
@@ -31,13 +31,4 @@ public class MediaStorageEntity {
     private String contentType;
     @Version
     private Long version;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "camp_id", insertable = false, updatable = false)
-    private CampEntity camp;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "avatar")
-    private List<CoachEntity> coaches;
-
-
 }

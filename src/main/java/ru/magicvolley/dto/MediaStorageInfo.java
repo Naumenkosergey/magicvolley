@@ -6,12 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -47,10 +45,10 @@ public class MediaStorageInfo {
         this.url = urlPath;
     }
 
-    public static List<MediaStorageInfo> getMediaStorageInfo(List<MediaStorageEntity> mediaStorageEntities) {
-        if (CollectionUtils.isNotEmpty(mediaStorageEntities)) {
-            return mediaStorageEntities.stream().map(MediaStorageInfo::new).toList();
-        }
-        return List.of();
-    }
+//    public static List<MediaStorageInfo> getMediaStorageInfo(List<MediaStorageInfo> mediaStorageEntities) {
+//        if (CollectionUtils.isNotEmpty(mediaStorageEntities)) {
+//            return mediaStorageEntities.stream().map(MediaStorageInfo::new).toList();
+//        }
+//        return List.of();
+//    }
 }

@@ -136,6 +136,12 @@ public class MediaService {
         }
 
     }
+
+    public Map<UUID, List<MediaStorageInfo>> getAllImagesForCamIds(Set<UUID> ids) {
+        return mediaRepository.findAllByEntityIdIn(ids).stream()
+                .map(MediaStorageInfo::new)
+                .collect(Collectors.groupingBy(MediaStorageInfo::getEntityId));
+    }
 }
 
 

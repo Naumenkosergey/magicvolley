@@ -19,10 +19,7 @@ import ru.magicvolley.repository.CampPackageCardRepository;
 import ru.magicvolley.repository.CampRepository;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,50 +44,40 @@ public class CampService {
     }
 
     private List<CampDto> getList(List<CampEntity> campEntities) {
+        Set<UUID> ids = campEntities.stream().map(CampEntity::getId).collect(Collectors.toSet());
+        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(ids);
         return campEntities.stream()
-                .map(campEntity -> CampDto.builder()
-                        .id(campEntity.getId())
-                        .name(campEntity.getCampName())
-                        .info(campEntity.getInfo())
-                        .dateStart(campEntity.getDateStart())
-                        .dateEnd(campEntity.getDateEnd())
-                        .countFree(campEntity.getCountFree())
-                        .countAll(campEntity.getCountAll())
-                        .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
-                        .coaches(campEntity.getCoaches().stream()
-                                .map(CoachDto::new)
-                                .toList()
-                        )
-                        .packages(campEntity.getPackages().stream()
-                                .map(CampPackageCardDto::new)
-                                .toList())
-                        .mainImage(new MediaStorageInfo(campEntity.getMainImage()))
-                        .imageCart(new MediaStorageInfo(campEntity.getImageCart()))
-                        .images(MediaStorageInfo.getMediaStorageInfo(campEntity.getImages()))
-                        .build()).
-                toList();
+                .map(campEntity -> buildCampDto(campEntity, allImagesForCamIds))
+                .toList();
     }
 
-    @Transactional(readOnly = true)
-    public CampDto getById(UUID id) {
-        CampEntity campEntity = campRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
+    private CampDto buildCampDto(CampEntity campEntity, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds) {
+        List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campEntity.getId());
+        mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImage().getId())
+                || Objects.equals(x.getId(), campEntity.getImageCart().getId()));
         return CampDto.builder()
-                .id(id)
+                .id(campEntity.getId())
                 .name(campEntity.getCampName())
                 .info(campEntity.getInfo())
                 .dateStart(campEntity.getDateStart())
                 .dateEnd(campEntity.getDateEnd())
                 .countFree(campEntity.getCountFree())
                 .countAll(campEntity.getCountAll())
+                .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
                 .coaches(campEntity.getCoaches().stream().map(CoachDto::new).toList())
                 .packages(campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
                 .mainImage(new MediaStorageInfo(campEntity.getMainImage()))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart()))
-                .images(MediaStorageInfo.getMediaStorageInfo(campEntity.getImages()))
-                .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
+                .images(mediaStorageInfos)
                 .build();
+    }
 
+    @Transactional(readOnly = true)
+    public CampDto getById(UUID id) {
+        CampEntity campEntity = campRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
+        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(Set.of(campEntity.getId()));
+        return buildCampDto(campEntity, allImagesForCamIds);
     }
 
 
@@ -106,7 +93,7 @@ public class CampService {
         }
     }
 
-    private  String getMounthString(int month) {
+    private String getMounthString(int month) {
         return switch (month) {
             case 1 -> "января";
             case 2 -> "февраля";
@@ -144,7 +131,7 @@ public class CampService {
         List<MediaStorageEntity> images = mediaService.mediaInfoToMediaStorage(camp.getImages(), campEntity.getId());
         setMainImage(mainImage, campEntity);
         setImageCart(imageCart, campEntity);
-        setImages(images, campEntity);
+//        setImages(images, campEntity);
         createCampCoaches(camp.getCoaches(), campEntity);
         createCampPackages(camp.getPackages(), campEntity);
         return campEntity.getId();
@@ -246,12 +233,6 @@ public class CampService {
     private static void setImageCart(MediaStorageEntity mediaStorage, CampEntity campEntity) {
         if (Objects.nonNull(mediaStorage)) {
             campEntity.setImageCart(mediaStorage);
-        }
-    }
-
-    private static void setImages(List<MediaStorageEntity> mediaStorages, CampEntity campEntity) {
-        if (CollectionUtils.isNotEmpty(mediaStorages)) {
-            campEntity.setImages(mediaStorages);
         }
     }
 }
