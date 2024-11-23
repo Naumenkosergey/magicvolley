@@ -14,7 +14,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileCompsEntity {
+public class ProfileCampsEntity {
 
     @EmbeddedId
     private Id id;

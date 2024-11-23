@@ -28,4 +28,5 @@ public class CampDto {
     private List<MediaStorageInfo> images;
     private List<CoachDto> coaches;
     private List<CampPackageCardDto> packages;
+
 }

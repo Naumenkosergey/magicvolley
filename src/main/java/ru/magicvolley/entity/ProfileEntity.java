@@ -34,7 +34,7 @@ public class ProfileEntity {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "profileId", insertable = false, updatable = false)
-    private Set<ProfileCompsEntity> profileComps;
+    private Set<ProfileCampsEntity> profileCamps;
 
     @Version
     private Long version;

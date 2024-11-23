@@ -43,7 +43,7 @@ public class CampService {
         return getList(campEntities);
     }
 
-    private List<CampDto> getList(List<CampEntity> campEntities) {
+    public List<CampDto> getList(List<CampEntity> campEntities) {
         Set<UUID> ids = campEntities.stream().map(CampEntity::getId).collect(Collectors.toSet());
         Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(ids);
         return campEntities.stream()

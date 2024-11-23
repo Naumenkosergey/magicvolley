@@ -3,15 +3,15 @@ package ru.magicvolley.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.dto.CampDto;
 import ru.magicvolley.dto.ProfileDto;
-import ru.magicvolley.entity.ProfileCompsEntity;
+import ru.magicvolley.entity.ProfileCampsEntity;
 import ru.magicvolley.entity.ProfileEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.ProfileRepository;
 import ru.magicvolley.request.PasswordUpdateForProfile;
 import ru.magicvolley.request.ProfileForUpdate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,8 +23,9 @@ public class ProfileService {
     private final ProfileRepository profileRepository;
     private final CoachService coachService;
     private final UserService userService;
+    private final CampService campService;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ProfileDto> getAll() {
         return profileRepository.findAll().stream()
                 .map(this::mapProfileEntityToProfileDto)
@@ -32,7 +33,7 @@ public class ProfileService {
     }
 
 
-    @Transactional
+    @Transactional(readOnly = true)
     public ProfileDto getById(UUID profileId) {
         ProfileEntity profileEntity = profileRepository.findById(profileId)
                 .orElseThrow(() -> new EntityNotFoundException(ProfileEntity.class, profileId));
@@ -57,18 +58,16 @@ public class ProfileService {
 
 
     private ProfileDto mapProfileEntityToProfileDto(ProfileEntity profile) {
-        List<ProfileDto.Camp> pastCamps = new ArrayList<>();
-        List<ProfileDto.Camp> nearestCamps = new ArrayList<>();
 
-        profile.getProfileComps().forEach(
-                profileCamp -> {
-                    if (profileCamp.getIsPast()) {
-                        pastCamps.add(creteNewCampForProfile(profileCamp));
-                    } else if (profileCamp.getIsBooked()) {
-                        nearestCamps.add(creteNewCampForProfile(profileCamp));
-                    }
-                }
-        );
+        List<CampDto> pastCamps  = campService.getList(profile.getProfileCamps().stream()
+                .filter(ProfileCampsEntity::getIsPast)
+                .map(ProfileCampsEntity::getCamp)
+                .toList());
+
+        List<CampDto> nearestCamps = campService.getList(profile.getProfileCamps().stream()
+                .filter(ProfileCampsEntity::getIsBooked)
+                .map(ProfileCampsEntity::getCamp)
+                .toList());
 
         return new ProfileDto(profile.getFulName(),
                 profile.getBirthday(),
@@ -77,17 +76,6 @@ public class ProfileService {
                 pastCamps,
                 nearestCamps
         );
-    }
-
-    private ProfileDto.Camp creteNewCampForProfile(ProfileCompsEntity profileCamp) {
-        return new ProfileDto.Camp(
-                profileCamp.getId().getCampId(),
-                profileCamp.getCamp().getCampName(),
-                profileCamp.getCamp().getInfo(),
-//                profileCamp.getCamp().getPrice(),
-                profileCamp.getCamp().getDateStart(),
-                profileCamp.getCamp().getDateEnd(),
-                coachService.getCouches(profileCamp.getCamp().getCoaches()));
     }
 
     @Transactional
