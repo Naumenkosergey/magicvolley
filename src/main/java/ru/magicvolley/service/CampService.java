@@ -128,10 +128,8 @@ public class CampService {
 
         MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(camp.getMainImage(), campEntity.getId());
         MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(camp.getImageCart(), campEntity.getId());
-        List<MediaStorageEntity> images = mediaService.mediaInfoToMediaStorage(camp.getImages(), campEntity.getId());
         setMainImage(mainImage, campEntity);
         setImageCart(imageCart, campEntity);
-//        setImages(images, campEntity);
         createCampCoaches(camp.getCoaches(), campEntity);
         createCampPackages(camp.getPackages(), campEntity);
         return campEntity.getId();
