@@ -17,7 +17,7 @@ public class PackageCardController {
     private final PackageCardService packageCardService;
 
     @GetMapping("/dropdown")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse<List<PackageCardDto>> getAll() {
         return new ApiResponse<>(packageCardService.getDropdown());
     }

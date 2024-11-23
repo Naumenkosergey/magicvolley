@@ -41,7 +41,8 @@ public class SecurityConfig {
             "/magicvolley/price",
             "/swagger-ui.html",
             "/swagger*/**",
-            "/api-docs"
+            "/api-docs",
+            "/magicvolley/package-card/dropdown"
     };
 
     private final UserDetailsServiceImpl userDetailsService;
