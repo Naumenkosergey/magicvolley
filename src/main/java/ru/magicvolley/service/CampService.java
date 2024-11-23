@@ -10,6 +10,7 @@ import ru.magicvolley.dto.CoachDto;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.entity.CampPackageCardEntity;
+import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.CampType;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.CampCoachRepository;
@@ -18,6 +19,7 @@ import ru.magicvolley.repository.CampRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,7 @@ public class CampService {
     private final CampRepository campRepository;
     private final CampCoachRepository campCoachRepository;
     private final CampPackageCardRepository campPackageCardRepository;
+    private final MediaService mediaService;
 
     @Transactional
     public List<CampDto> getAll() {
@@ -85,6 +88,12 @@ public class CampService {
                 .build();
         campRepository.saveAndFlush(campEntity);
 
+        MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(camp.getMainImage());
+        MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(camp.getImageCart());
+        List<MediaStorageEntity> images = mediaService.mediaInfoToMediaStorage(camp.getImages());
+        setMainImage(mainImage, campEntity);
+        setImageCart(imageCart, campEntity);
+        setImages(images, campEntity);
         createCampCoaches(camp.getCoaches(), campEntity);
         createCampPackages(camp.getPackages(), campEntity);
         return campEntity.getId();
@@ -175,5 +184,23 @@ public class CampService {
         campCoachRepository.deleteAll(campCoaches);
         campRepository.delete(campFromDb);
         return true;
+    }
+
+    private static void setMainImage(MediaStorageEntity mediaStorage, CampEntity campEntity) {
+        if (Objects.nonNull(mediaStorage)) {
+            campEntity.setMainImage(mediaStorage);
+        }
+    }
+
+    private static void setImageCart(MediaStorageEntity mediaStorage, CampEntity campEntity) {
+        if (Objects.nonNull(mediaStorage)) {
+            campEntity.setImageCart(mediaStorage);
+        }
+    }
+
+    private static void setImages(List<MediaStorageEntity> mediaStorages, CampEntity campEntity) {
+        if (CollectionUtils.isNotEmpty(mediaStorages)) {
+            campEntity.setImages(mediaStorages);
+        }
     }
 }

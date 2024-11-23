@@ -34,6 +34,10 @@ public class CampEntity {
     @JoinColumn(name = "image_id", insertable = false, updatable = false)
     private MediaStorageEntity mainImage;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id", insertable = false, updatable = false)
+    private MediaStorageEntity imageCart;
+
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", insertable = false, updatable = false)
     private List<MediaStorageEntity> images;

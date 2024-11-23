@@ -1,6 +1,7 @@
 package ru.magicvolley.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,7 @@ import ru.magicvolley.repository.MediaStorageRepository;
 import ru.magicvolley.response.MediaResponse;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,6 +92,28 @@ public class MediaService {
         return null;
     }
 
+    public List<MediaStorageEntity> mediaInfoToMediaStorage(List<MediaStorageInfo> mediaInfos)  {
+
+        List<MediaStorageEntity> mediaStorageEntities = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(mediaInfos)) {
+            mediaInfos.forEach(mediaStorageInfo -> {
+                if (Objects.isNull(mediaStorageInfo.getId())) {
+                    try {
+                        MediaStorageEntity mediaStorage = createMediaStorage(mediaStorageInfo);
+                        mediaStorageEntities.add(mediaStorage);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    mediaRepository.findById(mediaStorageInfo.getId())
+                            .orElseThrow(() -> new EntityNotFoundException(MediaStorageEntity.class, mediaStorageInfo.getId()));
+                }
+            });
+        }
+        return mediaStorageEntities;
+    }
+
+
     private MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo) throws IOException {
         MediaStorageEntity mediaStorageEntity = MediaStorageEntity.builder()
                 .id(UUID.randomUUID())
@@ -105,7 +125,6 @@ public class MediaService {
                 .build();
         mediaRepository.save(mediaStorageEntity);
         return mediaStorageEntity;
-
     }
 
     public void delete(MediaStorageEntity mediaStorage) {

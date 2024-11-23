@@ -26,7 +26,6 @@ import ru.magicvolley.security.service.UserDetailsServiceImpl;
 public class SecurityConfig {
 
     private static final String[] AUTH_WHITELIST = {
-            // -- swagger ui
             //auth
             "/magicvolley/auth/login",
             "/magicvolley/auth/logout",
@@ -38,7 +37,9 @@ public class SecurityConfig {
             "/magicvolley/questions/all",
             "/magicvolley/shedule",
             "/magicvolley/price",
-            "/swagger-ui/*"
+            "/swagger-ui.html",
+            "/swagger*/**",
+            "/api-docs"
     };
 
     private final UserDetailsServiceImpl userDetailsService;

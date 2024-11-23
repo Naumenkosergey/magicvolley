@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -19,11 +18,14 @@ public class CampDto {
     private UUID id;
     private String name;
     private String info;
-    private BigDecimal price;
     private LocalDate dateStart;
     private LocalDate dateEnd;
+    private String dateString;
     private Integer countAll;
     private Integer countFree;
+    private MediaStorageInfo mainImage;
+    private MediaStorageInfo imageCart;
+    private List<MediaStorageInfo> images;
     private List<CoachDto> coaches;
     private List<CampPackageCardDto> packages;
 }
