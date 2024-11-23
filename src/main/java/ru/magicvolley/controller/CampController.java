@@ -24,6 +24,16 @@ public class CampController {
         return new ApiResponse<>(campService.getAll());
     }
 
+    @GetMapping("/long-all")
+    public ApiResponse<List<CampDto>> getLongAll() {
+        return new ApiResponse<>(campService.getAll(CampType.LONG));
+    }
+
+    @GetMapping("/short-all")
+    public ApiResponse<List<CampDto>> getShortAll() {
+        return new ApiResponse<>(campService.getAll(CampType.SHORT));
+    }
+
     @GetMapping("/{id}")
     public ApiResponse<CampDto> getById(@PathVariable UUID id) {
         return new ApiResponse<>(campService.getById(id));

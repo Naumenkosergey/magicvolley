@@ -17,6 +17,7 @@ import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CampPackageCardRepository;
 import ru.magicvolley.repository.CampRepository;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -32,9 +33,19 @@ public class CampService {
     private final CampPackageCardRepository campPackageCardRepository;
     private final MediaService mediaService;
 
-    @Transactional
+    @Transactional(readOnly = true)
+    public List<CampDto> getAll(CampType type) {
+        List<CampEntity> campEntities = campRepository.findAllByCampType(type);
+        return getList(campEntities);
+    }
+
+    @Transactional(readOnly = true)
     public List<CampDto> getAll() {
         List<CampEntity> campEntities = campRepository.findAll();
+        return getList(campEntities);
+    }
+
+    private List<CampDto> getList(List<CampEntity> campEntities) {
         return campEntities.stream()
                 .map(campEntity -> CampDto.builder()
                         .id(campEntity.getId())
@@ -44,6 +55,7 @@ public class CampService {
                         .dateEnd(campEntity.getDateEnd())
                         .countFree(campEntity.getCountFree())
                         .countAll(campEntity.getCountAll())
+                        .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
                         .coaches(campEntity.getCoaches().stream()
                                 .map(CoachDto::new)
                                 .toList()
@@ -55,7 +67,7 @@ public class CampService {
                 toList();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public CampDto getById(UUID id) {
         CampEntity campEntity = campRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
@@ -69,8 +81,40 @@ public class CampService {
                 .countAll(campEntity.getCountAll())
                 .coaches(campEntity.getCoaches().stream().map(CoachDto::new).toList())
                 .packages(campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
+                .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
                 .build();
 
+    }
+
+
+    private String getDateString(LocalDate dateStart, LocalDate dateEnd) {
+        String monthStartString = getMounthString(dateStart.getMonthValue());
+        String monthEndString = getMounthString(dateEnd.getMonthValue());
+
+        if (monthStartString.equals(monthEndString)) {
+            return dateStart.getDayOfMonth() + "-" + dateEnd.getDayOfMonth() + " " + monthStartString;
+        } else {
+            return dateStart.getDayOfMonth() + " " + monthStartString + " - "
+                    + dateEnd.getDayOfMonth() + " " + monthEndString;
+        }
+    }
+
+    private  String getMounthString(int month) {
+        return switch (month) {
+            case 1 -> "января";
+            case 2 -> "февраля";
+            case 3 -> "марта";
+            case 4 -> "апряля";
+            case 5 -> "мая";
+            case 6 -> "июня";
+            case 7 -> "июля";
+            case 8 -> "августа";
+            case 9 -> "сентября";
+            case 10 -> "октября";
+            case 11 -> "ноября";
+            case 12 -> "декабря";
+            default -> "";
+        };
     }
 
     @Transactional

@@ -33,6 +33,8 @@ public class SecurityConfig {
             "/magicvolley/media/**",
             "/magicvolley/coaches/all",
             "/magicvolley/camps/all",
+            "/magicvolley/camps/long-all",
+            "/magicvolley/camps/short-all",
             "/magicvolley/camps/{id}",
             "/magicvolley/questions/all",
             "/magicvolley/shedule",

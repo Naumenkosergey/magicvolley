@@ -60,7 +60,7 @@ insert into camps(id, camp_name, camp_type, info, place, date_start, date_end, c
 count_free, image_id, version)
 values('dd5dc5ea-f858-47c0-b518-be2d1565856d', '23 февраля день защитника отечества', 'SHORT',
 'Кемп для настоящих мужчин1;Кемп для настоящих мужчин2;Кемп для настоящих мужчин3;',
-'Пляж House Сумбулово', '2024-02-22','2024-02-22', 30, 0, '5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
+'Пляж House Сумбулово', '2024-02-22','2024-02-24', 30, 0, '5651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
 insert into camps(id, camp_name, camp_type, info, place, date_start, date_end, count_all,
 count_free, image_id, version)
 values('7573f07f-3769-4f34-90cd-412fa1aab705', 'третие майские', 'SHORT',
