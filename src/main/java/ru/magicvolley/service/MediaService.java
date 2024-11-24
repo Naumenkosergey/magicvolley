@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
@@ -51,10 +50,11 @@ public class MediaService {
     }
 
     private MediaResponse mapToFileResponse(MediaStorageEntity mediaStorage) {
-        String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/media/")
-                .path(mediaStorage.getId().toString())
-                .toUriString();
+//        String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("magicvolley/media/")
+//                .path(mediaStorage.getId().toString())
+//                .toUriString();
+        String downloadURL = "/magicvolley/media/" + mediaStorage.getId().toString();
         return MediaResponse.builder()
                 .id(mediaStorage.getId())
                 .name(mediaStorage.getFileName())
