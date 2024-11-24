@@ -135,7 +135,8 @@ insert into subscriptions (id, subscription_name, version, order_number)
 values ('b760cd06-7c98-490f-98d0-f2e25450f92e', 'Абонемент на 4 занятияй', 0, 1);
 insert into subscriptions (id, subscription_name, version, order_number)
 values ('5af0e36c-3ec1-463c-801e-6d1c41fa5fa0', 'Абонемент на 8 занятияй', 0, 2);
-
+insert into subscriptions (id, subscription_name, version, order_number)
+values ('35e3f8ae-1d19-4c00-bfed-e160a760a053', 'Абонемент на 10 занятияй', 0, 3);
 
 insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
 values ('6602547c-b9e2-45ba-9063-6776d6b2a86e', 'Взрослые', null, 750, 0, 'f4ffa742-5277-4f90-813e-9817a5304be9');
@@ -151,6 +152,11 @@ insert into subscription_prices (id, title, sub_title, price, version, subscript
 values ('46c5a9c6-0cc1-4433-a47e-4d093bbee9ab', 'Взрослые', '525 ₽ за тренировку', 4200, 0, '5af0e36c-3ec1-463c-801e-6d1c41fa5fa0');
 insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
 values ('ae733b64-6661-41a6-9e11-a2fba8e12e35', 'Детские группы', '490 ₽ за тренировку', 3900, 0, '5af0e36c-3ec1-463c-801e-6d1c41fa5fa0');
+
+insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
+values ('62026fe3-5b38-43a1-9582-587ae7246a46', 'Взрослые', '510 ₽ за тренировку', 5100, 0, '35e3f8ae-1d19-4c00-bfed-e160a760a053');
+insert into subscription_prices (id, title, sub_title, price, version, subscription_id)
+values ('d99acbb9-9a22-462a-948d-71b0e969b6aa', 'Детские группы', '470 ₽ за тренировку', 4700, 0, '35e3f8ae-1d19-4c00-bfed-e160a760a053');
 
 insert into schedule_groups (id, group_name, version, order_number)
 values ('0c6e0dfd-5d79-4e2c-89ab-c7ab53b67d75', 'Дети 7-11 лет', 0, 0);
