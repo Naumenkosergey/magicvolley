@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 
@@ -30,10 +29,11 @@ public class MediaStorageInfo {
 
     public MediaStorageInfo(MediaStorageEntity imageStorage) {
 
-        String urlPath = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/media/")
-                .path(imageStorage.getId().toString())
-                .toUriString();
+//        String urlPath = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("/media/")
+//                .path(imageStorage.getId().toString())
+//                .toUriString();
+        String urlPath = "/magicvolley/media/" + imageStorage.getId().toString();
 
         this.id = imageStorage.getId();
         this.entityId = imageStorage.getEntityId();
@@ -41,7 +41,7 @@ public class MediaStorageInfo {
         this.contentType = imageStorage.getContentType();
         this.size = imageStorage.getSize();
         this.typeEntity = imageStorage.getTypeEntity();
-        this.data = imageStorage.getData();
+//        this.data = imageStorage.getData();
         this.url = urlPath;
     }
 

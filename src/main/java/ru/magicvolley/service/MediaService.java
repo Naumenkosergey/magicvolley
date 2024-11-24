@@ -51,7 +51,7 @@ public class MediaService {
 
     private MediaResponse mapToFileResponse(MediaStorageEntity mediaStorage) {
 //        String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("magicvolley/media/")
+//                .path("/media/")
 //                .path(mediaStorage.getId().toString())
 //                .toUriString();
         String downloadURL = "/magicvolley/media/" + mediaStorage.getId().toString();
