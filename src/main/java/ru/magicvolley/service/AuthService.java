@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -87,6 +88,15 @@ public class AuthService {
         userService.create(user);
 
         return Boolean.TRUE;
+    }
+
+    public UUID getCurrentUserId() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetailsImpl userDetailsImpl) {
+            return userDetailsImpl.getId();
+        } else {
+            throw new AuthenticationException("Наавторизованный пользователь"){};
+        }
     }
 
 //    public JwtResponse getAccessToken(String refreshToken) throws AuthException {

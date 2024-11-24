@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.dto.ReservationDto;
 import ru.magicvolley.response.api.ApiResponse;
+import ru.magicvolley.service.AuthService;
 import ru.magicvolley.service.CampUserService;
 
 import java.util.UUID;
@@ -15,11 +16,13 @@ import java.util.UUID;
 public class CampUserController {
 
     private final CampUserService campUserService;
+    private final AuthService authService;
 
-    @PostMapping("/{campId}/{userId}")
+    @PostMapping("/{campId}")
     @PreAuthorize("hasAuthority('USER')")
-    public ApiResponse<Boolean> makeReservation(@PathVariable UUID campId, @PathVariable UUID userId) {
-        ReservationDto reservationDto = new ReservationDto(campId, userId);
+    public ApiResponse<Boolean> makeReservation(@PathVariable UUID campId) {
+        UUID currentUserId = authService.getCurrentUserId();
+        ReservationDto reservationDto = new ReservationDto(campId, currentUserId);
         return new ApiResponse<>(campUserService.makeReservation(reservationDto));
     }
 
