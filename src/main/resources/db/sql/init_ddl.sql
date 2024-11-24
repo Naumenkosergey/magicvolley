@@ -61,8 +61,8 @@ create table if not exists camps (
 create table if not exists camp_users(
     user_id uuid,
     camp_id uuid,
-    is_apruve boolean,
-    is_brone boolean,
+    booking_confirmed boolean,
+    is_reserved boolean,
     is_past boolean,
     primary key (camp_id, user_id),
     foreign key (camp_id) references camps(id),

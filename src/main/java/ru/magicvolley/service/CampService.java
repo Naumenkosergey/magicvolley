@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.magicvolley.dto.CampDto;
-import ru.magicvolley.dto.CampPackageCardDto;
-import ru.magicvolley.dto.CoachDto;
-import ru.magicvolley.dto.MediaStorageInfo;
+import ru.magicvolley.dto.*;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.entity.CampPackageCardEntity;
@@ -29,6 +26,7 @@ public class CampService {
     private final CampRepository campRepository;
     private final CampCoachRepository campCoachRepository;
     private final CampPackageCardRepository campPackageCardRepository;
+    private final CampUserService campUserService;
     private final MediaService mediaService;
 
     @Transactional(readOnly = true)

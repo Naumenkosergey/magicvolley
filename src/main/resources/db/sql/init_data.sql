@@ -96,11 +96,11 @@ values('df9bacad-8a55-418c-a654-39a02344c09a','киргизия','LONG','кир�
 'Киргизия', '2024-07-09', '2024-07-19', 70, 70,'8651fdf6-6f7b-482d-97eb-4d9c7165e8a0', '8651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
 --
 --
-insert into camp_users(camp_id, user_id, is_apruve, is_brone, is_past)
+insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past)
 values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, true);
-insert into camp_users(camp_id, user_id, is_apruve, is_brone, is_past)
+insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past)
 values('7573f07f-3769-4f34-90cd-412fa1aab705', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, false);
-insert into camp_users(camp_id, user_id, is_apruve, is_brone, is_past)
+insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past)
 values('df9bacad-8a55-418c-a654-39a02344c09a', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', false, true, false);
 --
 --
