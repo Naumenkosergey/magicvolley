@@ -1,10 +1,15 @@
 package ru.magicvolley.service;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.magicvolley.dto.*;
+import ru.magicvolley.dto.CampDto;
+import ru.magicvolley.dto.CampPackageCardDto;
+import ru.magicvolley.dto.CoachDto;
+import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.entity.CampPackageCardEntity;
@@ -21,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Data
 public class CampService {
 
     private final CampRepository campRepository;
@@ -28,6 +34,9 @@ public class CampService {
     private final CampPackageCardRepository campPackageCardRepository;
     private final CampUserService campUserService;
     private final MediaService mediaService;
+
+    @Value("${media.prefix.url}")
+    private String prefixUrlMedia;
 
     @Transactional(readOnly = true)
     public List<CampDto> getAll(CampType type) {
@@ -62,10 +71,10 @@ public class CampService {
                 .countFree(campEntity.getCountFree())
                 .countAll(campEntity.getCountAll())
                 .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
-                .coaches(campEntity.getCoaches().stream().map(CoachDto::new).toList())
+                .coaches(campEntity.getCoaches().stream().map(x -> new CoachDto(x, prefixUrlMedia)).toList())
                 .packages(campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
-                .mainImage(new MediaStorageInfo(campEntity.getMainImage()))
-                .imageCart(new MediaStorageInfo(campEntity.getImageCart()))
+                .mainImage(new MediaStorageInfo(campEntity.getMainImage(), prefixUrlMedia))
+                .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
                 .images(mediaStorageInfos)
                 .build();
     }

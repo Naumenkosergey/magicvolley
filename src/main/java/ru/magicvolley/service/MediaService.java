@@ -1,7 +1,8 @@
 package ru.magicvolley.service;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Data
 public class MediaService {
 
     private final MediaStorageRepository mediaRepository;
+
+    @Value("${media.prefix.url}")
+    private String prefixUrlMedia;
 
     @Transactional
     public ResponseEntity<String> uploadImage(MultipartFile file, TypeEntity typeEntity) {
@@ -50,17 +55,13 @@ public class MediaService {
     }
 
     private MediaResponse mapToFileResponse(MediaStorageEntity mediaStorage) {
-//        String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/media/")
-//                .path(mediaStorage.getId().toString())
-//                .toUriString();
-        String downloadURL = "/magicvolley/media/" + mediaStorage.getId().toString();
+        String urlPath = prefixUrlMedia + "/media/" + mediaStorage.getId().toString();
         return MediaResponse.builder()
                 .id(mediaStorage.getId())
                 .name(mediaStorage.getFileName())
                 .contentType(mediaStorage.getContentType())
                 .size(mediaStorage.getSize())
-                .url(downloadURL)
+                .url(urlPath)
                 .build();
 
     }
@@ -92,27 +93,6 @@ public class MediaService {
         return null;
     }
 
-    public List<MediaStorageEntity> mediaInfoToMediaStorage(List<MediaStorageInfo> mediaInfos, UUID entityId)  {
-
-        List<MediaStorageEntity> mediaStorageEntities = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(mediaInfos)) {
-            mediaInfos.forEach(mediaStorageInfo -> {
-                if (Objects.isNull(mediaStorageInfo.getId())) {
-                    try {
-                        MediaStorageEntity mediaStorage = createMediaStorage(mediaStorageInfo, entityId);
-                        mediaStorageEntities.add(mediaStorage);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    mediaRepository.findById(mediaStorageInfo.getId())
-                            .orElseThrow(() -> new EntityNotFoundException(MediaStorageEntity.class, mediaStorageInfo.getId()));
-                }
-            });
-        }
-        return mediaStorageEntities;
-    }
-
 
     private MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo, UUID entityId) throws IOException {
         MediaStorageEntity mediaStorageEntity = MediaStorageEntity.builder()
@@ -139,7 +119,7 @@ public class MediaService {
 
     public Map<UUID, List<MediaStorageInfo>> getAllImagesForCamIds(Set<UUID> ids) {
         return mediaRepository.findAllByEntityIdIn(ids).stream()
-                .map(MediaStorageInfo::new)
+                .map( x-> new MediaStorageInfo(x, prefixUrlMedia))
                 .collect(Collectors.groupingBy(MediaStorageInfo::getEntityId));
     }
 }

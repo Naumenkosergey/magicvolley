@@ -24,11 +24,11 @@ public class CoachDto {
     private String promo;
     private MediaStorageInfo mainImage;
 
-    public CoachDto(CoachEntity coach) {
+    public CoachDto(CoachEntity coach, String prefixUrlMedia) {
         this.id = coach.getId();
         this.name = coach.getCoachName();
         this.infos = Arrays.stream(coach.getInfo().split(";")).toList();
         this.promo = coach.getPromo();
-        this.mainImage = Objects.nonNull(coach.getAvatar()) ? new MediaStorageInfo(coach.getAvatar()) : null;
+        this.mainImage = Objects.nonNull(coach.getAvatar()) ? new MediaStorageInfo(coach.getAvatar(), prefixUrlMedia) : null;
     }
 }

@@ -1,6 +1,7 @@
 package ru.magicvolley.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.CoachDto;
@@ -22,19 +23,21 @@ public class CoachService {
     private final CoachRepository coachRepository;
     private final CampCoachRepository campCoachRepository;
     private final MediaService mediaService;
+    @Value("${media.prefix.url}")
+    private String prefixUrlMedia;
 
     @Transactional
     public List<CoachDto> getAll() {
         return coachRepository.findAll().stream()
                 .sorted(Comparator.comparing(CoachEntity::getCreatedAt))
-                .map(CoachDto::new)
+                .map(x->new CoachDto(x, prefixUrlMedia))
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public CoachDto getById(UUID id) {
         return coachRepository.findById(id)
-                .map(CoachDto::new)
+                .map(x->new CoachDto(x, prefixUrlMedia))
                 .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, id));
     }
 
@@ -83,11 +86,5 @@ public class CoachService {
         coachRepository.delete(coachFomDb);
         mediaService.delete(coachFomDb.getAvatar());
         return true;
-    }
-
-    public List<CoachDto> getCouches(Collection<CoachEntity> coaches) {
-        return coaches.stream().map(CoachDto::new)
-                .collect(Collectors.toList());
-
     }
 }

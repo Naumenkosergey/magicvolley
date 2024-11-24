@@ -27,13 +27,10 @@ public class MediaStorageInfo {
     private byte[] data;
     private String url;
 
-    public MediaStorageInfo(MediaStorageEntity imageStorage) {
 
-//        String urlPath = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/media/")
-//                .path(imageStorage.getId().toString())
-//                .toUriString();
-        String urlPath = "/magicvolley/media/" + imageStorage.getId().toString();
+    public MediaStorageInfo(MediaStorageEntity imageStorage, String prefixUrlMedia) {
+
+        String urlPath = prefixUrlMedia + "/media/" + imageStorage.getId().toString();
 
         this.id = imageStorage.getId();
         this.entityId = imageStorage.getEntityId();
@@ -45,10 +42,4 @@ public class MediaStorageInfo {
         this.url = urlPath;
     }
 
-//    public static List<MediaStorageInfo> getMediaStorageInfo(List<MediaStorageInfo> mediaStorageEntities) {
-//        if (CollectionUtils.isNotEmpty(mediaStorageEntities)) {
-//            return mediaStorageEntities.stream().map(MediaStorageInfo::new).toList();
-//        }
-//        return List.of();
-//    }
 }
