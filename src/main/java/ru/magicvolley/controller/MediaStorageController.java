@@ -26,10 +26,10 @@ public class MediaStorageController {
 
     @PostMapping("/upload")
 //    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file,
+    public ApiResponse<UUID> upload(@RequestParam("file") MultipartFile file,
                                          @RequestParam("typeEntity") TypeEntity typeEntity) {
 
-        return mediaService.uploadImage(file, typeEntity);
+        return new ApiResponse<>(mediaService.uploadImage(file, typeEntity));
     }
 
     @GetMapping("/{id}")

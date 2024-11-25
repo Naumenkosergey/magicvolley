@@ -3,8 +3,6 @@ package ru.magicvolley.service;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -31,14 +29,16 @@ public class MediaService {
     private String prefixUrlMedia;
 
     @Transactional
-    public ResponseEntity<String> uploadImage(MultipartFile file, TypeEntity typeEntity) {
+    public UUID uploadImage(MultipartFile file, TypeEntity typeEntity) {
         try {
-            mediaRepository.save(mapToMediaStorageEntity(file, typeEntity));
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(String.format("File uploaded successfully: %s", file.getOriginalFilename()));
+
+            MediaStorageEntity entity = mapToMediaStorageEntity(file, typeEntity);
+            mediaRepository.save(entity);
+            return entity.getId();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(String.format("Could not upload the file: %s!", file.getOriginalFilename()));
+            throw new RuntimeException(e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(String.format("Could not upload the file: %s!", file.getOriginalFilename()));
         }
     }
 
