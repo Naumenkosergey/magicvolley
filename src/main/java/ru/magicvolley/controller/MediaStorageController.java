@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.magicvolley.dto.MediaUploadDto;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.response.MediaResponse;
@@ -26,8 +27,8 @@ public class MediaStorageController {
 
     @PostMapping("/upload")
 //    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<UUID> upload(@RequestParam("file") MultipartFile file,
-                                         @RequestParam("typeEntity") TypeEntity typeEntity) {
+    public ApiResponse<MediaUploadDto> upload(@RequestParam("file") MultipartFile file,
+                                              @RequestParam("typeEntity") TypeEntity typeEntity) {
 
         return new ApiResponse<>(mediaService.uploadImage(file, typeEntity));
     }

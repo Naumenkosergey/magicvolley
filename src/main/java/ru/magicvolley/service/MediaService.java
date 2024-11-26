@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.magicvolley.dto.MediaStorageInfo;
+import ru.magicvolley.dto.MediaUploadDto;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
@@ -29,12 +30,15 @@ public class MediaService {
     private String prefixUrlMedia;
 
     @Transactional
-    public UUID uploadImage(MultipartFile file, TypeEntity typeEntity) {
+    public MediaUploadDto uploadImage(MultipartFile file, TypeEntity typeEntity) {
         try {
 
             MediaStorageEntity entity = mapToMediaStorageEntity(file, typeEntity);
             mediaRepository.save(entity);
-            return entity.getId();
+            return MediaUploadDto.builder()
+                    .id(entity.getId())
+                    .url(prefixUrlMedia + "/media/" + entity.getId().toString())
+                    .build();
         } catch (Exception e) {
             throw new RuntimeException(e);
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
