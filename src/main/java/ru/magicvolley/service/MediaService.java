@@ -2,6 +2,7 @@ package ru.magicvolley.service;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +42,6 @@ public class MediaService {
                     .build();
         } catch (Exception e) {
             throw new RuntimeException(e);
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(String.format("Could not upload the file: %s!", file.getOriginalFilename()));
         }
     }
 
@@ -87,8 +86,11 @@ public class MediaService {
                 if (Objects.isNull(mediaInfo.getId())) {
                     return createMediaStorage(mediaInfo, entityId);
                 } else {
-                    return mediaRepository.findById(mediaInfo.getId())
+                    MediaStorageEntity mediaStorage = mediaRepository.findById(mediaInfo.getId())
                             .orElseThrow(() -> new EntityNotFoundException(MediaStorageEntity.class, mediaInfo.getId()));
+                    mediaStorage.setEntityId(entityId);
+                    mediaStorage.setContentType(mediaInfo.getContentType());
+                    return mediaStorage;
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -121,9 +123,27 @@ public class MediaService {
 
     }
 
+    public void delete(Collection<UUID> ids, UUID entityId, TypeEntity typeEntity) {
+        if (CollectionUtils.isNotEmpty(ids)) {
+            List<MediaStorageEntity> mediaStorages = mediaRepository.findAllByIdInAndEntityIdAndTypeEntity(ids, entityId, typeEntity);
+            if (CollectionUtils.isNotEmpty(mediaStorages)) {
+                mediaRepository.deleteAll(mediaStorages);
+            }
+        }
+    }
+
+    public void update(MediaStorageEntity mediaStorage) {
+        if (Objects.nonNull(mediaStorage) && Objects.nonNull(mediaStorage.getId())) {
+            MediaStorageEntity mediaStorageFromDb = mediaRepository.findById(mediaStorage.getId())
+                    .orElseThrow(() -> new EntityNotFoundException(MediaStorageEntity.class, mediaStorage.getId()));
+
+            mediaRepository.delete(mediaStorageFromDb);
+        }
+    }
+
     public Map<UUID, List<MediaStorageInfo>> getAllImagesForCamIds(Set<UUID> ids) {
         return mediaRepository.findAllByEntityIdIn(ids).stream()
-                .map( x-> new MediaStorageInfo(x, prefixUrlMedia))
+                .map(x -> new MediaStorageInfo(x, prefixUrlMedia))
                 .collect(Collectors.groupingBy(MediaStorageInfo::getEntityId));
     }
 }

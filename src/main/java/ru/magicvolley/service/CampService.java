@@ -15,6 +15,7 @@ import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.entity.CampPackageCardEntity;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.CampType;
+import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CampPackageCardRepository;
@@ -60,8 +61,8 @@ public class CampService {
 
     private CampDto buildCampDto(CampEntity campEntity, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds) {
         List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campEntity.getId());
-        mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImage().getId())
-                || Objects.equals(x.getId(), campEntity.getImageCart().getId()));
+        mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
+                || Objects.equals(x.getId(), campEntity.getCartImageId()));
         return CampDto.builder()
                 .id(campEntity.getId())
                 .name(campEntity.getCampName())
@@ -186,26 +187,61 @@ public class CampService {
     }
 
     @Transactional
-    public UUID update(CampDto camp) {
-        CampEntity campFromDb = campRepository.findById(camp.getId())
-                .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, camp.getId()));
+    public UUID update(CampDto campRequest) {
+        CampEntity campFromDb = campRepository.findById(campRequest.getId())
+                .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, campRequest.getId()));
 
-        campFromDb.setCampName(camp.getName());
-        campFromDb.setInfo(camp.getInfo());
-        campFromDb.setDateStart(camp.getDateStart());
-        campFromDb.setDateEnd(camp.getDateEnd());
-        campFromDb.setCountAll(camp.getCountAll());
-        campFromDb.setCountFree(camp.getCountFree());
+        campFromDb.setCampName(campRequest.getName());
+        campFromDb.setInfo(campRequest.getInfo());
+        campFromDb.setDateStart(campRequest.getDateStart());
+        campFromDb.setDateEnd(campRequest.getDateEnd());
+        campFromDb.setCountAll(campRequest.getCountAll());
+        campFromDb.setCountFree(campRequest.getCountFree());
 
-        replaceCampCoaches(camp.getCoaches(), campFromDb);
-        replaceCampPackages(camp.getPackages(), campFromDb);
+
+        replaceImageCart(campRequest.getImageCart(), campFromDb);
+        replaceMainImage(campRequest.getMainImage(), campFromDb);
+        replaceCampCoaches(campRequest.getCoaches(), campFromDb);
+        replaceCampPackages(campRequest.getPackages(), campFromDb);
+        loadImagesForCamp(campRequest.getImages(), campFromDb);
         campRepository.save(campFromDb);
         return campFromDb.getId();
     }
 
+    private void loadImagesForCamp(List<MediaStorageInfo> images, CampEntity campFromDb) {
+        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(Set.of(campFromDb.getId()));
+
+        Set<UUID> imagesRequestIds = images.stream().map(MediaStorageInfo::getId).collect(Collectors.toSet());
+        List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campFromDb.getId());
+        mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campFromDb.getMainImageId())
+                || Objects.equals(x.getId(), campFromDb.getCartImageId()));
+        mediaStorageInfos.removeIf(x -> imagesRequestIds.contains(x.getId()));
+        Set<UUID> ids = mediaStorageInfos.stream().map(MediaStorageInfo::getId).collect(Collectors.toSet());
+        mediaService.delete(ids, campFromDb.getId(), TypeEntity.CAMP);
+        if (CollectionUtils.isNotEmpty(images)) {
+            images.forEach(image -> mediaService.mediaInfoToMediaStorage(image, campFromDb.getId()));
+        }
+    }
+
+    private void replaceMainImage(MediaStorageInfo mainImageInfo, CampEntity campFromDb) {
+        if (Objects.nonNull(mainImageInfo) && !mainImageInfo.getId().equals(campFromDb.getMainImage().getId())) {
+            MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(mainImageInfo, campFromDb.getId());
+            campFromDb.setMainImage(mainImage);
+            campFromDb.setMainImageId(mainImage.getId());
+        }
+    }
+
+    private void replaceImageCart(MediaStorageInfo cartImageInfo, CampEntity campFromDb) {
+        if (Objects.nonNull(cartImageInfo) && !cartImageInfo.getId().equals(campFromDb.getMainImage().getId())) {
+            MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(cartImageInfo, campFromDb.getId());
+            campFromDb.setCartImageId(imageCart.getId());
+            campFromDb.setImageCart(imageCart);
+        }
+    }
+
     private void replaceCampCoaches(List<CoachDto> coaches, CampEntity campFromDb) {
         List<CampCoachEntity> campCoaches = campCoachRepository.findAllByIdCampId(campFromDb.getId());
-        if (CollectionUtils.isNotEmpty(coaches)) {
+        if (CollectionUtils.isNotEmpty(campCoaches)) {
             campCoachRepository.deleteAll(campCoaches);
         }
         createCampCoaches(coaches, campFromDb);

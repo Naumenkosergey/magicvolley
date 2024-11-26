@@ -29,6 +29,10 @@ public class CampEntity {
     private Integer countFree;
     @Enumerated(EnumType.STRING)
     private CampType campType;
+    @Column(name = "main_image_id")
+    private UUID mainImageId;
+    @Column(name = "cart_image_id")
+    private UUID cartImageId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "main_image_id", insertable = false, updatable = false)
