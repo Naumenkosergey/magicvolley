@@ -140,6 +140,7 @@ public class CampService {
         setImageCart(imageCart, campEntity);
         createCampCoaches(camp.getCoaches(), campEntity);
         createCampPackages(camp.getPackages(), campEntity);
+        loadImagesForCamp(camp.getImages(), campEntity);
         return campEntity.getId();
     }
 
