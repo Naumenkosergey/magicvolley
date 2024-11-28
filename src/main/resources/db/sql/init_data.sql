@@ -7,7 +7,7 @@ values('888f4834-c6e4-472e-808b-171febbb9137', 'USER', 0);
 
 
 insert into users(id, login, password, email, role_id, version)
-values ('68c8432c-b963-46c2-b1ff-345452609ecf', 'kazina', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za', 'kazina@mail.ru', '1ffdc9e5-ece0-4420-ba12-b4ac1ed25573', 0);
+values ('68c8432c-b963-46c2-b1ff-345452609ecf', 'admin', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za', 'kazina@mail.ru', '1ffdc9e5-ece0-4420-ba12-b4ac1ed25573', 0);
 insert into users(id, login, password, email, role_id, version)
 values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', 'naumenko', '$2y$10$ecbqDrSY6HL.79kIOGWkK.b1fjd/7BjPtZa/1Fd7IOWoNfKwvo6bu', 'naumeko@mail.ru','888f4834-c6e4-472e-808b-171febbb9137', 0);
 insert into users(id, login, password, email, role_id, version)
