@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER') or hasAuthority('MODERATOR')")
     public ApiResponse<UserDto> getById(@PathVariable UUID id){
         return new ApiResponse<>(userService.getById(id));
     }
