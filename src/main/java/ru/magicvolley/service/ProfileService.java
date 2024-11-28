@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.dto.ProfileDto;
-import ru.magicvolley.dto.UserProfileCampDto;
+import ru.magicvolley.dto.CampDtoForList;
 import ru.magicvolley.entity.ProfileCampsEntity;
 import ru.magicvolley.entity.ProfileEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
@@ -63,12 +63,12 @@ public class ProfileService {
 
     private ProfileDto mapProfileEntityToProfileDto(ProfileEntity profile) {
 
-        List<UserProfileCampDto> pastCamps  = campService.getProfileCampList(profile.getProfileCamps().stream()
+        List<CampDtoForList> pastCamps  = campService.getCampList(profile.getProfileCamps().stream()
                 .filter(ProfileCampsEntity::getIsPast)
                 .map(ProfileCampsEntity::getCamp)
                 .toList());
 
-        List<UserProfileCampDto> nearestCamps = campService.getProfileCampList(profile.getProfileCamps().stream()
+        List<CampDtoForList> nearestCamps = campService.getCampList(profile.getProfileCamps().stream()
                 .filter(ProfileCampsEntity::getIsBooked)
                 .map(ProfileCampsEntity::getCamp)
                 .toList());

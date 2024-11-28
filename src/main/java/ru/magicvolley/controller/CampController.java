@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.dto.CampDto;
+import ru.magicvolley.dto.CampDtoForList;
 import ru.magicvolley.enums.CampType;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.CampService;
@@ -20,17 +21,17 @@ public class CampController {
     private final CampService campService;
 
     @GetMapping("/all")
-    public ApiResponse<List<CampDto>> getAll() {
+    public ApiResponse<List<CampDtoForList>> getAll() {
         return new ApiResponse<>(campService.getAll());
     }
 
     @GetMapping("/long-all")
-    public ApiResponse<List<CampDto>> getLongAll() {
+    public ApiResponse<List<CampDtoForList>> getLongAll() {
         return new ApiResponse<>(campService.getAll(CampType.LONG));
     }
 
     @GetMapping("/short-all")
-    public ApiResponse<List<CampDto>> getShortAll() {
+    public ApiResponse<List<CampDtoForList>> getShortAll() {
         return new ApiResponse<>(campService.getAll(CampType.SHORT));
     }
 

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserProfileCampDto {
+public class CampDtoForList {
 
     private UUID id;
     private String name;

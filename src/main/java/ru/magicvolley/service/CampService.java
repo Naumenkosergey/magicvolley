@@ -37,28 +37,28 @@ public class CampService {
     private String prefixUrlMedia;
 
     @Transactional(readOnly = true)
-    public List<CampDto> getAll(CampType type) {
+    public List<CampDtoForList> getAll(CampType type) {
         List<CampEntity> campEntities = campRepository.findAllByCampType(type);
         return getList(campEntities);
     }
 
     @Transactional(readOnly = true)
-    public List<CampDto> getAll() {
+    public List<CampDtoForList> getAll() {
         List<CampEntity> campEntities = campRepository.findAll();
         return getList(campEntities);
     }
 
-    public List<CampDto> getList(List<CampEntity> campEntities) {
-        Set<UUID> ids = campEntities.stream().map(CampEntity::getId).collect(Collectors.toSet());
-        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(ids);
+    public List<CampDtoForList> getList(List<CampEntity> campEntities) {
+//        Set<UUID> ids = campEntities.stream().map(CampEntity::getId).collect(Collectors.toSet());
+//        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(ids);
         return campEntities.stream()
-                .map(campEntity -> buildCampDto(campEntity, allImagesForCamIds))
+                .map(campEntity -> buildCampDtoForList(campEntity))
                 .toList();
     }
 
-    public List<UserProfileCampDto> getProfileCampList(List<CampEntity> campEntities) {
+    public List<CampDtoForList> getCampList(List<CampEntity> campEntities) {
         return campEntities.stream()
-                .map(this::buildProfileCampDto)
+                .map(this::buildCampDtoForList)
                 .toList();
     }
 
@@ -83,8 +83,8 @@ public class CampService {
                 .build();
     }
 
-    private UserProfileCampDto buildProfileCampDto(CampEntity campEntity) {
-        return UserProfileCampDto.builder()
+    private CampDtoForList buildCampDtoForList(CampEntity campEntity) {
+        return CampDtoForList.builder()
                 .id(campEntity.getId())
                 .name(campEntity.getCampName())
                 .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))

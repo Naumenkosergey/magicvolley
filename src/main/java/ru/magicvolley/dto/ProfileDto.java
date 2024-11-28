@@ -8,8 +8,8 @@ public record ProfileDto(
         LocalDate birthday,
         String email,
         String telephone,
-        List<UserProfileCampDto> pastCamps,
-        List<UserProfileCampDto> nearestCamps,
+        List<CampDtoForList> pastCamps,
+        List<CampDtoForList> nearestCamps,
         MediaStorageInfo avatar
 ) {
 }
