@@ -1,10 +1,12 @@
 package ru.magicvolley.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.magicvolley.dto.CampDto;
+import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.dto.ProfileDto;
+import ru.magicvolley.dto.UserProfileCampDto;
 import ru.magicvolley.entity.ProfileCampsEntity;
 import ru.magicvolley.entity.ProfileEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
@@ -24,6 +26,8 @@ public class ProfileService {
     private final CoachService coachService;
     private final UserService userService;
     private final CampService campService;
+    @Value("${media.prefix.url}")
+    private String prefixUrlMedia;
 
     @Transactional(readOnly = true)
     public List<ProfileDto> getAll() {
@@ -59,12 +63,12 @@ public class ProfileService {
 
     private ProfileDto mapProfileEntityToProfileDto(ProfileEntity profile) {
 
-        List<CampDto> pastCamps  = campService.getList(profile.getProfileCamps().stream()
+        List<UserProfileCampDto> pastCamps  = campService.getProfileCampList(profile.getProfileCamps().stream()
                 .filter(ProfileCampsEntity::getIsPast)
                 .map(ProfileCampsEntity::getCamp)
                 .toList());
 
-        List<CampDto> nearestCamps = campService.getList(profile.getProfileCamps().stream()
+        List<UserProfileCampDto> nearestCamps = campService.getProfileCampList(profile.getProfileCamps().stream()
                 .filter(ProfileCampsEntity::getIsBooked)
                 .map(ProfileCampsEntity::getCamp)
                 .toList());
@@ -74,7 +78,8 @@ public class ProfileService {
                 profile.getUser().getEmail(),
                 profile.getTelephone(),
                 pastCamps,
-                nearestCamps
+                nearestCamps,
+                new MediaStorageInfo(profile.getAvatar(), prefixUrlMedia)
         );
     }
 

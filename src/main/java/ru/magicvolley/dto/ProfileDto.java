@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record ProfileDto(
-        String fulName,
+        String fullName,
         LocalDate birthday,
         String email,
         String telephone,
-        List<CampDto> pastCamps,
-        List<CampDto> nearestCamps
+        List<UserProfileCampDto> pastCamps,
+        List<UserProfileCampDto> nearestCamps,
+        MediaStorageInfo avatar
 ) {
 }
 

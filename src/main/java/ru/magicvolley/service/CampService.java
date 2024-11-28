@@ -6,10 +6,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.magicvolley.dto.CampDto;
-import ru.magicvolley.dto.CampPackageCardDto;
-import ru.magicvolley.dto.CoachDto;
-import ru.magicvolley.dto.MediaStorageInfo;
+import ru.magicvolley.dto.*;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.entity.CampPackageCardEntity;
@@ -59,6 +56,12 @@ public class CampService {
                 .toList();
     }
 
+    public List<UserProfileCampDto> getProfileCampList(List<CampEntity> campEntities) {
+        return campEntities.stream()
+                .map(this::buildProfileCampDto)
+                .toList();
+    }
+
     private CampDto buildCampDto(CampEntity campEntity, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds) {
         List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campEntity.getId());
         mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
@@ -77,6 +80,15 @@ public class CampService {
                 .mainImage(new MediaStorageInfo(campEntity.getMainImage(), prefixUrlMedia))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
                 .images(mediaStorageInfos)
+                .build();
+    }
+
+    private UserProfileCampDto buildProfileCampDto(CampEntity campEntity) {
+        return UserProfileCampDto.builder()
+                .id(campEntity.getId())
+                .name(campEntity.getCampName())
+                .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
+                .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
                 .build();
     }
 
