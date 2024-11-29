@@ -351,6 +351,126 @@
         }
       }
     },
+    "/magicvolley/main": {
+      "put": {
+        "tags": [
+          "home-controller"
+        ],
+        "operationId": "updateMainBlock",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeMainBlockRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUUID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/home/main": {
+      "put": {
+        "tags": [
+          "home-controller"
+        ],
+        "operationId": "updateMainBlock_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeMainBlockRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUUID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/home/contact": {
+      "put": {
+        "tags": [
+          "home-controller"
+        ],
+        "operationId": "updateContactBlock",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeContactBlockRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUUID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/contact": {
+      "put": {
+        "tags": [
+          "home-controller"
+        ],
+        "operationId": "updateContactBlock_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeContactBlockRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUUID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/magicvolley/coaches/{coachId}": {
       "put": {
         "tags": [
@@ -586,7 +706,8 @@
                 "COACH",
                 "CAMP",
                 "USER",
-                "CAMP_COACH"
+                "CAMP_COACH",
+                "PAGE_HOME"
               ]
             }
           }
@@ -615,7 +736,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ApiResponseMediaUploadDto"
                 }
               }
             }
@@ -1189,6 +1310,26 @@
         }
       }
     },
+    "/magicvolley/": {
+      "get": {
+        "tags": [
+          "home-controller"
+        ],
+        "operationId": "getHome_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseHomePageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/magicvolley/coaches/{id}": {
       "get": {
         "tags": [
@@ -1252,7 +1393,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseListCampDto"
+                  "$ref": "#/components/schemas/ApiResponseListCampDtoForList"
                 }
               }
             }
@@ -1272,7 +1413,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseListCampDto"
+                  "$ref": "#/components/schemas/ApiResponseListCampDtoForList"
                 }
               }
             }
@@ -1292,7 +1433,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseListCampDto"
+                  "$ref": "#/components/schemas/ApiResponseListCampDtoForList"
                 }
               }
             }
@@ -1678,6 +1819,14 @@
               "NEAREST"
             ]
           },
+          "mainImageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cartImageId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "mainImage": {
             "$ref": "#/components/schemas/MediaStorageEntity"
           },
@@ -1828,7 +1977,8 @@
               "COACH",
               "CAMP",
               "USER",
-              "CAMP_COACH"
+              "CAMP_COACH",
+              "PAGE_HOME"
             ]
           },
           "data": {
@@ -2019,23 +2169,17 @@
           }
         }
       },
-      "CoachDto": {
+      "HomeMainBlockRequest": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "name": {
+          "title": {
             "type": "string"
           },
-          "infos": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "promo": {
+          "subtitle": {
             "type": "string"
           },
           "mainImage": {
@@ -2070,7 +2214,8 @@
               "COACH",
               "CAMP",
               "USER",
-              "CAMP_COACH"
+              "CAMP_COACH",
+              "PAGE_HOME"
             ]
           },
           "data": {
@@ -2079,6 +2224,60 @@
           },
           "url": {
             "type": "string"
+          }
+        }
+      },
+      "HomeContactBlockRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "imageAdmin": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
+          },
+          "textUnderImage": {
+            "type": "string"
+          },
+          "linkVk": {
+            "type": "string"
+          },
+          "lingTg": {
+            "type": "string"
+          },
+          "linkInstagram": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "string"
+          }
+        }
+      },
+      "CoachDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "promo": {
+            "type": "string"
+          },
+          "mainImage": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
           }
         }
       },
@@ -2257,6 +2456,52 @@
           "avatar": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "ApiResponseMediaUploadDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "result": {
+            "$ref": "#/components/schemas/MediaUploadDto"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "permissions": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "MediaUploadDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "url": {
+            "type": "string"
           }
         }
       },
@@ -2680,10 +2925,28 @@
           }
         }
       },
+      "CampDtoForList": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "dateString": {
+            "type": "string"
+          },
+          "imageCart": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
+          }
+        }
+      },
       "ProfileDto": {
         "type": "object",
         "properties": {
-          "fulName": {
+          "fullName": {
             "type": "string"
           },
           "birthday": {
@@ -2699,14 +2962,17 @@
           "pastCamps": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CampDto"
+              "$ref": "#/components/schemas/CampDtoForList"
             }
           },
           "nearestCamps": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CampDto"
+              "$ref": "#/components/schemas/CampDtoForList"
             }
+          },
+          "avatar": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
           }
         }
       },
@@ -2932,13 +3198,43 @@
           }
         }
       },
+      "ContactBlockResponse": {
+        "type": "object",
+        "properties": {
+          "imageAdmin": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
+          },
+          "textUnderImage": {
+            "type": "string"
+          },
+          "linkVk": {
+            "type": "string"
+          },
+          "lingTg": {
+            "type": "string"
+          },
+          "linkInstagram": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "string"
+          }
+        }
+      },
       "HomePageResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "camps": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CampDto"
+              "$ref": "#/components/schemas/CampDtoForList"
             }
           },
           "coaches": {
@@ -2958,6 +3254,26 @@
             "items": {
               "$ref": "#/components/schemas/QuestionResponse"
             }
+          },
+          "mainBlock": {
+            "$ref": "#/components/schemas/MainBlockResponse"
+          },
+          "contactBlock": {
+            "$ref": "#/components/schemas/ContactBlockResponse"
+          }
+        }
+      },
+      "MainBlockResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "mainImage": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
           }
         }
       },
@@ -3066,7 +3382,7 @@
           }
         }
       },
-      "ApiResponseListCampDto": {
+      "ApiResponseListCampDtoForList": {
         "type": "object",
         "properties": {
           "statusCode": {
@@ -3076,7 +3392,7 @@
           "result": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CampDto"
+              "$ref": "#/components/schemas/CampDtoForList"
             }
           },
           "pageNumber": {
