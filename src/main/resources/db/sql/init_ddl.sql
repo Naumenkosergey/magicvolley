@@ -174,8 +174,21 @@ create table if not exists camp_package_card (
     foreign key (package_card_id) references package_card(id)
 );
 
+create table if not exists home_page (
+   id uuid primary key not null,
+   title varchar(255),
+   subtitle varchar(255),
+   main_image_id uuid,
 
-
+   image_admin_id uuid,
+   text_under_image varchar(255),
+   link_vk varchar(255),
+   link_tg varchar(255),
+   link_instagram varchar(255),
+   email varchar(255),
+   contacts varchar(255),
+   version bigint
+);
 
 
 

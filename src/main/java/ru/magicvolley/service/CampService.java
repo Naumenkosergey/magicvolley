@@ -45,7 +45,8 @@ public class CampService {
 
     @Transactional(readOnly = true)
     public List<CampDtoForList> getAll() {
-        List<CampEntity> campEntities = campRepository.findAll();
+        List<CampEntity> campEntities = campRepository.findAll().stream()
+                .sorted(Comparator.comparing(CampEntity::getDateStart)).toList();
         return getList(campEntities);
     }
 

@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.magicvolley.dto.CampDto;
 import ru.magicvolley.dto.CampDtoForList;
 import ru.magicvolley.dto.CoachDto;
+import ru.magicvolley.dto.MediaStorageInfo;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,9 +17,40 @@ import java.util.List;
 @Builder
 public class HomePageResponse {
 
+    private UUID id;
     private List<CampDtoForList> camps;
     private List<CoachDto> coaches;
     private List<MediaResponse> medias;
     private List<QuestionResponse> questions;
+
+    MainBlockResponse mainBlock;
+    ContactBlockResponse contactBlock;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MainBlockResponse {
+        private String title;
+        private String subtitle;
+        private MediaStorageInfo mainImage;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ContactBlockResponse {
+
+        private MediaStorageInfo imageAdmin;
+        private String textUnderImage;
+        private String linkVk;
+        private String lingTg;
+        private String linkInstagram;
+        private String email;
+        private String contacts;
+    }
+
+
 
 }
