@@ -6,6 +6,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.Util;
 import ru.magicvolley.dto.*;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
@@ -52,7 +53,7 @@ public class CampService {
 //        Set<UUID> ids = campEntities.stream().map(CampEntity::getId).collect(Collectors.toSet());
 //        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(ids);
         return campEntities.stream()
-                .map(campEntity -> buildCampDtoForList(campEntity))
+                .map(this::buildCampDtoForList)
                 .toList();
     }
 
@@ -64,8 +65,10 @@ public class CampService {
 
     private CampDto buildCampDto(CampEntity campEntity, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds) {
         List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campEntity.getId());
-        mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
-                || Objects.equals(x.getId(), campEntity.getCartImageId()));
+        if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {
+            mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
+                    || Objects.equals(x.getId(), campEntity.getCartImageId()));
+        }
         return CampDto.builder()
                 .id(campEntity.getId())
                 .name(campEntity.getCampName())
@@ -102,15 +105,18 @@ public class CampService {
 
 
     private String getDateString(LocalDate dateStart, LocalDate dateEnd) {
-        String monthStartString = getMounthString(dateStart.getMonthValue());
-        String monthEndString = getMounthString(dateEnd.getMonthValue());
+        String monthStartString = getMounthString(Objects.nonNull(dateStart) ? dateStart.getMonthValue() : 0);
+        String monthEndString = getMounthString(Objects.nonNull(dateStart) ? dateEnd.getMonthValue() : 0);
 
         if (monthStartString.equals(monthEndString)) {
-            return dateStart.getDayOfMonth() + "-" + dateEnd.getDayOfMonth() + " " + monthStartString;
+            return getMonth(dateStart) + "-" + getMonth(dateEnd) + " " + monthStartString;
         } else {
-            return dateStart.getDayOfMonth() + " " + monthStartString + " - "
-                    + dateEnd.getDayOfMonth() + " " + monthEndString;
+            return getMonth(dateStart) + " " + monthStartString + " - " + getMonth(dateEnd) + " " + monthEndString;
         }
+    }
+
+    private int getMonth(LocalDate date) {
+        return Objects.nonNull(date) ? date.getDayOfMonth() : 0;
     }
 
     private String getMounthString(int month) {
@@ -224,12 +230,15 @@ public class CampService {
     private void loadImagesForCamp(List<MediaStorageInfo> images, CampEntity campFromDb) {
         Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(Set.of(campFromDb.getId()));
 
-        Set<UUID> imagesRequestIds = images.stream().map(MediaStorageInfo::getId).collect(Collectors.toSet());
+        Set<UUID> imagesRequestIds = Util.getSaveStream(images).map(MediaStorageInfo::getId).collect(Collectors.toSet());
         List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campFromDb.getId());
-        mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campFromDb.getMainImageId())
-                || Objects.equals(x.getId(), campFromDb.getCartImageId()));
-        mediaStorageInfos.removeIf(x -> imagesRequestIds.contains(x.getId()));
-        Set<UUID> ids = mediaStorageInfos.stream().map(MediaStorageInfo::getId).collect(Collectors.toSet());
+        if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {
+            mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campFromDb.getMainImageId())
+                    || Objects.equals(x.getId(), campFromDb.getCartImageId()));
+            mediaStorageInfos.removeIf(x -> imagesRequestIds.contains(x.getId()));
+        }
+        Set<UUID> ids = Util.getSaveStream(mediaStorageInfos)
+                .map(MediaStorageInfo::getId).collect(Collectors.toSet());
         mediaService.delete(ids, campFromDb.getId(), TypeEntity.CAMP);
         if (CollectionUtils.isNotEmpty(images)) {
             images.forEach(image -> mediaService.mediaInfoToMediaStorage(image, campFromDb.getId()));
@@ -237,7 +246,7 @@ public class CampService {
     }
 
     private void replaceMainImage(MediaStorageInfo mainImageInfo, CampEntity campFromDb) {
-        if (Objects.nonNull(mainImageInfo) && !mainImageInfo.getId().equals(campFromDb.getMainImage().getId())) {
+        if (Objects.nonNull(mainImageInfo) && Objects.nonNull(campFromDb.getMainImageId()) && !Objects.equals(mainImageInfo.getId(), campFromDb.getMainImage().getId())) {
             MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(mainImageInfo, campFromDb.getId());
             campFromDb.setMainImage(mainImage);
             campFromDb.setMainImageId(mainImage.getId());
@@ -245,7 +254,7 @@ public class CampService {
     }
 
     private void replaceImageCart(MediaStorageInfo cartImageInfo, CampEntity campFromDb) {
-        if (Objects.nonNull(cartImageInfo) && !cartImageInfo.getId().equals(campFromDb.getMainImage().getId())) {
+        if (Objects.nonNull(cartImageInfo) && Objects.nonNull(campFromDb.getMainImageId())  && !Objects.equals(cartImageInfo.getId(), campFromDb.getMainImage().getId())) {
             MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(cartImageInfo, campFromDb.getId());
             campFromDb.setCartImageId(imageCart.getId());
             campFromDb.setImageCart(imageCart);

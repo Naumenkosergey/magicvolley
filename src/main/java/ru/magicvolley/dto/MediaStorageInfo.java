@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Data
@@ -30,16 +31,18 @@ public class MediaStorageInfo {
 
     public MediaStorageInfo(MediaStorageEntity imageStorage, String prefixUrlMedia) {
 
-        String urlPath = prefixUrlMedia + "/media/" + imageStorage.getId().toString();
+        if (Objects.nonNull(imageStorage) && Objects.nonNull(imageStorage.getId())) {
+            String urlPath = prefixUrlMedia + "/media/" + imageStorage.getId().toString();
 
-        this.id = imageStorage.getId();
-        this.entityId = imageStorage.getEntityId();
-        this.name = imageStorage.getFileName();
-        this.contentType = imageStorage.getContentType();
-        this.size = imageStorage.getSize();
-        this.typeEntity = imageStorage.getTypeEntity();
+            this.id = imageStorage.getId();
+            this.entityId = imageStorage.getEntityId();
+            this.name = imageStorage.getFileName();
+            this.contentType = imageStorage.getContentType();
+            this.size = imageStorage.getSize();
+            this.typeEntity = imageStorage.getTypeEntity();
 //        this.data = imageStorage.getData();
-        this.url = urlPath;
+            this.url = urlPath;
+        }
     }
 
 }
