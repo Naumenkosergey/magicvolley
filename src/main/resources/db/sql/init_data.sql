@@ -23,72 +23,72 @@ values('1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 'e5050cc4-98c4-4b48-9e47-8b5057c6
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('8651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'dd5dc5ea-f858-47c0-b518-be2d1565856d',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('8751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'dd5dc5ea-f858-47c0-b518-be2d1565856d',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('8851fdf6-6f7b-482d-97eb-4d9c7165e8a0', '7573f07f-3769-4f34-90cd-412fa1aab705',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('8951fdf6-6f7b-482d-97eb-4d9c7165e8a0', '7573f07f-3769-4f34-90cd-412fa1aab705',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('8a51fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'df9bacad-8a55-418c-a654-39a02344c09a',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('8b51fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'df9bacad-8a55-418c-a654-39a02344c09a',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('8c51fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'dd5dc5ea-f858-47c0-b518-be2d1565856d',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('3551fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'dd5dc5ea-f858-47c0-b518-be2d1565856d',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('3751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'dd5dc5ea-f858-47c0-b518-be2d1565856d',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('6651fdf6-6f7b-482d-97eb-4d9c7165e8a0', '7573f07f-3769-4f34-90cd-412fa1aab705',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('7651fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'df9bacad-8a55-418c-a654-39a02344c09a',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/image.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\image.png')::bytea,
 'image.png', 547840, 'CAMP', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('5751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8',
-'image/png', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/naumenko.png')::bytea,
+'image/png', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\naumenko.png')::bytea,
 'naumenko.png', 547840, 'USER', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('6395feba-bbca-4215-83be-8fe7be869bc0', '3deeb485-e987-48cf-91c1-377a420702f1',
-'image/jpg', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/kochetkov.jpg')::bytea,
+'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\kochetkov.jpg')::bytea,
 'kochetkov.jpg', 547840, 'COACH', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
 values('b1eb52d7-47f5-4106-a87e-bd8b5bdb6a37', '1c62bad8-8faf-43af-8f77-85fdc7eb72b7',
-'image/jpg', pg_read_binary_file('/Users/user/IdeaProjects/magicvolley/src/main/resources/static/volkov.jpg')::bytea,
+'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\volkov.jpg')::bytea,
 'volkov.jpg', 547840, 'COACH', 0);
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
