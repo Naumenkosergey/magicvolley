@@ -9,7 +9,7 @@ create table if not exists users (
     email varchar(255),
     login varchar(255),
     password varchar(255),
-    role_id uuid constraint user_role_fk references roles (id),
+    is_blocked boolean,
     version bigint
 );
 

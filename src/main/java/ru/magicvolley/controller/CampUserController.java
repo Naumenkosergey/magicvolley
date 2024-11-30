@@ -28,7 +28,7 @@ public class CampUserController {
 
     @PutMapping()
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<Boolean> confirmReservation(ReservationDto reservationDto) {
+    public ApiResponse<Boolean> confirmReservation(@RequestBody ReservationDto reservationDto) {
         return new ApiResponse<>(campUserService.confirmReservation(reservationDto));
 
     }

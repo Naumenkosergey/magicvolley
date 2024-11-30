@@ -95,8 +95,17 @@ public class AuthService {
         if (principal instanceof UserDetailsImpl userDetailsImpl) {
             return userDetailsImpl.getId();
         } else {
-            throw new AuthenticationException("Наавторизованный пользователь"){};
+            throw new AuthenticationException("Наавторизованный пользователь") {
+            };
         }
+    }
+
+    public Boolean isAdminCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetailsImpl userDetailsImpl) {
+            return userDetailsImpl.getAuthorities().stream().anyMatch(r -> r.toString().equals(Role.ADMIN.name()));
+        }
+        return Boolean.FALSE;
     }
 
 //    public JwtResponse getAccessToken(String refreshToken) throws AuthException {

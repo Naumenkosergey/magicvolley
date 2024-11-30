@@ -33,6 +33,7 @@ public class CampService {
     private final CampPackageCardRepository campPackageCardRepository;
     private final CampUserService campUserService;
     private final MediaService mediaService;
+    private final AuthService authService;
 
     @Value("${media.prefix.url}")
     private String prefixUrlMedia;
@@ -70,6 +71,7 @@ public class CampService {
             mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
                     || Objects.equals(x.getId(), campEntity.getCartImageId()));
         }
+        Boolean isAdminCurrentUser = authService.isAdminCurrentUser();
         return CampDto.builder()
                 .id(campEntity.getId())
                 .name(campEntity.getCampName())
@@ -84,6 +86,9 @@ public class CampService {
                 .mainImage(new MediaStorageInfo(campEntity.getMainImage(), prefixUrlMedia))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
                 .images(mediaStorageInfos)
+                .users(!isAdminCurrentUser
+                        ? null
+                        : campUserService.getUsersForCampId(campEntity.getId()))
                 .build();
     }
 
@@ -255,7 +260,7 @@ public class CampService {
     }
 
     private void replaceImageCart(MediaStorageInfo cartImageInfo, CampEntity campFromDb) {
-        if (Objects.nonNull(cartImageInfo) && Objects.nonNull(campFromDb.getMainImageId())  && !Objects.equals(cartImageInfo.getId(), campFromDb.getMainImage().getId())) {
+        if (Objects.nonNull(cartImageInfo) && Objects.nonNull(campFromDb.getMainImageId()) && !Objects.equals(cartImageInfo.getId(), campFromDb.getMainImage().getId())) {
             MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(cartImageInfo, campFromDb.getId());
             campFromDb.setCartImageId(imageCart.getId());
             campFromDb.setImageCart(imageCart);

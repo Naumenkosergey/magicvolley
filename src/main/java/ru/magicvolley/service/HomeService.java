@@ -55,6 +55,7 @@ public class HomeService {
 
 
         return  HomePageResponse.builder()
+                .id(homeFromDb.getId())
                 .mainBlock(getMainBlock(homeFromDb))
                 .contactBlock(getContact(homeFromDb))
                 .camps(campService.getAll())

@@ -1,5 +1,6 @@
 package ru.magicvolley.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CampDto {
 
     private UUID id;
@@ -28,5 +30,6 @@ public class CampDto {
     private List<MediaStorageInfo> images;
     private List<CoachDto> coaches;
     private List<CampPackageCardDto> packages;
+    private List<CampUserDto> users;
 
 }

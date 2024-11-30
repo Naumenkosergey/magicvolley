@@ -20,6 +20,14 @@ public class CampUserEntity {
     private Boolean isReserved;
     private Boolean isPast;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "camp_id", insertable = false, updatable = false)
+    private CampEntity camp;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private UserEntity user;
+
     @Embeddable
     @NoArgsConstructor
     @AllArgsConstructor
