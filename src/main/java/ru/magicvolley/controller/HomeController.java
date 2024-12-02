@@ -37,7 +37,7 @@ public class HomeController {
         return new ApiResponse<>(homeService.updateContactBlock(request));
     }
 
-    @PutMapping("/app_links")
+    @GetMapping("/app_links")
     public ApiResponse<LinkInfoResponse>  getAppLinks() {
         return new ApiResponse<>(homeService.getAppLinks());
     }
