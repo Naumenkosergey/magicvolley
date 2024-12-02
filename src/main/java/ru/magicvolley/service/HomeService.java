@@ -41,7 +41,7 @@ public class HomeService {
                 .textUnderImage(homeFromDb.getTextUnderImage())
                 .contacts(homeFromDb.getContacts())
                 .email(homeFromDb.getEmail())
-                .lingTg(homeFromDb.getLinkTg())
+                .linkTg(homeFromDb.getLinkTg())
                 .linkVk(homeFromDb.getLinkVk())
                 .linkInstagram(homeFromDb.getLinkInstagram())
                 .build();
