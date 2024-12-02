@@ -41,7 +41,7 @@ public class HomeService {
                 .textUnderImage(homeFromDb.getTextUnderImage())
                 .contacts(homeFromDb.getContacts())
                 .email(homeFromDb.getEmail())
-                .lingTg(homeFromDb.getLingTg())
+                .lingTg(homeFromDb.getLinkTg())
                 .linkVk(homeFromDb.getLinkVk())
                 .linkInstagram(homeFromDb.getLinkInstagram())
                 .build();
@@ -84,7 +84,7 @@ public class HomeService {
         homeFromDb.setTextUnderImage(request.getTextUnderImage());
         homeFromDb.setContacts(request.getContacts());
         homeFromDb.setEmail(request.getEmail());
-        homeFromDb.setLingTg(request.getLingTg());
+        homeFromDb.setLinkTg(request.getLingTg());
         homeFromDb.setLinkVk(request.getLinkVk());
         homeFromDb.setLinkInstagram(request.getLinkInstagram());
         homePageRepository.save(homeFromDb);
@@ -96,7 +96,7 @@ public class HomeService {
         HomePageEntity homeFromDb = homePageRepository.findAll().stream().findFirst()
                 .orElseThrow(() -> new RuntimeException("Home page not found"));
         return LinkInfoResponse.builder()
-                .linkTg(homeFromDb.getLingTg())
+                .lingTg(homeFromDb.getLinkTg())
                 .linkVk(homeFromDb.getLinkVk())
                 .linkInstagram(homeFromDb.getLinkInstagram())
                 .build();
