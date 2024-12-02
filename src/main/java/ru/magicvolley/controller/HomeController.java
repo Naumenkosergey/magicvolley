@@ -38,7 +38,6 @@ public class HomeController {
     }
 
     @PutMapping("/app_links")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse<LinkInfoResponse>  getAppLinks() {
         return new ApiResponse<>(homeService.getAppLinks());
     }
