@@ -10,6 +10,7 @@ import ru.magicvolley.repository.HomePageRepository;
 import ru.magicvolley.request.HomeContactBlockRequest;
 import ru.magicvolley.request.HomeMainBlockRequest;
 import ru.magicvolley.response.HomePageResponse;
+import ru.magicvolley.response.LinkInfoResponse;
 
 import java.util.UUID;
 
@@ -26,8 +27,7 @@ public class HomeService {
     private String prefixUrlMedia;
 
 
-
-    public HomePageResponse.MainBlockResponse getMainBlock(HomePageEntity homeFromDb){
+    public HomePageResponse.MainBlockResponse getMainBlock(HomePageEntity homeFromDb) {
         return HomePageResponse.MainBlockResponse.builder()
                 .mainImage(new MediaStorageInfo(homeFromDb.getMainImage(), prefixUrlMedia))
                 .title(homeFromDb.getTitle())
@@ -35,7 +35,7 @@ public class HomeService {
                 .build();
     }
 
-    public HomePageResponse.ContactBlockResponse getContact (HomePageEntity homeFromDb){
+    public HomePageResponse.ContactBlockResponse getContact(HomePageEntity homeFromDb) {
         return HomePageResponse.ContactBlockResponse.builder()
                 .imageAdmin(new MediaStorageInfo(homeFromDb.getImageAdmin(), prefixUrlMedia))
                 .textUnderImage(homeFromDb.getTextUnderImage())
@@ -54,7 +54,7 @@ public class HomeService {
                 .orElseThrow(() -> new RuntimeException("Home page not found"));
 
 
-        return  HomePageResponse.builder()
+        return HomePageResponse.builder()
                 .id(homeFromDb.getId())
                 .mainBlock(getMainBlock(homeFromDb))
                 .contactBlock(getContact(homeFromDb))
@@ -89,5 +89,16 @@ public class HomeService {
         homeFromDb.setLinkInstagram(request.getLinkInstagram());
         homePageRepository.save(homeFromDb);
         return homeFromDb.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public LinkInfoResponse getAppLinks() {
+        HomePageEntity homeFromDb = homePageRepository.findAll().stream().findFirst()
+                .orElseThrow(() -> new RuntimeException("Home page not found"));
+        return LinkInfoResponse.builder()
+                .linkTg(homeFromDb.getLingTg())
+                .linkVk(homeFromDb.getLinkVk())
+                .linkInstagram(homeFromDb.getLinkInstagram())
+                .build();
     }
 }

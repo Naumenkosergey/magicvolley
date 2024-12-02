@@ -6,19 +6,20 @@ import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.request.HomeContactBlockRequest;
 import ru.magicvolley.request.HomeMainBlockRequest;
 import ru.magicvolley.response.HomePageResponse;
+import ru.magicvolley.response.LinkInfoResponse;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.HomeService;
 
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = {"/magicvolley/", "/magicvolley/home"})
+@RequestMapping(value = {"/magicvolley"})
 @AllArgsConstructor
 public class HomeController {
 
     private final HomeService homeService;
 
-    @GetMapping()
+    @GetMapping(value = {"/","/home"})
 //    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ApiResponse<HomePageResponse>  getHome() {
         return new ApiResponse<>(homeService.getHome());
@@ -36,6 +37,10 @@ public class HomeController {
         return new ApiResponse<>(homeService.updateContactBlock(request));
     }
 
-
+    @PutMapping("/app_links")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ApiResponse<LinkInfoResponse>  getAppLinks() {
+        return new ApiResponse<>(homeService.getAppLinks());
+    }
 
 }
