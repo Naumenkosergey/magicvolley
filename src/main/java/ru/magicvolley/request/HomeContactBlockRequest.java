@@ -19,7 +19,7 @@ public class HomeContactBlockRequest {
     private MediaStorageInfo imageAdmin;
     private String textUnderImage;
     private String linkVk;
-    private String lingTg;
+    private String linkTg;
     private String linkInstagram;
     private String email;
     private String contacts;
