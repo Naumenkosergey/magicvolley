@@ -149,7 +149,7 @@ create table if not exists schedule(
 create table if not exists package_card (
 
     id integer primary key not null,
-    name varchar(255),
+    name_package varchar(255),
     info text,
     cost_naming_link varchar(100),
     version bigint
@@ -188,6 +188,38 @@ create table if not exists home_page (
    email varchar(255),
    contacts varchar(255),
    version bigint
+);
+
+create table if not exists activity (
+   id uuid primary key not null,
+   title varchar(255),
+   version bigint
+);
+
+create table if not exists master (
+   id uuid primary key not null,
+   name_master varchar(255),
+   info text,
+   image_id uuid references media_storages (id),
+   version bigint
+ );
+--
+--
+create table if not exists about_us_page (
+    id uuid primary key not null,
+    title varchar(255),
+    subtitle_first varchar(255),
+    subtitle_second varchar(255),
+    version bigint
+);
+
+create table if not exists reviews (
+    id uuid primary key not null,
+    rewiew_text varchar(255),
+    date_review date,
+    name_reviewer varchar(255),
+    image_id uuid references media_storages (id),
+    version bigint
 );
 
 

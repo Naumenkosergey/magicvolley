@@ -105,7 +105,7 @@ public class CampService {
     public CampDto getById(UUID id) {
         CampEntity campEntity = campRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
-        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(Set.of(campEntity.getId()));
+        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()));
         return buildCampDto(campEntity, allImagesForCamIds);
     }
 
@@ -234,7 +234,7 @@ public class CampService {
     }
 
     private void loadImagesForCamp(List<MediaStorageInfo> images, CampEntity campFromDb) {
-        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(Set.of(campFromDb.getId()));
+        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campFromDb.getId()));
 
         Set<UUID> imagesRequestIds = Util.getSaveStream(images).map(MediaStorageInfo::getId).collect(Collectors.toSet());
         List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campFromDb.getId());

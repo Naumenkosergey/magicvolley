@@ -266,13 +266,13 @@ values ('aba123d8-24ff-48c1-820b-58ad329c970e','FRIDAY', '18:45:00','20:15:00', 
 
 
 
-insert into package_card (id, name, info, cost_naming_link, version)
+insert into package_card (id, name_package, info, cost_naming_link, version)
 values(1, 'Premium','пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6;пункт7','Повышение цен согласно графику',0);
-insert into package_card (id, name, info, cost_naming_link, version)
+insert into package_card (id, name_package, info, cost_naming_link, version)
 values(2, 'Gold','пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6','Повышение цен согласно графику',0);
-insert into package_card (id, name, info, cost_naming_link, version)
+insert into package_card (id, name_package, info, cost_naming_link, version)
 values(3, 'Silver','пункт1;пкнкт2;пункт3;пункт4;пункт5','Повышение цен согласно графику',0);
-insert into package_card (id, name, info, cost_naming_link, version)
+insert into package_card (id, name_package, info, cost_naming_link, version)
 values(4, 'Tur','пункт1;пкнкт2;пункт3','Детский тариф',0);
 
 
@@ -301,3 +301,29 @@ link_instagram, email, contacts, version)
    '48252af6-745e-4ad5-85e9-95e1ac1fe9d6', '1c7e1ab2-5ae7-4a52-a4d8-7f601859fe01', 'Ваш менеджер – Татьяна',
    'https://vk.com/magicvolley', '@Tanya_volley', 'https://www.instagram.com/magicvolleyryazan/',
    'volleymagic@mail.ru', '+7(996)910-30-47, +7(996)910-30-47  Пн-Вс с 10:00 до 21:00', 0);
+
+
+insert into about_us_page (id, title, subtitle_first, subtitle_second, version)
+values ('77d97d40-7281-49b3-a454-54f6d6153743','Magic Volley', 'Организаторы кемпов по всему миру',
+'Делаем вашу жизнь яркой, спортивной и разнообразной',0);
+
+insert into activity (id, title, version)
+values ('ae6c4086-4117-4bd7-9175-247c614e87c3', 'Тренировки по пляжному и классическому волейболу', 0);
+
+insert into activity (id, title, version)
+values ('b3d4b72c-a5eb-409d-b6b1-fb3b56694c5e', 'Турниры', 0);
+
+insert into activity (id, title, version)
+values ('12b3e8df-6552-48a1-a723-09432a63c33f', 'Мастер-классы', 0);
+
+insert into activity (id, title, version)
+values ('29080213-11d9-4fa8-9047-aac546e4b9ca', 'Кемпы по всему миру', 0);
+
+insert into activity (id, title, version)
+values ('f335ad7c-dd94-49d2-b55b-8e256c1142e3', 'Кемпы выходного дня', 0);
+
+insert into activity (id, title, version)
+values ('1ad96cf6-eb89-4134-9536-b0dc0eeeb52d', 'Корпаративные праздники', 0);
+
+insert into activity (id, title, version)
+values ('fed10f3e-9f70-45db-a90d-6f4e98de0897', 'Детские лагеря', 0);

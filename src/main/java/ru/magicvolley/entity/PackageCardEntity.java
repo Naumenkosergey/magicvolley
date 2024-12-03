@@ -18,7 +18,7 @@ public class PackageCardEntity {
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     private Integer id;
-    private String name;
+    private String namePackage;
     private String info;
     private String costNamingLink;
     private Long version;

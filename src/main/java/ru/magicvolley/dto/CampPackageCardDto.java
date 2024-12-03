@@ -30,7 +30,7 @@ public class CampPackageCardDto {
 
     public CampPackageCardDto(CampPackageCardEntity campPackageCardEntity) {
         this.packageId = campPackageCardEntity.getPackageCard().getId();
-        this.name = campPackageCardEntity.getPackageCard().getName();
+        this.name = campPackageCardEntity.getPackageCard().getNamePackage();
         this.costNamingLink = campPackageCardEntity.getPackageCard().getCostNamingLink();
         this.info = campPackageCardEntity.getInfo();
         this.totalPrice = campPackageCardEntity.getTotalPrice();

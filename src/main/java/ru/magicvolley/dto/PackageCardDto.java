@@ -19,7 +19,7 @@ public class PackageCardDto {
 
     public PackageCardDto(PackageCardEntity packageCard) {
         this.packageId = packageCard.getId();
-        this.name = packageCard.getName();
+        this.name = packageCard.getNamePackage();
         this.costNamingLink = packageCard.getCostNamingLink();
         this.info = packageCard.getInfo();
     }

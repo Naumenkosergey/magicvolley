@@ -141,7 +141,7 @@ public class MediaService {
         }
     }
 
-    public Map<UUID, List<MediaStorageInfo>> getAllImagesForCamIds(Set<UUID> ids) {
+    public Map<UUID, List<MediaStorageInfo>> getAllImagesForEntityIds(Set<UUID> ids) {
         return mediaRepository.findAllByEntityIdIn(ids).stream()
                 .map(x -> new MediaStorageInfo(x, prefixUrlMedia))
                 .collect(Collectors.groupingBy(MediaStorageInfo::getEntityId));

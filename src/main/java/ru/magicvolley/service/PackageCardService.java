@@ -27,7 +27,7 @@ public class PackageCardService {
     @Transactional
     public Integer create(PackageCardDto packageCardRequest) {
         PackageCardEntity packageCardEntity = PackageCardEntity.builder()
-                .name(packageCardRequest.getName())
+                .namePackage(packageCardRequest.getName())
                 .info(packageCardRequest.getInfo())
                 .costNamingLink(packageCardRequest.getCostNamingLink())
                 .build();
@@ -41,7 +41,7 @@ public class PackageCardService {
         PackageCardEntity packageCardFromDb = packageCardRepository.findById(packageCardRequest.getPackageId())
                 .orElseThrow(() -> new EntityNotFoundException(PackageCardEntity.class, packageCardRequest.getPackageId()));
         packageCardFromDb.setInfo(packageCardRequest.getInfo());
-        packageCardFromDb.setName(packageCardRequest.getName());
+        packageCardFromDb.setNamePackage(packageCardRequest.getName());
         packageCardFromDb.setCostNamingLink(packageCardRequest.getCostNamingLink());
         packageCardRepository.save(packageCardFromDb);
 
