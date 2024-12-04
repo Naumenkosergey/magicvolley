@@ -25,20 +25,19 @@ public class QuestionController {
     }
 
     @GetMapping("/{questionId}")
-//    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ApiResponse<QuestionResponse> getById(@PathVariable UUID questionId){
         return new ApiResponse<>(questionService.getById(questionId));
     }
 
-    @PostMapping
+    @PostMapping()
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<Boolean> create(@RequestBody QuestionRequest questionRequest){
+    public ApiResponse<Boolean> create(@RequestBody List<QuestionRequest> questionRequest){
         return new ApiResponse<>(questionService.create(questionRequest));
     }
 
-    @PutMapping("/{questionId}")
+    @PutMapping()
     @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<Boolean> update(@RequestBody QuestionRequest questionRequest){
+    public ApiResponse<Boolean> update(@RequestBody List<QuestionRequest> questionRequest){
         return new ApiResponse<>(questionService.update(questionRequest));
     }
 

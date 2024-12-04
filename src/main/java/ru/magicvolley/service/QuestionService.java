@@ -29,9 +29,10 @@ public class QuestionService {
     }
 
     @Transactional
-    public Boolean create(QuestionRequest questionRequest) {
+    public Boolean create(List<QuestionRequest> questionRequest) {
+        questionRepository.deleteAll();
 
-        List<QuestionEntity> questions = questionRequest.getQuestions().stream()
+        List<QuestionEntity> questions = questionRequest.stream()
                 .map(questionReq -> QuestionEntity.builder()
                         .id(UUID.randomUUID())
                         .question(questionReq.getQuestion())
@@ -43,9 +44,9 @@ public class QuestionService {
     }
 
     @Transactional
-    public Boolean update(QuestionRequest questionRequest) {
+    public Boolean update(List<QuestionRequest> questionRequest) {
 
-        List<QuestionEntity> questions = questionRequest.getQuestions().stream()
+        List<QuestionEntity> questions = questionRequest.stream()
                 .map(questionReq -> {
                             UUID id = Objects.nonNull(questionReq.getId()) ? questionReq.getId() : UUID.randomUUID();
                             return QuestionEntity.builder()

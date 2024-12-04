@@ -215,7 +215,7 @@ create table if not exists about_us_page (
 
 create table if not exists reviews (
     id uuid primary key not null,
-    rewiew_text varchar(255),
+    review_text text,
     date_review date,
     name_reviewer varchar(255),
     image_id uuid references media_storages (id),

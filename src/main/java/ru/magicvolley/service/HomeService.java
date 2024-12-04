@@ -80,7 +80,7 @@ public class HomeService {
         HomePageEntity homeFromDb = homePageRepository.findAll().stream().findFirst()
                 .orElseThrow(() -> new RuntimeException("Home page not found"));
 
-        homeFromDb.setMainImageId(request.getImageAdmin().getId());
+        homeFromDb.setImageAdminId(request.getImageAdmin().getId());
         homeFromDb.setTextUnderImage(request.getTextUnderImage());
         homeFromDb.setContacts(request.getContacts());
         homeFromDb.setEmail(request.getEmail());

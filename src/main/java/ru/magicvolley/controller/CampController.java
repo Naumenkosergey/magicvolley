@@ -40,12 +40,6 @@ public class CampController {
         return new ApiResponse<>(campService.getById(id));
     }
 
-//    @PostMapping("/{id}")
-////    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-//    public ApiResponse<CampDto> getAllCampCategory(@PathVariable UUID id) {
-//        return new ApiResponse<>(campService.getById(id));
-//    }
-
     @PostMapping("/short")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse<UUID> createShort(@RequestBody CampDto camp) {
