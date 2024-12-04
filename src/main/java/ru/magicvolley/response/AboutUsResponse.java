@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AboutResponse {
+public class AboutUsResponse {
 
     private String title;
     private String subTitleFirst;

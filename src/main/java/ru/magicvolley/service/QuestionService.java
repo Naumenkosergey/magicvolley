@@ -10,6 +10,7 @@ import ru.magicvolley.request.QuestionRequest;
 import ru.magicvolley.response.QuestionResponse;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,26 +29,35 @@ public class QuestionService {
     }
 
     @Transactional
-    public UUID create(QuestionRequest questionRequest) {
+    public Boolean create(QuestionRequest questionRequest) {
 
-        QuestionEntity questionEntity = QuestionEntity.builder()
-                .id(UUID.randomUUID())
-                .question(questionRequest.getQuestion())
-                .answer(questionRequest.getAnswer())
-                .build();
-        questionRepository.save(questionEntity);
-        return questionEntity.getId();
+        List<QuestionEntity> questions = questionRequest.getQuestions().stream()
+                .map(questionReq -> QuestionEntity.builder()
+                        .id(UUID.randomUUID())
+                        .question(questionReq.getQuestion())
+                        .answer(questionReq.getAnswer())
+                        .build()
+                ).toList();
+        questionRepository.saveAll(questions);
+        return true;
     }
 
     @Transactional
-    public UUID update(QuestionRequest questionRequest) {
+    public Boolean update(QuestionRequest questionRequest) {
 
-        QuestionEntity questionEntity = questionRepository.findById(questionRequest.getId())
-                .orElseThrow(() -> new EntityNotFoundException(QuestionEntity.class, questionRequest.getId()));
-        questionEntity.setQuestion(questionRequest.getQuestion());
-        questionEntity.setAnswer(questionRequest.getAnswer());
-        questionRepository.save(questionEntity);
-        return questionEntity.getId();
+        List<QuestionEntity> questions = questionRequest.getQuestions().stream()
+                .map(questionReq -> {
+                            UUID id = Objects.nonNull(questionReq.getId()) ? questionReq.getId() : UUID.randomUUID();
+                            return QuestionEntity.builder()
+                                    .id(id)
+                                    .question(questionReq.getQuestion())
+                                    .answer(questionReq.getAnswer())
+                                    .build();
+                        }
+                ).toList();
+        questionRepository.saveAll(questions);
+
+        return true;
     }
 
     @Transactional

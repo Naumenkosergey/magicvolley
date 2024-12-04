@@ -146,6 +146,13 @@ public class MediaService {
                 .map(x -> new MediaStorageInfo(x, prefixUrlMedia))
                 .collect(Collectors.groupingBy(MediaStorageInfo::getEntityId));
     }
+
+    public List<MediaStorageInfo> getCollection(Collection<MediaStorageInfo> collection) {
+        if(CollectionUtils.isNotEmpty(collection)){
+            return collection.stream().toList();
+        }
+        return Collections.emptyList();
+    }
 }
 
 

@@ -32,13 +32,13 @@ public class QuestionController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<UUID> create(@RequestBody QuestionRequest questionRequest){
+    public ApiResponse<Boolean> create(@RequestBody QuestionRequest questionRequest){
         return new ApiResponse<>(questionService.create(questionRequest));
     }
 
     @PutMapping("/{questionId}")
     @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<UUID> update(@RequestBody QuestionRequest questionRequest){
+    public ApiResponse<Boolean> update(@RequestBody QuestionRequest questionRequest){
         return new ApiResponse<>(questionService.update(questionRequest));
     }
 
