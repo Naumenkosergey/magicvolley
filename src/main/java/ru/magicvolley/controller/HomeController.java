@@ -13,14 +13,13 @@ import ru.magicvolley.service.HomeService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = {"/magicvolley"})
+@RequestMapping(value = {"/magicvolley/home", "/magicvolley"})
 @AllArgsConstructor
 public class HomeController {
 
     private final HomeService homeService;
 
-    @GetMapping(value = {"/","/home"})
-//    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+    @GetMapping()
     public ApiResponse<HomePageResponse>  getHome() {
         return new ApiResponse<>(homeService.getHome());
     }
