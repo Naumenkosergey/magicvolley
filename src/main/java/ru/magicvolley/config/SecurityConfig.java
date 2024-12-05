@@ -34,6 +34,8 @@ public class SecurityConfig {
             "/magicvolley/app_links",
             "/magicvolley/media/**",
             "/magicvolley/coaches/all",
+            "/magicvolley/coaches/all/beach-type",
+            "/magicvolley/coaches/all/classic-type",
             "/magicvolley/camps/all",
             "/magicvolley/camps/long-all",
             "/magicvolley/camps/short-all",

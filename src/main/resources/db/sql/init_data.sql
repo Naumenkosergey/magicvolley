@@ -111,14 +111,14 @@ values('1c7e1ab2-5ae7-4a52-a4d8-7f601859fe01', 'eb411f80-eed7-4a00-9293-2dd0219e
 'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\kazina.jpg')::bytea,
 'kazina.jpg', 547840, 'ADMIN', 0);
 
-insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at)
+insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at, coach_type)
 values('3deeb485-e987-48cf-91c1-377a420702f1','Михаил Кочетков',
 'Основтель школы Magic Volley;Тренер школы Magic Volley;Тренерский стаж 10 лет;КМС по волейболу', 'promo',
-'6395feba-bbca-4215-83be-8fe7be869bc0', 0, '2024-10-27T15:56:59.069749', '2024-10-27T15:56:59.069749');
-insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at)
+'6395feba-bbca-4215-83be-8fe7be869bc0', 0, '2024-10-27T15:56:59.069749', '2024-10-27T15:56:59.069749', 'BEACH;CLASSIC');
+insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at, coach_type)
 values('1c62bad8-8faf-43af-8f77-85fdc7eb72b7','Андрей Волков',
 'Тренер школы Magic Volley;Тренерский стаж 8 лет;КМС по волейболу', 'promo',
-'b1eb52d7-47f5-4106-a87e-bd8b5bdb6a37', 0, '2024-10-27T15:57:59.069749', '2024-10-27T15:57:59.069749');
+'b1eb52d7-47f5-4106-a87e-bd8b5bdb6a37', 0, '2024-10-27T15:57:59.069749', '2024-10-27T15:57:59.069749', 'BEACH;CLASSIC');
 
 insert into camps(id, camp_name, camp_type, info, place, date_start, date_end, count_all,
 count_free, main_image_id, cart_image_id, version)

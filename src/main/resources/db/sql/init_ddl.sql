@@ -37,6 +37,7 @@ create table if not exists coaches (
    coach_name varchar(100),
    info text,
    promo text,
+   coach_type varchar(20),
    version bigint,
    image_id uuid constraint coaches_image_fk references media_storages (id),
    created_at timestamp,

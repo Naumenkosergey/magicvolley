@@ -8,6 +8,7 @@ import ru.magicvolley.dto.CoachDto;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CoachEntity;
 import ru.magicvolley.entity.MediaStorageEntity;
+import ru.magicvolley.enums.CoachType;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CoachRepository;
@@ -27,8 +28,10 @@ public class CoachService {
     private String prefixUrlMedia;
 
     @Transactional
-    public List<CoachDto> getAll() {
+    public List<CoachDto> getAll(CoachType... types) {
+        String type = Arrays.stream(types).map(CoachType::name).collect(Collectors.joining(";"));
         return coachRepository.findAll().stream()
+                .filter(x->x.getCoachType().equals(type))
                 .sorted(Comparator.comparing(CoachEntity::getCreatedAt))
                 .map(x->new CoachDto(x, prefixUrlMedia))
                 .collect(Collectors.toList());

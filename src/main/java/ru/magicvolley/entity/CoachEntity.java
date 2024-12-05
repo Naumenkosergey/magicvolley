@@ -24,6 +24,8 @@ public class CoachEntity {
     private String coachName;
     private String info;
     private String promo;
+    @Column(name = "coach_type")
+    private String coachType;
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
