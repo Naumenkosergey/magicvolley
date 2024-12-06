@@ -69,6 +69,76 @@
         }
       }
     },
+    "/magicvolley/review/{reviewId}": {
+      "put": {
+        "tags": [
+          "review-controller"
+        ],
+        "operationId": "updateReview",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Review"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "review-controller"
+        ],
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/magicvolley/questions": {
       "put": {
         "tags": [
@@ -491,7 +561,7 @@
         "tags": [
           "coach-controller"
         ],
-        "operationId": "delete_2",
+        "operationId": "delete_3",
         "parameters": [
           {
             "name": "coachId",
@@ -579,7 +649,7 @@
         "tags": [
           "camp-controller"
         ],
-        "operationId": "delete_3",
+        "operationId": "delete_4",
         "parameters": [
           {
             "name": "id",
@@ -610,7 +680,35 @@
         "tags": [
           "camp-user-controller"
         ],
-        "operationId": "confirmReservation",
+        "operationId": "confirmOrUnReservation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmReservationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "camp-user-controller"
+        ],
+        "operationId": "makeReservation",
         "requestBody": {
           "content": {
             "application/json": {
@@ -626,6 +724,76 @@
             "description": "OK",
             "content": {
               "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/activity/{activityId}": {
+      "put": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "updateActivity",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Activity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "delete_5",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiResponseBoolean"
                 }
@@ -683,12 +851,12 @@
         }
       }
     },
-    "/magicvolley/about/review/update/{id}": {
-      "put": {
+    "/magicvolley/review": {
+      "post": {
         "tags": [
-          "about-us-page-controller"
+          "review-controller"
         ],
-        "operationId": "updateReview",
+        "operationId": "addActivity",
         "requestBody": {
           "content": {
             "application/json": {
@@ -705,37 +873,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseBoolean"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/magicvolley/about/activity/update/{id}": {
-      "put": {
-        "tags": [
-          "about-us-page-controller"
-        ],
-        "operationId": "updateActivity",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Activity"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                  "$ref": "#/components/schemas/ApiResponseUUID"
                 }
               }
             }
@@ -892,23 +1030,22 @@
         }
       }
     },
-    "/magicvolley/camp-user/{campId}": {
+    "/magicvolley/camp-user/add-user": {
       "post": {
         "tags": [
           "camp-user-controller"
         ],
-        "operationId": "makeReservation",
-        "parameters": [
-          {
-            "name": "campId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
+        "operationId": "addUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddUserRequest"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -933,7 +1070,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SignupRequest"
+                "$ref": "#/components/schemas/SignUpRequest"
               }
             }
           },
@@ -976,6 +1113,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/UserInfoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/activity": {
+      "post": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "addActivity_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Activity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUUID"
                 }
               }
             }
@@ -1239,7 +1406,7 @@
         "tags": [
           "question-controller"
         ],
-        "operationId": "delete_1",
+        "operationId": "delete_2",
         "parameters": [
           {
             "name": "questionId",
@@ -1804,6 +1971,9 @@
           "email": {
             "type": "string"
           },
+          "telephone": {
+            "type": "string"
+          },
           "password": {
             "type": "string"
           },
@@ -1854,18 +2024,64 @@
           }
         }
       },
-      "QuestionRequest": {
+      "MediaStorageInfo": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "question": {
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
             "type": "string"
           },
-          "answer": {
+          "contentType": {
             "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "typeEntity": {
+            "type": "string",
+            "enum": [
+              "COACH",
+              "CAMP",
+              "USER",
+              "CAMP_COACH",
+              "PAGE_HOME",
+              "MASTER",
+              "ADMIN",
+              "ACTIVATE",
+              "REVIEW"
+            ]
+          },
+          "data": {
+            "type": "string",
+            "format": "byte"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "image": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
           }
         }
       },
@@ -1900,6 +2116,21 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "QuestionRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
           }
         }
       },
@@ -2426,50 +2657,6 @@
           }
         }
       },
-      "MediaStorageInfo": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "entityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "contentType": {
-            "type": "string"
-          },
-          "size": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "typeEntity": {
-            "type": "string",
-            "enum": [
-              "COACH",
-              "CAMP",
-              "USER",
-              "CAMP_COACH",
-              "PAGE_HOME",
-              "MASTER",
-              "ADMIN",
-              "ACTIVATE",
-              "REVIEW"
-            ]
-          },
-          "data": {
-            "type": "string",
-            "format": "byte"
-          },
-          "url": {
-            "type": "string"
-          }
-        }
-      },
       "HomeContactBlockRequest": {
         "type": "object",
         "properties": {
@@ -2651,15 +2838,19 @@
           "login": {
             "type": "string"
           },
+          "telephone": {
+            "type": "string"
+          },
           "bookingConfirmed": {
             "type": "boolean"
           },
-          "isReserved": {
-            "type": "boolean"
+          "bookingCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
-      "ReservationDto": {
+      "ConfirmReservationDto": {
         "type": "object",
         "properties": {
           "userId": {
@@ -2669,6 +2860,27 @@
           "campId": {
             "type": "string",
             "format": "uuid"
+          },
+          "isConfirm": {
+            "type": "boolean"
+          },
+          "bookingCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Activity": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaStorageInfo"
+            }
           }
         }
       },
@@ -2704,20 +2916,6 @@
           }
         }
       },
-      "Activity": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MediaStorageInfo"
-            }
-          }
-        }
-      },
       "Master": {
         "type": "object",
         "properties": {
@@ -2729,23 +2927,6 @@
             "items": {
               "type": "string"
             }
-          },
-          "image": {
-            "$ref": "#/components/schemas/MediaStorageInfo"
-          }
-        }
-      },
-      "Review": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "date": {
-            "type": "string"
-          },
-          "comment": {
-            "type": "string"
           },
           "image": {
             "$ref": "#/components/schemas/MediaStorageInfo"
@@ -2863,24 +3044,57 @@
           }
         }
       },
-      "SignupRequest": {
+      "ReservationDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "campId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bookingCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "AddUserRequest": {
         "type": "object",
         "properties": {
           "username": {
             "type": "string"
           },
+          "telephone": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"
+          },
+          "isUser": {
+            "type": "boolean"
+          },
+          "isModerator": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SignUpRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "telephone": {
+            "type": "string"
+          },
           "password": {
             "type": "string"
           },
-          "email": {
+          "confirmPassword": {
             "type": "string"
-          },
-          "roles": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           }
         }
       },
@@ -3861,7 +4075,7 @@
           "permissions": {
             "uniqueItems": true,
             "type": "array",
-            "items": {w
+            "items": {
               "type": "string"
             }
           }
