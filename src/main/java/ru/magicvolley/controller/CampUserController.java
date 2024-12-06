@@ -3,12 +3,12 @@ package ru.magicvolley.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ru.magicvolley.dto.ConfirmReservationDto;
 import ru.magicvolley.dto.ReservationDto;
+import ru.magicvolley.request.AddUserRequest;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.AuthService;
 import ru.magicvolley.service.CampUserService;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/magicvolley/camp-user")
@@ -18,26 +18,22 @@ public class CampUserController {
     private final CampUserService campUserService;
     private final AuthService authService;
 
-    @PostMapping("/{campId}")
+    @PostMapping()
     @PreAuthorize("hasAuthority('USER')")
-    public ApiResponse<Boolean> makeReservation(@PathVariable UUID campId) {
-        UUID currentUserId = authService.getCurrentUserId();
-        ReservationDto reservationDto = new ReservationDto(campId, currentUserId);
-        return new ApiResponse<>(campUserService.makeReservation(reservationDto));
+    public ApiResponse<Boolean> makeReservation(@RequestBody ReservationDto reservationRequest) {
+        return new ApiResponse<>(campUserService.makeReservation(reservationRequest));
     }
 
     @PutMapping()
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<Boolean> confirmReservation(@RequestBody ReservationDto reservationDto) {
-        return new ApiResponse<>(campUserService.confirmReservation(reservationDto));
+    public ApiResponse<Boolean> confirmOrUnReservation(@RequestBody ConfirmReservationDto confirmReservationRequest) {
+        return new ApiResponse<>(campUserService.confirmReservation(confirmReservationRequest));
 
     }
 
-//    @PutMapping()
-//    @PreAuthorize("hasAuthority('USER')")
-//    public ApiResponse<Boolean> makeReservation(@RequestParam("campId") UUID campId, @RequestParam("userId")  UUID userId) {
-//        UUID currentUserId = authService.getCurrentUserId();
-//        ReservationDto reservationDto = new ReservationDto(campId, currentUserId);
-//        return new ApiResponse<>(campUserService.makeReservation(reservationDto));
-//    }
+    @PostMapping("/add-user")
+    public ApiResponse<Boolean> addUser(@RequestBody AddUserRequest addUserRequest){
+        boolean isCreateUser = authService.addUser(addUserRequest);
+        return new ApiResponse<>(isCreateUser);
+    }
 }

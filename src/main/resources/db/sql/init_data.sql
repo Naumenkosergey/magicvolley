@@ -6,12 +6,12 @@ insert into roles (id, role, version)
 values('888f4834-c6e4-472e-808b-171febbb9137', 'USER', 0);
 
 
-insert into users(id, login, password, email, version)
-values ('68c8432c-b963-46c2-b1ff-345452609ecf', 'admin', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za', 'kazina@mail.ru', 0);
-insert into users(id, login, password, email, version)
-values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', '1', '$2y$10$OvF1JVol9zuT92MoqnwFceMle3hr88.dL6oe6Eb0ioAD434R1/BiG', 'naumeko@mail.ru', 0);
-insert into users(id, login, password, email, version)
-values ('e5050cc4-98c4-4b48-9e47-8b5057c6b46c', 'marozova', '$2y$10$eFbYvZne/FFfGUlvJfyqzuWTAj9Hq/7gta/uQAm0ZW9nKw.XFypOu', 'maroz@mail.ru', 0);
+insert into users(id, telephone, login, password, email, version)
+values ('68c8432c-b963-46c2-b1ff-345452609ecf','+79969103047', 'admin', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za', 'kazina@mail.ru', 0);
+insert into users(id, telephone, login, password, email, version)
+values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8','+79998620452', '1', '$2y$10$OvF1JVol9zuT92MoqnwFceMle3hr88.dL6oe6Eb0ioAD434R1/BiG', 'naumeko@mail.ru', 0);
+insert into users(id, telephone, login, password, email, version)
+values ('e5050cc4-98c4-4b48-9e47-8b5057c6b46c','+79999999999', 'marozova', '$2y$10$eFbYvZne/FFfGUlvJfyqzuWTAj9Hq/7gta/uQAm0ZW9nKw.XFypOu', 'maroz@mail.ru', 0);
 
 insert into user_roles (role_id, user_id, version)
 values('1ffdc9e5-ece0-4420-ba12-b4ac1ed25573', '68c8432c-b963-46c2-b1ff-345452609ecf', 0);
@@ -136,12 +136,12 @@ values('df9bacad-8a55-418c-a654-39a02344c09a','киргизия','LONG','кир�
 'Киргизия', '2024-07-09', '2024-07-19', 70, 70,'8a51fdf6-6f7b-482d-97eb-4d9c7165e8a0', '8b51fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
 --
 --
-insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, true);
-insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past)
-values('7573f07f-3769-4f34-90cd-412fa1aab705', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, false);
-insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past)
-values('df9bacad-8a55-418c-a654-39a02344c09a', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', false, true, false);
+insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count)
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, true, 1);
+insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count)
+values('7573f07f-3769-4f34-90cd-412fa1aab705', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, false, 1);
+insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count)
+values('df9bacad-8a55-418c-a654-39a02344c09a', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', false, true, false, 1);
 --
 --
 insert into camp_coaches(camp_id, coach_id, version) values ('dd5dc5ea-f858-47c0-b518-be2d1565856d','3deeb485-e987-48cf-91c1-377a420702f1', 0);
@@ -303,9 +303,10 @@ link_instagram, email, contacts, version)
    'volleymagic@mail.ru', '+7(996)910-30-47, +7(996)910-30-47  Пн-Вс с 10:00 до 21:00', 0);
 
 
-insert into about_us_page (id, title, subtitle_first, subtitle_second, version)
+insert into about_us_page (id, title, subtitle_first, subtitle_second, number_of_workouts,
+    number_of_camps, number_of_students, version)
 values ('77d97d40-7281-49b3-a454-54f6d6153743','Magic Volley', 'Организаторы кемпов по всему миру',
-'Делаем вашу жизнь яркой, спортивной и разнообразной',0);
+'Делаем вашу жизнь яркой, спортивной и разнообразной', 35000, 100, 3000 ,0);
 
 insert into activity (id, title, version)
 values ('ae6c4086-4117-4bd7-9175-247c614e87c3', 'Тренировки по пляжному и классическому волейболу', 0);

@@ -45,8 +45,8 @@ public class AboutUsPageService {
         aboutUsPageFromDb.setSubtitleSecond(aboutUsRequest.getSubTitleSecond());
 
         masterService.setMaster(aboutUsRequest.getMaster());
-        activityService.setActivities(aboutUsRequest.getActivities());
-        reviewService.setReviews(aboutUsRequest.getReviews());
+//        activityService.setActivities(aboutUsRequest.getActivities());
+//        reviewService.setReviews(aboutUsRequest.getReviews());
 
         return true;
     }

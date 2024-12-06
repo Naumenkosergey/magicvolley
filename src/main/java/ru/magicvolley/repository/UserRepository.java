@@ -1,8 +1,8 @@
 package ru.magicvolley.repository;
 
-import ru.magicvolley.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import ru.magicvolley.entity.UserEntity;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     Boolean existsByLogin(String login);
 
     Boolean existsByEmail(String email);
+
+    Boolean existsByTelephone(String telephone);
 }

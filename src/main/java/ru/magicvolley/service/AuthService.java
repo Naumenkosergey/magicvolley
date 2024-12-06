@@ -17,12 +17,14 @@ import ru.magicvolley.enums.Role;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.RoleRepository;
 import ru.magicvolley.repository.UserRepository;
+import ru.magicvolley.request.AddUserRequest;
 import ru.magicvolley.request.LoginRequest;
-import ru.magicvolley.request.SignupRequest;
+import ru.magicvolley.request.SignUpRequest;
 import ru.magicvolley.response.UserInfoResponse;
 import ru.magicvolley.security.jwt.JwtUtils;
 import ru.magicvolley.security.service.UserDetailsImpl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -64,14 +66,14 @@ public class AuthService {
     }
 
     @Transactional
-    public Boolean signup(SignupRequest signUpRequest) {
+    public Boolean signup(SignUpRequest signUpRequest) {
 
 
         if (userRepository.existsByLogin(signUpRequest.getUsername())) {
             throw new RuntimeException("Error: Username is already taken!");
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByTelephone(signUpRequest.getTelephone())) {
             throw new RuntimeException("Error: Email is already in use!");
         }
 
@@ -80,8 +82,8 @@ public class AuthService {
 
         UserEntity user = UserEntity.builder()
                 .id(UUID.randomUUID())
+                .telephone(signUpRequest.getTelephone())
                 .login(signUpRequest.getUsername())
-                .email(signUpRequest.getEmail())
                 .password(encoder.encode(signUpRequest.getPassword()))
                 .roles(Set.of(userRole))
                 .build();
@@ -106,6 +108,43 @@ public class AuthService {
             return userDetailsImpl.getAuthorities().stream().anyMatch(r -> r.toString().equals(Role.ADMIN.name()));
         }
         return Boolean.FALSE;
+    }
+
+    public boolean addUser(AddUserRequest addUserRequest) {
+
+        if (userRepository.existsByLogin(addUserRequest.getUsername())) {
+            throw new RuntimeException("Error: Username is already taken!");
+        }
+
+        if (userRepository.existsByTelephone(addUserRequest.getTelephone())) {
+            throw new RuntimeException("Error: Email is already in use!");
+        }
+        Set<RoleEntity> roles = new HashSet<>();
+        if (addUserRequest.getIsUser()) {
+            roles.add(roleRepository.findByRole(Role.USER)
+                    .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.USER)));
+        }
+
+        if (addUserRequest.getIsAdmin()) {
+            roles.add(roleRepository.findByRole(Role.ADMIN)
+                    .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.ADMIN)));
+        }
+
+        if (addUserRequest.getIsModerator()) {
+            roles.add(roleRepository.findByRole(Role.MODERATOR)
+                    .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.MODERATOR)));
+        }
+
+        UserEntity user = UserEntity.builder()
+                .id(UUID.randomUUID())
+                .telephone(addUserRequest.getTelephone())
+                .login(addUserRequest.getUsername())
+                .password(encoder.encode(addUserRequest.getTelephone()))
+                .roles(roles)
+                .build();
+        userService.create(user);
+
+        return Boolean.TRUE;
     }
 
 //    public JwtResponse getAccessToken(String refreshToken) throws AuthException {

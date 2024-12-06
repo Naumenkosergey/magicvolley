@@ -6,13 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.ActivityEntity;
-import ru.magicvolley.entity.MediaStorageEntity;
+import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.ActivityRepository;
 import ru.magicvolley.request.AboutUsRequest;
 import ru.magicvolley.response.AboutUsResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,29 +40,10 @@ public class ActivityService {
         ).toList();
     }
 
-    public void setActivities(List<AboutUsRequest.Activity> activityRequests) {
-
-        List<ActivityEntity> activityEntities = activityRequests.stream()
-                .map(activity -> {
-                    UUID id = UUID.randomUUID();
-                    return ActivityEntity.builder()
-                            .id(id)
-                            .title(activity.getName())
-                            .build();
-                }).toList();
-        Map<String, UUID> activityCodeToId = activityEntities.stream().collect(Collectors.toMap(ActivityEntity::getTitle, ActivityEntity::getId));
-        activityRepository.saveAll(activityEntities);
-        List<MediaStorageEntity> mediaStorageEntities = new ArrayList<>();
-        activityRequests.forEach(activity ->
-                activity.getImages().forEach(image ->
-                        mediaStorageEntities.add(mediaService.mediaInfoToMediaStorage(image, activityCodeToId.get(activity.getName()))))
-        );
-    }
-
     @Transactional
-    public Boolean updateActivate(AboutUsRequest.Activity activityRequest) {
-        ActivityEntity activityFromDb = activityRepository.findByTitle(activityRequest.getName())
-                .orElseThrow(() -> new EntityNotFoundException(ActivityEntity.class, activityRequest.getName()));
+    public Boolean updateActivate(AboutUsRequest.Activity activityRequest, UUID activityId) {
+        ActivityEntity activityFromDb = activityRepository.findById(activityId)
+                .orElseThrow(() -> new EntityNotFoundException(ActivityEntity.class, activityId));
 
         activityFromDb.setTitle(activityRequest.getName());
         activityRequest.getImages().forEach(image ->
@@ -72,4 +52,28 @@ public class ActivityService {
         return true;
     }
 
+    @Transactional
+    public UUID createActivity(AboutUsRequest.Activity activityRequest) {
+
+        ActivityEntity activityNew = ActivityEntity.builder()
+                .id(UUID.randomUUID())
+                .title(activityRequest.getName())
+                .build();
+
+        activityRepository.save(activityNew);
+
+        activityRequest.getImages().forEach(image ->
+                mediaService.mediaInfoToMediaStorage(image, activityNew.getId()));
+
+        return activityNew.getId();
+    }
+
+    @Transactional
+    public Boolean delete(UUID activityId) {
+        ActivityEntity activityFomDb = activityRepository.findById(activityId)
+                .orElseThrow(() -> new EntityNotFoundException(ActivityEntity.class, activityId));
+        mediaService.delete(activityFomDb.getId(), TypeEntity.ACTIVATE);
+        activityRepository.delete(activityFomDb);
+        return true;
+    }
 }

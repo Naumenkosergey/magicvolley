@@ -30,16 +30,4 @@ public class AboutUsPageController {
     public ApiResponse<Boolean> update(@RequestBody AboutUsRequest aboutUsRequest) {
         return new ApiResponse<>(aboutUsPageService.update(aboutUsRequest));
     }
-
-    @PutMapping("/activity/update/{id}")
-    @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<Boolean> updateActivity(@RequestBody AboutUsRequest.Activity activityRequest) {
-        return new ApiResponse<>(activityService.updateActivate(activityRequest));
-    }
-
-    @PutMapping("/review/update/{id}")
-    @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<Boolean> updateReview(@RequestBody AboutUsRequest.Review reviewRequest) {
-        return new ApiResponse<>(reviewService.updateReview(reviewRequest));
-    }
 }

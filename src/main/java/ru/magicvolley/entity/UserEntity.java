@@ -22,6 +22,7 @@ public class UserEntity {
     private UUID id;
     private String login;
     private String email;
+    private String telephone;
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

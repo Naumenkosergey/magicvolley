@@ -8,6 +8,7 @@ create table if not exists users (
     id uuid primary key,
     email varchar(255),
     login varchar(255),
+    telephone varchar(15) unique not null,
     password varchar(255),
     is_blocked boolean,
     version bigint
@@ -65,6 +66,7 @@ create table if not exists camp_users(
     booking_confirmed boolean,
     is_reserved boolean,
     is_past boolean,
+    booking_count integer,
     primary key (camp_id, user_id),
     foreign key (camp_id) references camps(id),
     foreign key (user_id) references users(id)
@@ -211,6 +213,9 @@ create table if not exists about_us_page (
     title varchar(255),
     subtitle_first varchar(255),
     subtitle_second varchar(255),
+    number_of_workouts int,
+    number_of_camps int,
+    number_of_students int,
     version bigint
 );
 

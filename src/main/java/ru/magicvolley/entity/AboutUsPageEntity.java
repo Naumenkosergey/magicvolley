@@ -19,6 +19,9 @@ public class AboutUsPageEntity {
     private String title;
     private String subtitleFirst;
     private String subtitleSecond;
+    private Integer numberOfWorkouts;
+    private Integer numberOfCamps;
+    private Integer numberOfStudents;
     @Version
     private Long version;
 }

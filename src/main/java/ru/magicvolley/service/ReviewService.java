@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.entity.ReviewEntity;
+import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.ReviewRepository;
 import ru.magicvolley.request.AboutUsRequest;
@@ -41,30 +42,11 @@ public class ReviewService {
         ).toList();
     }
 
-    public void setReviews(List<AboutUsRequest.Review> reviewsRequest) {
-
-        List<ReviewEntity> reviewEntities = reviewsRequest.stream()
-                .map(reviewRequest -> {
-
-                    UUID id = UUID.randomUUID();
-                    return ReviewEntity.builder()
-                            .id(id)
-                            .dateReview(LocalDate.parse(reviewRequest.getDate()))
-                            .reviewText(reviewRequest.getComment())
-                            .avatarReviewer(mediaService.mediaInfoToMediaStorage(reviewRequest.getImage(), id))
-                            .build();
-                })
-                .toList();
-
-        reviewRepository.saveAll(reviewEntities);
-
-    }
-
     @Transactional
-    public Boolean updateReview(AboutUsRequest.Review reviewRequest) {
+    public Boolean updateReview(AboutUsRequest.Review reviewRequest, UUID reviewId) {
         LocalDate dateReviewRequest = LocalDate.parse(reviewRequest.getDate());
-        ReviewEntity reviewFromDb = reviewRepository.findByNameReviewerAndDateReview(reviewRequest.getName(), dateReviewRequest)
-                .orElseThrow(() -> new EntityNotFoundException(ReviewEntity.class, reviewRequest.getName()));
+        ReviewEntity reviewFromDb = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException(ReviewEntity.class, reviewId));
 
         MediaStorageEntity avatarReviewer = mediaService.mediaInfoToMediaStorage(reviewRequest.getImage(), reviewFromDb.getId());
         reviewFromDb.setDateReview(dateReviewRequest);
@@ -73,5 +55,31 @@ public class ReviewService {
         reviewFromDb.setAvatarReviewer(avatarReviewer);
         reviewFromDb.setAvatarReviewerId(avatarReviewer.getId());
         return null;
+    }
+
+    @Transactional
+    public UUID createReview(AboutUsRequest.Review reviewRequest) {
+
+        UUID id = UUID.randomUUID();
+        MediaStorageEntity avatarReviewer = mediaService.mediaInfoToMediaStorage(reviewRequest.getImage(), id);
+        ReviewEntity reviewNew = ReviewEntity.builder()
+                .id(id)
+                .dateReview(LocalDate.parse(reviewRequest.getDate()))
+                .reviewText(reviewRequest.getComment())
+                .avatarReviewer(avatarReviewer)
+                .avatarReviewerId(avatarReviewer.getId())
+                .build();
+
+        reviewRepository.save(reviewNew);
+        return reviewNew.getId();
+    }
+
+    @Transactional
+    public Boolean delete(UUID reviewId) {
+        ReviewEntity reviewFomDb = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException(ReviewEntity.class, reviewId));
+        mediaService.delete(reviewFomDb.getId(), TypeEntity.REVIEW);
+        reviewRepository.delete(reviewFomDb);
+        return true;
     }
 }

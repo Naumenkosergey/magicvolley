@@ -5,16 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class SignupRequest {
+public class SignUpRequest {
 
     private String username;
+    private String telephone;
     private String password;
-    private String email;
-    private Set<String> roles;
+    private String confirmPassword;
 }

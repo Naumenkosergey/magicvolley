@@ -3861,7 +3861,7 @@
           "permissions": {
             "uniqueItems": true,
             "type": "array",
-            "items": {
+            "items": {w
               "type": "string"
             }
           }

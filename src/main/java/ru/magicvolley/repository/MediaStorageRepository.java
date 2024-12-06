@@ -17,4 +17,6 @@ public interface MediaStorageRepository extends JpaRepository<MediaStorageEntity
 
     @Query("select m from MediaStorageEntity m where m.id in ?1 and m.entityId = ?2 and m.typeEntity = ?3")
     List<MediaStorageEntity> findAllByIdInAndEntityIdAndTypeEntity(Collection<UUID> ids, UUID entityId, TypeEntity typeEntity);
+
+    List<MediaStorageEntity> findAllByEntityIdAndTypeEntity(UUID entityId, TypeEntity typeEntity);
 }

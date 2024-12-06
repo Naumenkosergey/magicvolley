@@ -123,6 +123,15 @@ public class MediaService {
 
     }
 
+    public void delete(UUID entityId, TypeEntity typeEntity) {
+
+        List<MediaStorageEntity> mediaStorageFromDbs = mediaRepository
+                .findAllByEntityIdAndTypeEntity(entityId, typeEntity);
+        mediaRepository.deleteAll(mediaStorageFromDbs);
+
+
+    }
+
     public void delete(Collection<UUID> ids, UUID entityId, TypeEntity typeEntity) {
         if (CollectionUtils.isNotEmpty(ids)) {
             List<MediaStorageEntity> mediaStorages = mediaRepository.findAllByIdInAndEntityIdAndTypeEntity(ids, entityId, typeEntity);
@@ -148,7 +157,7 @@ public class MediaService {
     }
 
     public List<MediaStorageInfo> getCollection(Collection<MediaStorageInfo> collection) {
-        if(CollectionUtils.isNotEmpty(collection)){
+        if (CollectionUtils.isNotEmpty(collection)) {
             return collection.stream().toList();
         }
         return Collections.emptyList();

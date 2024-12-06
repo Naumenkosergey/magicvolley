@@ -16,15 +16,17 @@ public class CampUserDto {
 
     private UUID id;
     private String login;
+    private String telephone;
     private Boolean bookingConfirmed;
-    private Boolean isReserved;
+    private Integer bookingCount;
 
 
     public CampUserDto(CampUserEntity campUserEntity) {
         this.id = campUserEntity.getUser().getId();
+        this.telephone = campUserEntity.getUser().getTelephone();
         this.login = campUserEntity.getUser().getLogin();
         this.bookingConfirmed = campUserEntity.getBookingConfirmed();
-        this.isReserved = campUserEntity.getIsReserved();
+        this.bookingCount = campUserEntity.getBookingCount();
     }
 
 }
