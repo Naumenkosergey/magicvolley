@@ -32,4 +32,12 @@ public class CampUserController {
         return new ApiResponse<>(campUserService.confirmReservation(reservationDto));
 
     }
+
+//    @PutMapping()
+//    @PreAuthorize("hasAuthority('USER')")
+//    public ApiResponse<Boolean> makeReservation(@RequestParam("campId") UUID campId, @RequestParam("userId")  UUID userId) {
+//        UUID currentUserId = authService.getCurrentUserId();
+//        ReservationDto reservationDto = new ReservationDto(campId, currentUserId);
+//        return new ApiResponse<>(campUserService.makeReservation(reservationDto));
+//    }
 }

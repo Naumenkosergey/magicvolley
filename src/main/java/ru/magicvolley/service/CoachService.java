@@ -31,16 +31,16 @@ public class CoachService {
     public List<CoachDto> getAll(CoachType... types) {
         String type = Arrays.stream(types).map(CoachType::name).collect(Collectors.joining(";"));
         return coachRepository.findAll().stream()
-                .filter(x->x.getCoachType().equals(type))
+                .filter(x -> x.getCoachType().contains(type))
                 .sorted(Comparator.comparing(CoachEntity::getCreatedAt))
-                .map(x->new CoachDto(x, prefixUrlMedia))
+                .map(x -> new CoachDto(x, prefixUrlMedia))
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public CoachDto getById(UUID id) {
         return coachRepository.findById(id)
-                .map(x->new CoachDto(x, prefixUrlMedia))
+                .map(x -> new CoachDto(x, prefixUrlMedia))
                 .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, id));
     }
 
@@ -75,7 +75,7 @@ public class CoachService {
     }
 
     private static void setAvatar(MediaStorageEntity mediaStorage, CoachEntity coachEntity) {
-        if(Objects.nonNull(mediaStorage)){
+        if (Objects.nonNull(mediaStorage)) {
             coachEntity.setAvatar(mediaStorage);
         }
     }

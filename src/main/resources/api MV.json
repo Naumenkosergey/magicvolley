@@ -69,36 +69,7 @@
         }
       }
     },
-    "/magicvolley/questions/{questionId}": {
-      "get": {
-        "tags": [
-          "question-controller"
-        ],
-        "operationId": "getById_2",
-        "parameters": [
-          {
-            "name": "questionId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseQuestionResponse"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/magicvolley/questions": {
       "put": {
         "tags": [
           "question-controller"
@@ -108,7 +79,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/QuestionRequest"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/QuestionRequest"
+                }
               }
             }
           },
@@ -120,36 +94,38 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseUUID"
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
                 }
               }
             }
           }
         }
       },
-      "delete": {
+      "post": {
         "tags": [
           "question-controller"
         ],
-        "operationId": "delete_1",
-        "parameters": [
-          {
-            "name": "questionId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/QuestionRequest"
+                }
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseUUID"
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
                 }
               }
             }
@@ -635,16 +611,16 @@
           "camp-user-controller"
         ],
         "operationId": "confirmReservation",
-        "parameters": [
-          {
-            "name": "reservationDto",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/ReservationDto"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReservationDto"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -659,17 +635,35 @@
         }
       }
     },
-    "/magicvolley/questions": {
-      "post": {
+    "/magicvolley/about": {
+      "get": {
         "tags": [
-          "question-controller"
+          "about-us-page-controller"
         ],
-        "operationId": "create_1",
+        "operationId": "getAbout",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseAboutUsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "about-us-page-controller"
+        ],
+        "operationId": "update_6",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/QuestionRequest"
+                "$ref": "#/components/schemas/AboutUsRequest"
               }
             }
           },
@@ -679,9 +673,69 @@
           "200": {
             "description": "OK",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseUUID"
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/about/review/update/{id}": {
+      "put": {
+        "tags": [
+          "about-us-page-controller"
+        ],
+        "operationId": "updateReview",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Review"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/about/activity/update/{id}": {
+      "put": {
+        "tags": [
+          "about-us-page-controller"
+        ],
+        "operationId": "updateActivity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Activity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
                 }
               }
             }
@@ -707,7 +761,11 @@
                 "CAMP",
                 "USER",
                 "CAMP_COACH",
-                "PAGE_HOME"
+                "PAGE_HOME",
+                "MASTER",
+                "ADMIN",
+                "ACTIVATE",
+                "REVIEW"
               ]
             }
           }
@@ -1147,6 +1205,66 @@
         }
       }
     },
+    "/magicvolley/questions/{questionId}": {
+      "get": {
+        "tags": [
+          "question-controller"
+        ],
+        "operationId": "getById_2",
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseQuestionResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "question-controller"
+        ],
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "questionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUUID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/magicvolley/questions/all": {
       "get": {
         "tags": [
@@ -1290,6 +1408,46 @@
         }
       }
     },
+    "/magicvolley/home/app_links": {
+      "get": {
+        "tags": [
+          "home-controller"
+        ],
+        "operationId": "getAppLinks",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseLinkInfoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/app_links": {
+      "get": {
+        "tags": [
+          "home-controller"
+        ],
+        "operationId": "getAppLinks_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseLinkInfoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/magicvolley/home": {
       "get": {
         "tags": [
@@ -1310,7 +1468,7 @@
         }
       }
     },
-    "/magicvolley/": {
+    "/magicvolley": {
       "get": {
         "tags": [
           "home-controller"
@@ -1367,6 +1525,46 @@
           "coach-controller"
         ],
         "operationId": "getAll_5",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListCoachDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/coaches/all/classic-type": {
+      "get": {
+        "tags": [
+          "coach-controller"
+        ],
+        "operationId": "getAllClassicType",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListCoachDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/coaches/all/beach-type": {
+      "get": {
+        "tags": [
+          "coach-controller"
+        ],
+        "operationId": "getAllBeachType",
         "responses": {
           "200": {
             "description": "OK",
@@ -1546,7 +1744,7 @@
         "tags": [
           "package-card-controller"
         ],
-        "operationId": "update_6",
+        "operationId": "update_7",
         "parameters": [
           {
             "name": "id",
@@ -1671,7 +1869,7 @@
           }
         }
       },
-      "ApiResponseUUID": {
+      "ApiResponseBoolean": {
         "type": "object",
         "properties": {
           "statusCode": {
@@ -1679,8 +1877,7 @@
             "format": "int32"
           },
           "result": {
-            "type": "string",
-            "format": "uuid"
+            "type": "boolean"
           },
           "pageNumber": {
             "type": "integer",
@@ -1722,6 +1919,41 @@
           },
           "telephone": {
             "type": "string"
+          }
+        }
+      },
+      "ApiResponseUUID": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "result": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "permissions": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -1917,6 +2149,9 @@
           "promo": {
             "type": "string"
           },
+          "coachType": {
+            "type": "string"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -1978,7 +2213,11 @@
               "CAMP",
               "USER",
               "CAMP_COACH",
-              "PAGE_HOME"
+              "PAGE_HOME",
+              "MASTER",
+              "ADMIN",
+              "ACTIVATE",
+              "REVIEW"
             ]
           },
           "data": {
@@ -2001,7 +2240,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "name": {
+          "namePackage": {
             "type": "string"
           },
           "info": {
@@ -2215,7 +2454,11 @@
               "CAMP",
               "USER",
               "CAMP_COACH",
-              "PAGE_HOME"
+              "PAGE_HOME",
+              "MASTER",
+              "ADMIN",
+              "ACTIVATE",
+              "REVIEW"
             ]
           },
           "data": {
@@ -2243,7 +2486,7 @@
           "linkVk": {
             "type": "string"
           },
-          "lingTg": {
+          "linkTg": {
             "type": "string"
           },
           "linkInstagram": {
@@ -2336,6 +2579,12 @@
             "items": {
               "$ref": "#/components/schemas/CampPackageCardDto"
             }
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampUserDto"
+            }
           }
         }
       },
@@ -2386,6 +2635,24 @@
           }
         }
       },
+      "CampUserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "login": {
+            "type": "string"
+          },
+          "bookingConfirmed": {
+            "type": "boolean"
+          },
+          "isReserved": {
+            "type": "boolean"
+          }
+        }
+      },
       "ReservationDto": {
         "type": "object",
         "properties": {
@@ -2399,37 +2666,98 @@
           }
         }
       },
-      "ApiResponseBoolean": {
+      "AboutUsRequest": {
         "type": "object",
         "properties": {
-          "statusCode": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "result": {
-            "type": "boolean"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageTotal": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sort": {
+          "title": {
             "type": "string"
           },
-          "permissions": {
-            "uniqueItems": true,
+          "subTitleFirst": {
+            "type": "string"
+          },
+          "subTitleSecond": {
+            "type": "string"
+          },
+          "video": {
+            "$ref": "#/components/schemas/Video"
+          },
+          "master": {
+            "$ref": "#/components/schemas/Master"
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Review"
+            }
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Activity"
+            }
+          }
+        }
+      },
+      "Activity": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaStorageInfo"
+            }
+          }
+        }
+      },
+      "Master": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "infos": {
             "type": "array",
             "items": {
               "type": "string"
             }
+          },
+          "image": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "image": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
+          }
+        }
+      },
+      "Video": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
           }
         }
       },
@@ -3164,6 +3492,54 @@
           }
         }
       },
+      "ApiResponseLinkInfoResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "result": {
+            "$ref": "#/components/schemas/LinkInfoResponse"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "permissions": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "LinkInfoResponse": {
+        "type": "object",
+        "properties": {
+          "linkTg": {
+            "type": "string"
+          },
+          "linkInstagram": {
+            "type": "string"
+          },
+          "linkVk": {
+            "type": "string"
+          }
+        }
+      },
       "ApiResponseHomePageResponse": {
         "type": "object",
         "properties": {
@@ -3210,7 +3586,7 @@
           "linkVk": {
             "type": "string"
           },
-          "lingTg": {
+          "linkTg": {
             "type": "string"
           },
           "linkInstagram": {
@@ -3394,6 +3770,72 @@
             "items": {
               "$ref": "#/components/schemas/CampDtoForList"
             }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "permissions": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AboutUsResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "subTitleFirst": {
+            "type": "string"
+          },
+          "subTitleSecond": {
+            "type": "string"
+          },
+          "video": {
+            "$ref": "#/components/schemas/Video"
+          },
+          "master": {
+            "$ref": "#/components/schemas/Master"
+          },
+          "reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Review"
+            }
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Activity"
+            }
+          }
+        }
+      },
+      "ApiResponseAboutUsResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "result": {
+            "$ref": "#/components/schemas/AboutUsResponse"
           },
           "pageNumber": {
             "type": "integer",
