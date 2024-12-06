@@ -2519,6 +2519,12 @@
           "promo": {
             "type": "string"
           },
+          "isBeach": {
+            "type": "boolean"
+          },
+          "isClassic": {
+            "type": "boolean"
+          },
           "mainImage": {
             "$ref": "#/components/schemas/MediaStorageInfo"
           }
