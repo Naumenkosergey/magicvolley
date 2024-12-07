@@ -24,7 +24,7 @@ public class CampUserDto {
     public CampUserDto(CampUserEntity campUserEntity) {
         this.id = campUserEntity.getUser().getId();
         this.telephone = campUserEntity.getUser().getTelephone();
-        this.login = campUserEntity.getUser().getLogin();
+        this.login = campUserEntity.getUser().getUsername();
         this.bookingConfirmed = campUserEntity.getBookingConfirmed();
         this.bookingCount = campUserEntity.getBookingCount();
     }

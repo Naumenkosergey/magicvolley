@@ -6,12 +6,12 @@ insert into roles (id, role, version)
 values('888f4834-c6e4-472e-808b-171febbb9137', 'USER', 0);
 
 
-insert into users(id, telephone, login, password, email, version)
-values ('68c8432c-b963-46c2-b1ff-345452609ecf','+79969103047', 'admin', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za', 'kazina@mail.ru', 0);
-insert into users(id, telephone, login, password, email, version)
-values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8','+79998620452', '1', '$2y$10$OvF1JVol9zuT92MoqnwFceMle3hr88.dL6oe6Eb0ioAD434R1/BiG', 'naumeko@mail.ru', 0);
-insert into users(id, telephone, login, password, email, version)
-values ('e5050cc4-98c4-4b48-9e47-8b5057c6b46c','+79999999999', 'marozova', '$2y$10$eFbYvZne/FFfGUlvJfyqzuWTAj9Hq/7gta/uQAm0ZW9nKw.XFypOu', 'maroz@mail.ru', 0);
+insert into users(id, telephone, username, password, email,is_blocked, version)
+values ('68c8432c-b963-46c2-b1ff-345452609ecf','admin', 'Казина Татьяянв', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za', 'kazina@mail.ru', false, 0);
+insert into users(id, telephone, username, password, email, is_blocked, version)
+values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8','1', 'Науменко Сергей', '$2y$10$OvF1JVol9zuT92MoqnwFceMle3hr88.dL6oe6Eb0ioAD434R1/BiG', 'naumeko@mail.ru', false, 0);
+insert into users(id, telephone, username, password, email, is_blocked, version)
+values ('e5050cc4-98c4-4b48-9e47-8b5057c6b46c','marozova', 'marozova natalia', '$2y$10$eFbYvZne/FFfGUlvJfyqzuWTAj9Hq/7gta/uQAm0ZW9nKw.XFypOu', 'maroz@mail.ru', true, 0);
 
 insert into user_roles (role_id, user_id, version)
 values('1ffdc9e5-ece0-4420-ba12-b4ac1ed25573', '68c8432c-b963-46c2-b1ff-345452609ecf', 0);
@@ -111,6 +111,11 @@ values('1c7e1ab2-5ae7-4a52-a4d8-7f601859fe01', 'eb411f80-eed7-4a00-9293-2dd0219e
 'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\kazina.jpg')::bytea,
 'kazina.jpg', 547840, 'ADMIN', 0);
 
+insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
+values('2d8f2bc3-6bf8-5b64-b5e9-8071296a0f12', '68c8432c-b963-46c2-b1ff-345452609ecf',
+'image/jpg', pg_read_binary_file('D:\KODING\magicvolley\src\main\resources\static\kazina.jpg')::bytea,
+'kazina.jpg', 547840, 'USER', 0);
+
 insert into coaches(id, coach_name, info, promo, image_id, version, created_at, updated_at, coach_type)
 values('3deeb485-e987-48cf-91c1-377a420702f1','Михаил Кочетков',
 'Основтель школы Magic Volley;Тренер школы Magic Volley;Тренерский стаж 10 лет;КМС по волейболу', 'promo',
@@ -136,12 +141,12 @@ values('df9bacad-8a55-418c-a654-39a02344c09a','киргизия','LONG','кир�
 'Киргизия', '2024-07-09', '2024-07-19', 70, 70,'8a51fdf6-6f7b-482d-97eb-4d9c7165e8a0', '8b51fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
 --
 --
-insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, true, 1);
-insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count)
-values('7573f07f-3769-4f34-90cd-412fa1aab705', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, false, 1);
-insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count)
-values('df9bacad-8a55-418c-a654-39a02344c09a', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', false, true, false, 1);
+insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count,  is_viewed)
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, true, 1, true);
+insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count,  is_viewed)
+values('7573f07f-3769-4f34-90cd-412fa1aab705', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', true, true, false, 1, true);
+insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count,  is_viewed)
+values('df9bacad-8a55-418c-a654-39a02344c09a', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', false, true, false, 1, false);
 --
 --
 insert into camp_coaches(camp_id, coach_id, version) values ('dd5dc5ea-f858-47c0-b518-be2d1565856d','3deeb485-e987-48cf-91c1-377a420702f1', 0);
@@ -152,6 +157,10 @@ insert into camp_coaches(camp_id, coach_id, version) values ('7573f07f-3769-4f34
 insert into user_profile (user_id, image_id, ful_name, telephone, birthday, version)
 values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', '5751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 'Науменко Сергей',
 '+7998620452','1993-03-24', 0);
+
+insert into user_profile (user_id, image_id, ful_name, telephone, birthday, version)
+values ('68c8432c-b963-46c2-b1ff-345452609ecf', '2d8f2bc3-6bf8-5b64-b5e9-8071296a0f12', 'Казина Татьяна',
+'+79969103047', null, 0);
 
 insert into profile_camps (profile_id, camp_id, is_past, is_booked, version)
 values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', 'dd5dc5ea-f858-47c0-b518-be2d1565856d', true, false, 0);

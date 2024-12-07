@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.entity.RoleEntity;
 import ru.magicvolley.entity.UserEntity;
@@ -17,14 +18,12 @@ import ru.magicvolley.enums.Role;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.RoleRepository;
 import ru.magicvolley.repository.UserRepository;
-import ru.magicvolley.request.AddUserRequest;
 import ru.magicvolley.request.LoginRequest;
 import ru.magicvolley.request.SignUpRequest;
 import ru.magicvolley.response.UserInfoResponse;
 import ru.magicvolley.security.jwt.JwtUtils;
 import ru.magicvolley.security.service.UserDetailsImpl;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -39,8 +38,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
-
-    private UserService userService;
+    private final UserService userService;
 
     @Transactional
     public UserInfoResponse login(LoginRequest loginRequest) throws AuthException {
@@ -52,6 +50,10 @@ public class AuthService {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+        if (userDetails.isBlocked()) {
+            throw new RuntimeException("Error: User is blocked!");
+        }
+
         String cookie = jwtUtils.generateJwtCookie(userDetails).toString();
 
         List<String> roles = userDetails.getAuthorities().stream()
@@ -61,17 +63,13 @@ public class AuthService {
         return new UserInfoResponse(userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
+                userDetails.getTelephone(),
                 cookie,
                 roles);
     }
 
     @Transactional
     public Boolean signup(SignUpRequest signUpRequest) {
-
-
-        if (userRepository.existsByLogin(signUpRequest.getUsername())) {
-            throw new RuntimeException("Error: Username is already taken!");
-        }
 
         if (userRepository.existsByTelephone(signUpRequest.getTelephone())) {
             throw new RuntimeException("Error: Email is already in use!");
@@ -83,7 +81,7 @@ public class AuthService {
         UserEntity user = UserEntity.builder()
                 .id(UUID.randomUUID())
                 .telephone(signUpRequest.getTelephone())
-                .login(signUpRequest.getUsername())
+                .username(signUpRequest.getUsername())
                 .password(encoder.encode(signUpRequest.getPassword()))
                 .roles(Set.of(userRole))
                 .build();
@@ -110,42 +108,24 @@ public class AuthService {
         return Boolean.FALSE;
     }
 
-    public boolean addUser(AddUserRequest addUserRequest) {
+    @Transactional(propagation = Propagation.MANDATORY)
+    public UserEntity addUserForCamp(String telephone) {
 
-        if (userRepository.existsByLogin(addUserRequest.getUsername())) {
-            throw new RuntimeException("Error: Username is already taken!");
-        }
-
-        if (userRepository.existsByTelephone(addUserRequest.getTelephone())) {
-            throw new RuntimeException("Error: Email is already in use!");
-        }
-        Set<RoleEntity> roles = new HashSet<>();
-        if (addUserRequest.getIsUser()) {
-            roles.add(roleRepository.findByRole(Role.USER)
-                    .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.USER)));
-        }
-
-        if (addUserRequest.getIsAdmin()) {
-            roles.add(roleRepository.findByRole(Role.ADMIN)
-                    .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.ADMIN)));
-        }
-
-        if (addUserRequest.getIsModerator()) {
-            roles.add(roleRepository.findByRole(Role.MODERATOR)
-                    .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.MODERATOR)));
-        }
+        RoleEntity userRole = roleRepository.findByRole(Role.USER)
+                .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.USER));
 
         UserEntity user = UserEntity.builder()
                 .id(UUID.randomUUID())
-                .telephone(addUserRequest.getTelephone())
-                .login(addUserRequest.getUsername())
-                .password(encoder.encode(addUserRequest.getTelephone()))
-                .roles(roles)
+                .telephone(telephone)
+                .username(telephone)
+                .password(encoder.encode(telephone))
+                .isBlocked(Boolean.FALSE)
+                .roles(Set.of(userRole))
                 .build();
         userService.create(user);
-
-        return Boolean.TRUE;
+        return user;
     }
+
 
 //    public JwtResponse getAccessToken(String refreshToken) throws AuthException {
 //        if (jwtProvider.validateRefreshToken(refreshToken)) {

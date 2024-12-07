@@ -20,6 +20,7 @@ public class CampUserEntity {
     private Boolean isReserved;
     private Boolean isPast;
     private Integer bookingCount;
+    private Boolean isViewed;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "camp_id", insertable = false, updatable = false)

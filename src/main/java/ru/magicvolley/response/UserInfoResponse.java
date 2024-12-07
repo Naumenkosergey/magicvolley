@@ -16,6 +16,7 @@ public class UserInfoResponse {
 
 	private UUID id;
 	private String username;
+	private String telephone;
 	private String email;
 	private String cookie;
 	private List<String> roles;

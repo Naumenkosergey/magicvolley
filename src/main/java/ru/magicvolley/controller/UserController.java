@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.magicvolley.dto.UserDto;
-import ru.magicvolley.entity.UserEntity;
+import ru.magicvolley.request.AddUserRequest;
+import ru.magicvolley.response.UserForAdminResponse;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.UserService;
 
@@ -21,25 +21,25 @@ public class UserController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<List<UserDto>> getAll(){
+    public ApiResponse<List<UserForAdminResponse>> getAll(){
         return new ApiResponse(userService.getAll());
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<UserDto> getById(@PathVariable UUID id){
+    public ApiResponse<UserForAdminResponse> getById(@PathVariable UUID id){
         return new ApiResponse<>(userService.getById(id));
     }
 
-    @PostMapping
+    @PostMapping("/add-user")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<UUID> create(@RequestBody UserDto user){
+    public ApiResponse<UUID> create(@RequestBody AddUserRequest user){
         return new ApiResponse<>(userService.create(user));
     }
 
     @PutMapping
     @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<UserEntity> update(@RequestBody UserEntity user){
+    public ApiResponse<UUID> update(@RequestBody AddUserRequest user){
         return new ApiResponse<>(userService.update(user));
     }
 

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public record ProfileForUpdate(
         UUID id,
-        String fulName,
+        String fullName,
         LocalDate birthday,
         String telephone
 ) {

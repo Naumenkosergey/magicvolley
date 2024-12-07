@@ -28,7 +28,7 @@ public class JwtResponse {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.id = userEntity.getId();
-        this.username = userEntity.getLogin();
+        this.username = userEntity.getUsername();
         this.email = userEntity.getEmail();
         this.roles = userEntity.getRoles().stream().map(role -> role.getRole().name()).collect(Collectors.toSet());
     }

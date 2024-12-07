@@ -7,7 +7,7 @@ create table if not exists roles (
 create table if not exists users (
     id uuid primary key,
     email varchar(255),
-    login varchar(255),
+    username varchar(255),
     telephone varchar(15) unique not null,
     password varchar(255),
     is_blocked boolean,
@@ -67,6 +67,7 @@ create table if not exists camp_users(
     is_reserved boolean,
     is_past boolean,
     booking_count integer,
+    is_viewed boolean,
     primary key (camp_id, user_id),
     foreign key (camp_id) references camps(id),
     foreign key (user_id) references users(id)

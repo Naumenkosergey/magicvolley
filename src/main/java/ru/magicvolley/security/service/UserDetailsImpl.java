@@ -27,6 +27,8 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
     private String username;
     private String email;
+    private String telephone;
+    private boolean isBlocked;
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(UserEntity user) {
@@ -38,8 +40,10 @@ public class UserDetailsImpl implements UserDetails {
         return new UserDetailsImpl(
                 user.getId(),
                 user.getPassword(),
-                user.getLogin(),
+                user.getUsername(),
                 user.getEmail(),
+                user.getTelephone(),
+                user.getIsBlocked(),
                 authorities);
     }
 }

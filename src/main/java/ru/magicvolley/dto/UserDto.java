@@ -25,7 +25,7 @@ public class UserDto {
     public UserDto(UserEntity userEntity) {
         this.id = userEntity.getId();
         this.email = userEntity.getEmail();
-        this.login = userEntity.getLogin();
+        this.login = userEntity.getUsername();
         this.roles = userEntity.getRoles()
                 .stream()
                 .map(role -> role.getRole().name())

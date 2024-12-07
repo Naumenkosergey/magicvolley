@@ -20,10 +20,11 @@ public class UserEntity {
 
     @Id
     private UUID id;
-    private String login;
+    private String username;
     private String email;
     private String telephone;
     private String password;
+    private Boolean isBlocked;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

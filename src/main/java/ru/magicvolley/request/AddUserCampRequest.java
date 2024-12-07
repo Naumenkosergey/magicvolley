@@ -5,16 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class AddUserRequest {
+public class AddUserCampRequest {
 
-    private String username;
     private String telephone;
-    private Boolean isAdmin;
-    private Boolean isUser;
-    private Boolean isModerator;
-    private Boolean isBlocked;
+    private UUID campId;
 }

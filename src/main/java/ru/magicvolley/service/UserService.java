@@ -11,9 +11,12 @@ import ru.magicvolley.entity.UserEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.ProfileRepository;
 import ru.magicvolley.repository.UserRepository;
+import ru.magicvolley.request.AddUserRequest;
 import ru.magicvolley.request.PasswordUpdateForProfile;
+import ru.magicvolley.response.UserForAdminResponse;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,21 +38,22 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto getById(UUID id) {
+    public UserForAdminResponse getById(UUID id) {
         return userRepository.findById(id)
-                .map(UserDto::new)
+                .map(UserForAdminResponse::new)
                 .orElseThrow(() -> new EntityNotFoundException(UserEntity.class, id));
     }
 
     @Transactional
-    public UUID create(UserDto user) {
+    public UUID create(AddUserRequest addUserRequest) {
 
-        Set<RoleEntity> roles = roleService.getRoles(user.getRoles());
+        Set<RoleEntity> rolesForRequest = roleService.getRolesForRequest(addUserRequest);
         UserEntity userEntity = UserEntity.builder()
                 .id(UUID.randomUUID())
-                .email(user.getEmail())
-                .login(user.getLogin())
-                .roles(roles)
+                .telephone(addUserRequest.getTelephone())
+                .isBlocked(Objects.nonNull(addUserRequest.getIsBlocked()) ? addUserRequest.getIsBlocked() : false)
+                .username(addUserRequest.getUsername())
+                .roles(rolesForRequest)
                 .build();
         return create(userEntity);
     }
@@ -59,15 +63,21 @@ public class UserService {
         userRepository.save(user);
         ProfileEntity profile = ProfileEntity.builder()
                 .userId(user.getId())
-                .fulName(user.getLogin())
+                .fulName(user.getUsername())
                 .build();
         profileRepository.save(profile);
         return user.getId();
     }
 
     @Transactional
-    public UserEntity update(UserEntity user) {
-        return userRepository.save(user);
+    public UUID update(AddUserRequest addUserRequest) {
+        UserEntity userFromDb = userRepository.findByTelephone(addUserRequest.getTelephone())
+                .orElseThrow(() -> new EntityNotFoundException(UserEntity.class, addUserRequest.getTelephone()));
+        Set<RoleEntity> rolesForRequest = roleService.getRolesForRequest(addUserRequest);
+        userFromDb.setRoles(rolesForRequest);
+        userFromDb.setIsBlocked(Objects.nonNull(addUserRequest.getIsBlocked()) ? addUserRequest.getIsBlocked() : false);
+
+        return userFromDb.getId();
     }
 
     @Transactional
@@ -75,10 +85,11 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+
     public void updatePassword(PasswordUpdateForProfile passwordUpdateForProfile) {
         UserEntity useFromDb = userRepository.findById(passwordUpdateForProfile.id())
                 .orElseThrow(() -> new EntityNotFoundException(UserEntity.class, passwordUpdateForProfile.id()));
-        if (!useFromDb.getPassword().equals(passwordEncoder.encode(passwordUpdateForProfile.oldPassword()))) {
+        if (!passwordEncoder.matches(passwordUpdateForProfile.oldPassword(), useFromDb.getPassword())) {
             throw new RuntimeException("Введен неверный текущий пароль");
         }
         if (!passwordUpdateForProfile.newPassword().equals(passwordUpdateForProfile.confirmPassword())) {
@@ -86,5 +97,4 @@ public class UserService {
         }
         useFromDb.setPassword(passwordEncoder.encode(passwordUpdateForProfile.newPassword()));
     }
-
 }

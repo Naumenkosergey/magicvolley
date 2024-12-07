@@ -5,9 +5,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.dto.ConfirmReservationDto;
 import ru.magicvolley.dto.ReservationDto;
-import ru.magicvolley.request.AddUserRequest;
+import ru.magicvolley.request.AddUserCampRequest;
 import ru.magicvolley.response.api.ApiResponse;
-import ru.magicvolley.service.AuthService;
 import ru.magicvolley.service.CampUserService;
 
 @RestController
@@ -16,7 +15,6 @@ import ru.magicvolley.service.CampUserService;
 public class CampUserController {
 
     private final CampUserService campUserService;
-    private final AuthService authService;
 
     @PostMapping()
     @PreAuthorize("hasAuthority('USER')")
@@ -32,8 +30,8 @@ public class CampUserController {
     }
 
     @PostMapping("/add-user")
-    public ApiResponse<Boolean> addUser(@RequestBody AddUserRequest addUserRequest){
-        boolean isCreateUser = authService.addUser(addUserRequest);
+    public ApiResponse<Boolean> addUserToCamp(@RequestBody AddUserCampRequest addUserCampRequest){
+        boolean isCreateUser = campUserService.addUserToCamp(addUserCampRequest);
         return new ApiResponse<>(isCreateUser);
     }
 }

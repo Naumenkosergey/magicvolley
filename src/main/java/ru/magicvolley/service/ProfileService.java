@@ -49,16 +49,11 @@ public class ProfileService {
         ProfileEntity profileEntity = profileRepository.findById(profile.id())
                 .orElseThrow(() -> new EntityNotFoundException(ProfileEntity.class, profile.id()));
         profileEntity.setBirthday(profile.birthday());
-        profileEntity.setFulName(profile.fulName());
+        profileEntity.setFulName(profile.fullName());
         profileEntity.setTelephone(profile.telephone());
         profileRepository.save(profileEntity);
         return profileEntity.getUserId();
     }
-
-//    @Transactional
-//    public void delete(UUID id){
-//        userRepository.deleteById(id);
-//    }
 
 
     private ProfileDto mapProfileEntityToProfileDto(ProfileEntity profile) {
