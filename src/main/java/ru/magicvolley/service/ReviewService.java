@@ -64,6 +64,7 @@ public class ReviewService {
         MediaStorageEntity avatarReviewer = mediaService.mediaInfoToMediaStorage(reviewRequest.getImage(), id);
         ReviewEntity reviewNew = ReviewEntity.builder()
                 .id(id)
+                .nameReviewer(reviewRequest.getName())
                 .dateReview(LocalDate.parse(reviewRequest.getDate()))
                 .reviewText(reviewRequest.getComment())
                 .avatarReviewer(avatarReviewer)
