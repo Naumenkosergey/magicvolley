@@ -17,15 +17,14 @@ import java.util.stream.Collectors;
 public class UserDto {
 
     private UUID id;
-    private String email;
-    private String login;
+    private String username;
+    private String telephone;
     private Set<String> roles;
-    private UUID avatar;
 
     public UserDto(UserEntity userEntity) {
         this.id = userEntity.getId();
-        this.email = userEntity.getEmail();
-        this.login = userEntity.getUsername();
+        this.username = userEntity.getUsername();
+        this.telephone = userEntity.getTelephone();
         this.roles = userEntity.getRoles()
                 .stream()
                 .map(role -> role.getRole().name())

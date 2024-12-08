@@ -51,7 +51,7 @@ public class AuthService {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         if (userDetails.isBlocked()) {
-            throw new RuntimeException("Error: User is blocked!");
+            throw new RuntimeException("Error:" + loginRequest.getUsername() + " is blocked!");
         }
 
         String cookie = jwtUtils.generateJwtCookie(userDetails).toString();

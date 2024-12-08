@@ -4,17 +4,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.dto.CampDtoForList;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.dto.ProfileDto;
-import ru.magicvolley.dto.CampDtoForList;
 import ru.magicvolley.entity.ProfileCampsEntity;
 import ru.magicvolley.entity.ProfileEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.ProfileRepository;
 import ru.magicvolley.request.PasswordUpdateForProfile;
 import ru.magicvolley.request.ProfileForUpdate;
+import ru.magicvolley.response.UserForAdminResponse;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,7 @@ public class ProfileService {
     private final CoachService coachService;
     private final UserService userService;
     private final CampService campService;
+    private final AuthService authService;
     @Value("${media.prefix.url}")
     private String prefixUrlMedia;
 
@@ -58,7 +62,7 @@ public class ProfileService {
 
     private ProfileDto mapProfileEntityToProfileDto(ProfileEntity profile) {
 
-        List<CampDtoForList> pastCamps  = campService.getCampList(profile.getProfileCamps().stream()
+        List<CampDtoForList> pastCamps = campService.getCampList(profile.getProfileCamps().stream()
                 .filter(ProfileCampsEntity::getIsPast)
                 .map(ProfileCampsEntity::getCamp)
                 .toList());
@@ -68,13 +72,28 @@ public class ProfileService {
                 .map(ProfileCampsEntity::getCamp)
                 .toList());
 
+        List<UserForAdminResponse> usersAll = new ArrayList<>();
+        Boolean isAdmin = authService.isAdminCurrentUser();
+        if (isAdmin) {
+            Map<UUID, MediaStorageInfo> map = profileRepository.findAll().stream()
+                    .filter(x -> !x.getUserId().equals(profile.getUserId()))
+                    .collect(Collectors.toMap(ProfileEntity::getUserId, v -> new MediaStorageInfo(v.getAvatar(), prefixUrlMedia)));
+            usersAll = userService.getAll()
+                    .stream()
+                    .filter(user -> !user.getId().equals(profile.getUserId()))
+                    .map(userDto -> new UserForAdminResponse(userDto, map.get(userDto.getId())))
+                    .toList();
+        }
+
         return new ProfileDto(profile.getFulName(),
                 profile.getBirthday(),
                 profile.getUser().getEmail(),
                 profile.getTelephone(),
                 pastCamps,
                 nearestCamps,
-                new MediaStorageInfo(profile.getAvatar(), prefixUrlMedia)
+                new MediaStorageInfo(profile.getAvatar(), prefixUrlMedia),
+                usersAll,
+                isAdmin
         );
     }
 
