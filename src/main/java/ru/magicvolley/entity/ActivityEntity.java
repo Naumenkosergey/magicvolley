@@ -1,11 +1,10 @@
 package ru.magicvolley.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +20,10 @@ public class ActivityEntity {
     @Id
     private UUID id;
     private String title;
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Version
     private Long version;

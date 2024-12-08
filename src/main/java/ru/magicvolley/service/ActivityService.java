@@ -12,9 +12,7 @@ import ru.magicvolley.repository.ActivityRepository;
 import ru.magicvolley.request.AboutUsRequest;
 import ru.magicvolley.response.AboutUsResponse;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,15 +27,17 @@ public class ActivityService {
 
     public List<AboutUsResponse.Activity> getActivities() {
         Map<UUID, ActivityEntity> mapActivityToId = activityRepository.findAll().stream()
-                .collect(Collectors.toMap(ActivityEntity::getId, Function.identity()));
+                .sorted(Comparator.comparing(ActivityEntity::getUpdatedAt))
+                .collect(Collectors.toMap(ActivityEntity::getId, Function.identity(), (o1, o2) -> o1, LinkedHashMap::new));
         Map<UUID, List<MediaStorageInfo>> allImagesForEntityIds = mediaService.getAllImagesForEntityIds(mapActivityToId.keySet());
 
         return mapActivityToId.entrySet().stream().map(entry ->
-                AboutUsResponse.Activity.builder()
-                        .name(entry.getValue().getTitle())
-                        .images(mediaService.getCollection(allImagesForEntityIds.get(entry.getKey())))
-                        .build()
-        ).toList();
+                        AboutUsResponse.Activity.builder()
+                                .name(entry.getValue().getTitle())
+                                .images(mediaService.getCollection(allImagesForEntityIds.get(entry.getKey())))
+                                .build()
+                )
+                .toList();
     }
 
     @Transactional

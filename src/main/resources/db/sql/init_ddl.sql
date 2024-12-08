@@ -197,6 +197,8 @@ create table if not exists home_page (
 create table if not exists activity (
    id uuid primary key not null,
    title varchar(255),
+   created_at date,
+   updated_at date,
    version bigint
 );
 

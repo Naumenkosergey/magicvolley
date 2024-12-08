@@ -317,26 +317,26 @@ insert into about_us_page (id, title, subtitle_first, subtitle_second, number_of
 values ('77d97d40-7281-49b3-a454-54f6d6153743','Magic Volley', 'Организаторы кемпов по всему миру',
 'Делаем вашу жизнь яркой, спортивной и разнообразной', 35000, 100, 3000 ,0);
 
-insert into activity (id, title, version)
-values ('ae6c4086-4117-4bd7-9175-247c614e87c3', 'Тренировки по пляжному и классическому волейболу', 0);
+insert into activity (id, title, created_at, updated_at, version)
+values ('ae6c4086-4117-4bd7-9175-247c614e87c3', 'Тренировки по пляжному и классическому волейболу', now(), now(), 0);
 
-insert into activity (id, title, version)
-values ('b3d4b72c-a5eb-409d-b6b1-fb3b56694c5e', 'Турниры', 0);
+insert into activity (id, title, created_at, updated_at, version)
+values ('b3d4b72c-a5eb-409d-b6b1-fb3b56694c5e', 'Турниры', now(), now(), 0);
 
-insert into activity (id, title, version)
-values ('12b3e8df-6552-48a1-a723-09432a63c33f', 'Мастер-классы', 0);
+insert into activity (id, title, created_at, updated_at, version)
+values ('12b3e8df-6552-48a1-a723-09432a63c33f', 'Мастер-классы', now(), now(), 0);
 
-insert into activity (id, title, version)
-values ('29080213-11d9-4fa8-9047-aac546e4b9ca', 'Кемпы по всему миру', 0);
+insert into activity (id, title, created_at, updated_at, version)
+values ('29080213-11d9-4fa8-9047-aac546e4b9ca', 'Кемпы по всему миру', now(), now(), 0);
 
-insert into activity (id, title, version)
-values ('f335ad7c-dd94-49d2-b55b-8e256c1142e3', 'Кемпы выходного дня', 0);
+insert into activity (id, title, created_at, updated_at, version)
+values ('f335ad7c-dd94-49d2-b55b-8e256c1142e3', 'Кемпы выходного дня', now(), now(), 0);
 
-insert into activity (id, title, version)
-values ('1ad96cf6-eb89-4134-9536-b0dc0eeeb52d', 'Корпаративные праздники', 0);
+insert into activity (id, title, created_at, updated_at, version)
+values ('1ad96cf6-eb89-4134-9536-b0dc0eeeb52d', 'Корпаративные праздники', now(), now(), 0);
 
-insert into activity (id, title, version)
-values ('fed10f3e-9f70-45db-a90d-6f4e98de0897', 'Детские лагеря', 0);
+insert into activity (id, title, created_at, updated_at, version)
+values ('fed10f3e-9f70-45db-a90d-6f4e98de0897', 'Детские лагеря', now(), now(), 0);
 
 insert into master (id, name_master, info, image_id, version)
 Values ('9935770c-5896-4118-9ecb-1ce06045a968', 'Михаил Кочетков',
