@@ -21,35 +21,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserEntity"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseUserEntity"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "user-controller"
-        ],
-        "operationId": "create",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserDto"
+                "$ref": "#/components/schemas/AddUserRequest"
               }
             }
           },
@@ -851,6 +823,36 @@
         }
       }
     },
+    "/magicvolley/users/add-user": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUUID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/magicvolley/review": {
       "post": {
         "tags": [
@@ -1035,12 +1037,12 @@
         "tags": [
           "camp-user-controller"
         ],
-        "operationId": "addUser",
+        "operationId": "addUserToCamp",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddUserRequest"
+                "$ref": "#/components/schemas/AddUserCampRequest"
               }
             }
           },
@@ -1173,7 +1175,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseUserDto"
+                  "$ref": "#/components/schemas/ApiResponseUserForAdminResponse"
                 }
               }
             }
@@ -1293,7 +1295,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiResponseListUserDto"
+                  "$ref": "#/components/schemas/ApiResponseListUserForAdminResponse"
                 }
               }
             }
@@ -1516,6 +1518,46 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiResponseListPackageCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/notifications": {
+      "get": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "getNotifications",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListNotificationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/notifications/count": {
+      "get": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "getCountNotifications",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseInteger"
                 }
               }
             }
@@ -1940,57 +1982,30 @@
   },
   "components": {
     "schemas": {
-      "RoleEntity": {
+      "AddUserRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "ADMIN",
-              "USER",
-              "MODERATOR",
-              "GUEST"
-            ]
-          }
-        }
-      },
-      "UserEntity": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "login": {
-            "type": "string"
-          },
-          "email": {
+          "username": {
             "type": "string"
           },
           "telephone": {
             "type": "string"
           },
-          "password": {
-            "type": "string"
+          "isAdmin": {
+            "type": "boolean"
           },
-          "roles": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RoleEntity"
-            }
+          "isUser": {
+            "type": "boolean"
           },
-          "version": {
-            "type": "integer",
-            "format": "int64"
+          "isModerator": {
+            "type": "boolean"
+          },
+          "isBlocked": {
+            "type": "boolean"
           }
         }
       },
-      "ApiResponseUserEntity": {
+      "ApiResponseUUID": {
         "type": "object",
         "properties": {
           "statusCode": {
@@ -1998,7 +2013,8 @@
             "format": "int32"
           },
           "result": {
-            "$ref": "#/components/schemas/UserEntity"
+            "type": "string",
+            "format": "uuid"
           },
           "pageNumber": {
             "type": "integer",
@@ -2141,7 +2157,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "fulName": {
+          "fullName": {
             "type": "string"
           },
           "birthday": {
@@ -2150,41 +2166,6 @@
           },
           "telephone": {
             "type": "string"
-          }
-        }
-      },
-      "ApiResponseUUID": {
-        "type": "object",
-        "properties": {
-          "statusCode": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "result": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageTotal": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sort": {
-            "type": "string"
-          },
-          "permissions": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           }
         }
       },
@@ -2549,6 +2530,59 @@
           }
         }
       },
+      "RoleEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "USER",
+              "MODERATOR",
+              "GUEST"
+            ]
+          }
+        }
+      },
+      "UserEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "telephone": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "isBlocked": {
+            "type": "boolean"
+          },
+          "roles": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleEntity"
+            }
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "Price": {
         "type": "object",
         "properties": {
@@ -2864,7 +2898,7 @@
           "isConfirm": {
             "type": "boolean"
           },
-          "bookingCount": {
+          "count": {
             "type": "integer",
             "format": "int32"
           }
@@ -2945,32 +2979,6 @@
           },
           "url": {
             "type": "string"
-          }
-        }
-      },
-      "UserDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "email": {
-            "type": "string"
-          },
-          "login": {
-            "type": "string"
-          },
-          "roles": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "avatar": {
-            "type": "string",
-            "format": "uuid"
           }
         }
       },
@@ -3061,23 +3069,15 @@
           }
         }
       },
-      "AddUserRequest": {
+      "AddUserCampRequest": {
         "type": "object",
         "properties": {
-          "username": {
-            "type": "string"
-          },
           "telephone": {
             "type": "string"
           },
-          "isAdmin": {
-            "type": "boolean"
-          },
-          "isUser": {
-            "type": "boolean"
-          },
-          "isModerator": {
-            "type": "boolean"
+          "campId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -3119,6 +3119,9 @@
           "username": {
             "type": "string"
           },
+          "telephone": {
+            "type": "string"
+          },
           "email": {
             "type": "string"
           },
@@ -3133,7 +3136,7 @@
           }
         }
       },
-      "ApiResponseUserDto": {
+      "ApiResponseUserForAdminResponse": {
         "type": "object",
         "properties": {
           "statusCode": {
@@ -3141,7 +3144,7 @@
             "format": "int32"
           },
           "result": {
-            "$ref": "#/components/schemas/UserDto"
+            "$ref": "#/components/schemas/UserForAdminResponse"
           },
           "pageNumber": {
             "type": "integer",
@@ -3167,7 +3170,34 @@
           }
         }
       },
-      "ApiResponseListUserDto": {
+      "UserForAdminResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "telephone": {
+            "type": "string"
+          },
+          "isAdmin": {
+            "type": "boolean"
+          },
+          "isUser": {
+            "type": "boolean"
+          },
+          "isModerator": {
+            "type": "boolean"
+          },
+          "avatar": {
+            "$ref": "#/components/schemas/MediaStorageInfo"
+          }
+        }
+      },
+      "ApiResponseListUserForAdminResponse": {
         "type": "object",
         "properties": {
           "statusCode": {
@@ -3177,7 +3207,7 @@
           "result": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/UserDto"
+              "$ref": "#/components/schemas/UserForAdminResponse"
             }
           },
           "pageNumber": {
@@ -3521,6 +3551,15 @@
           },
           "avatar": {
             "$ref": "#/components/schemas/MediaStorageInfo"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserForAdminResponse"
+            }
+          },
+          "isAdmin": {
+            "type": "boolean"
           }
         }
       },
@@ -3650,6 +3689,59 @@
             "items": {
               "type": "string"
             }
+          }
+        }
+      },
+      "ApiResponseListNotificationResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationResponse"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "permissions": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "NotificationResponse": {
+        "type": "object",
+        "properties": {
+          "campId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "campName": {
+            "type": "string"
+          },
+          "countNewUsers": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
