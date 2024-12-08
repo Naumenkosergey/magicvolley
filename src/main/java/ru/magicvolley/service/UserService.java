@@ -74,6 +74,7 @@ public class UserService {
         UserEntity userFromDb = userRepository.findByTelephone(addUserRequest.getTelephone())
                 .orElseThrow(() -> new EntityNotFoundException(UserEntity.class, addUserRequest.getTelephone()));
         Set<RoleEntity> rolesForRequest = roleService.getRolesForRequest(addUserRequest);
+        userFromDb.setUsername(addUserRequest.getUsername());
         userFromDb.setRoles(rolesForRequest);
         userFromDb.setIsBlocked(Objects.nonNull(addUserRequest.getIsBlocked()) ? addUserRequest.getIsBlocked() : false);
 
