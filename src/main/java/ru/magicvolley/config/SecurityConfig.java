@@ -29,6 +29,7 @@ public class SecurityConfig {
             //auth
             "/magicvolley/auth/login",
             "/magicvolley/auth/logout",
+            "/magicvolley/auth/signup",
             "/magicvolley/home",
             "/magicvolley/about",
             "/magicvolley/app_links",

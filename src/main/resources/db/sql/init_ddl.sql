@@ -142,8 +142,7 @@ create table if not exists schedule(
 
     id uuid primary key not null,
     day varchar(255),
-    start_time time,
-    end_time time,
+    training_time time,
     address varchar(255),
     schedule_group_id uuid not null
     constraint schedule_schedule_groups_fk references schedule_groups,

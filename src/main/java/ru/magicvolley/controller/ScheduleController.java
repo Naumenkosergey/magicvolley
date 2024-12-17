@@ -1,14 +1,14 @@
 package ru.magicvolley.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.magicvolley.response.ScheduleResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import ru.magicvolley.dto.ScheduleDto;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.ScheduleService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/magicvolley/shedule")
@@ -18,32 +18,25 @@ public class ScheduleController {
     private final ScheduleService sheduleService;
 
     @GetMapping()
-    public ApiResponse<List<ScheduleResponse>> getSchedule() {
+    public ApiResponse<List<ScheduleDto>> getSchedule() {
 
         return new ApiResponse<>(sheduleService.getSchedule());
     }
 
-//    @GetMapping("/{questionId}")
-////    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-//    public ApiResponse<QuestionResponse> getById(@PathVariable UUID questionId){
-//        return new ApiResponse<>(questionService.getById(questionId));
-//    }
+    @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ApiResponse<UUID> create(@RequestBody ScheduleDto request) {
+        return new ApiResponse<>(sheduleService.create(request));
+    }
 
-//    @PostMapping
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ApiResponse<UUID> create(@RequestBody QuestionRequest questionRequest){
-//        return new ApiResponse<>(questionService.create(questionRequest));
-//    }
-//
-//    @PutMapping("/{questionId}")
-//    @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-//    public ApiResponse<UUID> update(@RequestBody QuestionRequest questionRequest){
-//        return new ApiResponse<>(questionService.update(questionRequest));
-//    }
-//
-//    @DeleteMapping("/{questionId}")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ApiResponse<UUID> delete(@PathVariable UUID questionId){
-//        return new ApiResponse<>(questionService.delete(questionId));
-//    }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MODERATOR')")
+    public ApiResponse<UUID> update(@RequestBody ScheduleDto request) {
+        return new ApiResponse<>(sheduleService.update(request));
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<ScheduleDto> getById(@PathVariable UUID id){
+        return new ApiResponse<>(sheduleService.getById(id));
+    }
 }
