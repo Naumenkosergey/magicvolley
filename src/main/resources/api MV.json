@@ -41,6 +41,65 @@
         }
       }
     },
+    "/magicvolley/shedule/{id}": {
+      "get": {
+        "tags": [
+          "schedule-controller"
+        ],
+        "operationId": "getById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseScheduleDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "schedule-controller"
+        ],
+        "operationId": "update_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduleDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUUID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/magicvolley/review/{reviewId}": {
       "put": {
         "tags": [
@@ -116,7 +175,7 @@
         "tags": [
           "question-controller"
         ],
-        "operationId": "update_1",
+        "operationId": "update_2",
         "requestBody": {
           "content": {
             "application/json": {
@@ -147,7 +206,7 @@
         "tags": [
           "question-controller"
         ],
-        "operationId": "create_1",
+        "operationId": "create_2",
         "requestBody": {
           "content": {
             "application/json": {
@@ -180,7 +239,7 @@
         "tags": [
           "profile-controller"
         ],
-        "operationId": "update_2",
+        "operationId": "update_3",
         "requestBody": {
           "content": {
             "application/json": {
@@ -316,7 +375,7 @@
         "tags": [
           "package-card-controller"
         ],
-        "operationId": "update_3",
+        "operationId": "update_4",
         "requestBody": {
           "content": {
             "application/json": {
@@ -344,7 +403,7 @@
         "tags": [
           "package-card-controller"
         ],
-        "operationId": "create_2",
+        "operationId": "create_3",
         "requestBody": {
           "content": {
             "application/json": {
@@ -494,7 +553,7 @@
         "tags": [
           "coach-controller"
         ],
-        "operationId": "update_4",
+        "operationId": "update_5",
         "parameters": [
           {
             "name": "coachId",
@@ -564,7 +623,7 @@
         "tags": [
           "camp-controller"
         ],
-        "operationId": "getById_5",
+        "operationId": "getById_6",
         "parameters": [
           {
             "name": "id",
@@ -593,7 +652,7 @@
         "tags": [
           "camp-controller"
         ],
-        "operationId": "update_5",
+        "operationId": "update_6",
         "requestBody": {
           "content": {
             "application/json": {
@@ -798,7 +857,7 @@
         "tags": [
           "about-us-page-controller"
         ],
-        "operationId": "update_6",
+        "operationId": "update_7",
         "requestBody": {
           "content": {
             "application/json": {
@@ -834,6 +893,54 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AddUserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUUID"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/shedule": {
+      "get": {
+        "tags": [
+          "schedule-controller"
+        ],
+        "operationId": "getSchedule",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListScheduleDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "schedule-controller"
+        ],
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduleDto"
               }
             }
           },
@@ -947,7 +1054,7 @@
         "tags": [
           "coach-controller"
         ],
-        "operationId": "create_3",
+        "operationId": "create_4",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1303,32 +1410,12 @@
         }
       }
     },
-    "/magicvolley/shedule": {
-      "get": {
-        "tags": [
-          "schedule-controller"
-        ],
-        "operationId": "getSchedule",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseListScheduleResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/magicvolley/roles/{id}": {
       "get": {
         "tags": [
           "role-controller"
         ],
-        "operationId": "getById_1",
+        "operationId": "getById_2",
         "parameters": [
           {
             "name": "id",
@@ -1379,7 +1466,7 @@
         "tags": [
           "question-controller"
         ],
-        "operationId": "getById_2",
+        "operationId": "getById_3",
         "parameters": [
           {
             "name": "questionId",
@@ -1459,7 +1546,7 @@
         "tags": [
           "profile-controller"
         ],
-        "operationId": "getById_3",
+        "operationId": "getById_4",
         "parameters": [
           {
             "name": "id",
@@ -1702,7 +1789,7 @@
         "tags": [
           "coach-controller"
         ],
-        "operationId": "getById_4",
+        "operationId": "getById_5",
         "parameters": [
           {
             "name": "id",
@@ -1741,6 +1828,26 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiResponseListCoachDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/magicvolley/coaches/all/media": {
+      "get": {
+        "tags": [
+          "coach-controller"
+        ],
+        "operationId": "getAllMediaCoaches",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListMediaStorageInfo"
                 }
               }
             }
@@ -1953,7 +2060,7 @@
         "tags": [
           "package-card-controller"
         ],
-        "operationId": "update_7",
+        "operationId": "update_8",
         "parameters": [
           {
             "name": "id",
@@ -2036,6 +2143,47 @@
             "type": "array",
             "items": {
               "type": "string"
+            }
+          }
+        }
+      },
+      "Day": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "SUNDAY",
+              "MONDAY",
+              "TUESDAY",
+              "WEDNESDAY",
+              "THURSDAY",
+              "FRIDAY",
+              "SATURDAY"
+            ]
+          },
+          "time": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        }
+      },
+      "ScheduleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Day"
             }
           }
         }
@@ -3234,7 +3382,7 @@
           }
         }
       },
-      "ApiResponseListScheduleResponse": {
+      "ApiResponseListScheduleDto": {
         "type": "object",
         "properties": {
           "statusCode": {
@@ -3244,7 +3392,7 @@
           "result": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ScheduleResponse"
+              "$ref": "#/components/schemas/ScheduleDto"
             }
           },
           "pageNumber": {
@@ -3271,43 +3419,36 @@
           }
         }
       },
-      "Day": {
+      "ApiResponseScheduleDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "enum": [
-              "SUNDAY",
-              "MONDAY",
-              "TUESDAY",
-              "WEDNESDAY",
-              "THURSDAY",
-              "FRIDAY",
-              "SATURDAY"
-            ]
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
           },
-          "time": {
+          "result": {
+            "$ref": "#/components/schemas/ScheduleDto"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
             "type": "string"
           },
-          "address": {
-            "type": "string"
-          }
-        }
-      },
-      "ScheduleResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "days": {
+          "permissions": {
+            "uniqueItems": true,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Day"
+              "type": "string"
             }
           }
         }
@@ -4010,6 +4151,43 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CoachDto"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageTotal": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "permissions": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ApiResponseListMediaStorageInfo": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaStorageInfo"
             }
           },
           "pageNumber": {
