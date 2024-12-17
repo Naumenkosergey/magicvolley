@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.Util;
 import ru.magicvolley.dto.CoachDto;
+import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CoachEntity;
 import ru.magicvolley.entity.MediaStorageEntity;
@@ -29,9 +31,7 @@ public class CoachService {
 
     @Transactional
     public List<CoachDto> getAll(CoachType... types) {
-        String type = Arrays.stream(types).map(CoachType::name).collect(Collectors.joining(";"));
-        return coachRepository.findAll().stream()
-                .filter(x -> x.getCoachType().contains(type))
+        return coachRepository.findAllByCoachTypeLike(Util.getLike(types)).stream()
                 .sorted(Comparator.comparing(CoachEntity::getCreatedAt))
                 .map(x -> new CoachDto(x, prefixUrlMedia))
                 .collect(Collectors.toList());
@@ -89,5 +89,16 @@ public class CoachService {
         coachRepository.delete(coachFomDb);
         mediaService.delete(coachFomDb.getAvatar());
         return true;
+    }
+
+    @Transactional(readOnly = true)
+    public List<MediaStorageInfo> getAllMediaCoaches(CoachType... types) {
+
+        Set<UUID> coachesIds = coachRepository.findAllByCoachTypeLike(Util.getLike(types)).stream()
+                .map(CoachEntity::getId)
+                .collect(Collectors.toSet());
+
+        return Util.getSaveStream(mediaService.getAllImagesForEntityIds(coachesIds).entrySet())
+                .flatMap(x -> x.getValue().stream()).toList();
     }
 }

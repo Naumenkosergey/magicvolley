@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.dto.CoachDto;
+import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.enums.CoachType;
 import ru.magicvolley.request.CoachRequest;
 import ru.magicvolley.response.api.ApiResponse;
@@ -32,6 +33,11 @@ public class CoachController {
     @GetMapping("/all")
     public ApiResponse<List<CoachDto>> getAll(){
         return new ApiResponse<>(coachService.getAll(CoachType.BEACH, CoachType.CLASSIC));
+    }
+
+    @GetMapping("/all/media")
+    public ApiResponse<List<MediaStorageInfo>> getAllMediaCoaches(){
+        return new ApiResponse<>(coachService.getAllMediaCoaches(CoachType.BEACH, CoachType.CLASSIC));
     }
 
     @GetMapping("/{id}")
