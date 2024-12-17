@@ -276,32 +276,61 @@ insert into schedule (id, day, training_time, address, version, schedule_group_i
 values ('e4dc9ed5-0c33-4ecc-adf0-5ac1c3e70424','WEDNESDAY', '20:00:00', 'Чернышевского, 16', 0, '5d6c06e9-d873-468a-8f35-9c0d3cd7fe39');
 
 
-insert into package_card (id, name_package, info, cost_naming_link, version)
-values(1, 'Premium','пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6;пункт7','Повышение цен согласно графику',0);
-insert into package_card (id, name_package, info, cost_naming_link, version)
-values(2, 'Gold','пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6','Повышение цен согласно графику',0);
-insert into package_card (id, name_package, info, cost_naming_link, version)
-values(3, 'Silver','пункт1;пкнкт2;пункт3;пункт4;пункт5','Повышение цен согласно графику',0);
-insert into package_card (id, name_package, info, cost_naming_link, version)
-values(4, 'Tur','пункт1;пкнкт2;пункт3','Детский тариф',0);
+insert into package_card (id, name_package, code,  info, cost_naming_link, version)
+values(1, 'Пакет "Premium" выходного дня','Пакет "Premium"', 'Пакет "Gold";майка участника;игра в паре с тренером;индивидуальначя тренировка 45 минут',
+'Повышение цен согласно графику',0);
+insert into package_card (id, name_package, code, info, cost_naming_link, version)
+values(2, 'Пакет "Gold" выходного дня', 'Пакет "Gold"','Проживание;3-ех разовое питание;баня, бассейн, джакузи;3 тренировки;
+2 турнира;фото и видео;аренда кортов;теоретические семинары;вечерняя программа','Повышение цен согласно графику',0);
+insert into package_card (id, name_package, code, info, cost_naming_link, version)
+values(3, 'Пакет "Silver" выходного дня', 'Пакет "Silver"','Проживание;3-ех разовое питание;вечерняя программа;баня, бассейн, джакузи',
+'Повышение цен согласно графику',0);
 
+insert into package_card (id, name_package, code, info, cost_naming_link, version)
+values(4, 'Пакет "Premium" выездной','Пакет "Premium"', 'Пакет "Gold";игра в паре с тренером;индивидуальначя тренировка 45 минут',
+'Повышение цен согласно графику',0);
+insert into package_card (id, name_package, code, info, cost_naming_link, version)
+values(5, 'Пакет "Gold" выездной', 'Пакет "Gold"','8 тренировок;2 турнира;фото и видео;майка участника;
+аренда кортов;теоретические семинары;вечерняя программа','Повышение цен согласно графику',0);
+insert into package_card (id, name_package, code, info, cost_naming_link, version)
+values(6, 'Пакет "Silver"  выездной', 'Пакет "Silver"','4 тренировки;2 турнира;фото и видео;майка участника;
+аренда кортов;теоретические семинары;вечерняя программа','Повышение цен согласно графику',0);
+insert into package_card (id, name_package, code, info, cost_naming_link, version)
+values(7,'Пакет "Тур"', 'Пакет "Тур"','Проживание;питание;трансфер;страховка;перелет','Детский тариф',0);
 
 
 insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
  second_price, second_limitation, third_price, third_limitation, version)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 1, 'пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6;пункт7', 
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 1, 'Пакет "Gold";майка участника;игра в паре с тренером;индивидуальначя тренировка 45 минут',
 29990, 7000, 23000, '2023-12-01', 25000, '2024-01-01', 29000, '2024-02-01', 0);
 insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
  second_price, second_limitation, third_price, third_limitation, version)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 2, 'пункт1;пкнкт2;пункт3;пункт4;пункт5;пункт6', 
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 2, 'Проживание;3-ех разовое питание;баня, бассейн, джакузи;3 тренировки;
+2 турнира;фото и видео;аренда кортов;теоретические семинары;вечерняя программа',
 25900, 7000, 19000, '2023-12-01', 23000, '2024-01-01', 25000, '2024-02-01', 0);
 insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
  second_price, second_limitation, third_price, third_limitation, version)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 3, 'пункт1;пкнкт2;пункт3;пункт4;пункт5',
+values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 3, 'Проживание;3-ех разовое питание;вечерняя программа;баня, бассейн, джакузи',
+22900, 7000, 17000, '2023-12-01', 19000, '2024-01-01', 22000, '2024-02-01', 0);
+
+
+insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
+ second_price, second_limitation, third_price, third_limitation, version)
+values('df9bacad-8a55-418c-a654-39a02344c09a', 4, 'Пакет "Gold";игра в паре с тренером;индивидуальначя тренировка 45 минут',
+29990, 7000, 23000, '2023-12-01', 25000, '2024-01-01', 29000, '2024-02-01', 0);
+insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
+ second_price, second_limitation, third_price, third_limitation, version)
+values('df9bacad-8a55-418c-a654-39a02344c09a', 5, '8 тренировок;2 турнира;фото и видео;майка участника;
+аренда кортов;теоретические семинары;вечерняя программа',
+25900, 7000, 19000, '2023-12-01', 23000, '2024-01-01', 25000, '2024-02-01', 0);
+insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
+ second_price, second_limitation, third_price, third_limitation, version)
+values('df9bacad-8a55-418c-a654-39a02344c09a', 6, '4 тренировки;2 турнира;фото и видео;майка участника;
+аренда кортов;теоретические семинары;вечерняя программа',
 22900, 7000, 17000, '2023-12-01', 19000, '2024-01-01', 22000, '2024-02-01', 0);
 insert into camp_package_card (camp_id, package_card_id, info, total_price, booking_price, first_price, first_limitation,
  second_price, second_limitation, third_price, third_limitation, version)
-values('dd5dc5ea-f858-47c0-b518-be2d1565856d', 4, 'пункт1;пкнкт2;пункт3',
+values('df9bacad-8a55-418c-a654-39a02344c09a', 7, 'Проживание;питание;трансфер;страховка;перелет',
 9900, 3000, 5000, 'до 3 лет', 7000, 'до 6 лет', 8000, 'до 10 лет', 0);
 
 

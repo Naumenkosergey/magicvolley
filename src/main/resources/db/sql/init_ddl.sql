@@ -152,6 +152,7 @@ create table if not exists schedule(
 create table if not exists package_card (
 
     id integer primary key not null,
+    code varchar(255),
     name_package varchar(255),
     info text,
     cost_naming_link varchar(100),
