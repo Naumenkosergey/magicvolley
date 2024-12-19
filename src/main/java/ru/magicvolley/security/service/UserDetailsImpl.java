@@ -1,6 +1,5 @@
 package ru.magicvolley.security.service;
 
-import ru.magicvolley.entity.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +8,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.magicvolley.entity.UserEntity;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Builder
 @NoArgsConstructor
@@ -33,9 +32,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public static UserDetailsImpl build(UserEntity user) {
 
-        List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole().name()))
-                .collect(Collectors.toList());
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole().getRole().name()));
 
         return new UserDetailsImpl(
                 user.getId(),

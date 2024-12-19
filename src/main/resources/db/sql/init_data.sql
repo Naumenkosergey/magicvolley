@@ -6,12 +6,15 @@ insert into roles (id, role, version)
 values('888f4834-c6e4-472e-808b-171febbb9137', 'USER', 0);
 
 
-insert into users(id, telephone, username, password, email,is_blocked, version)
-values ('68c8432c-b963-46c2-b1ff-345452609ecf','admin', 'Казина Татьяянв', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za', 'kazina@mail.ru', false, 0);
-insert into users(id, telephone, username, password, email, is_blocked, version)
-values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8','1', 'Науменко Сергей', '$2y$10$OvF1JVol9zuT92MoqnwFceMle3hr88.dL6oe6Eb0ioAD434R1/BiG', 'naumeko@mail.ru', false, 0);
-insert into users(id, telephone, username, password, email, is_blocked, version)
-values ('e5050cc4-98c4-4b48-9e47-8b5057c6b46c','marozova', 'marozova natalia', '$2y$10$eFbYvZne/FFfGUlvJfyqzuWTAj9Hq/7gta/uQAm0ZW9nKw.XFypOu', 'maroz@mail.ru', true, 0);
+insert into users(id, telephone, username, password, email,is_blocked, role_id, version)
+values ('68c8432c-b963-46c2-b1ff-345452609ecf','admin', 'Казина Татьяянв', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za',
+'kazina@mail.ru', false,'1ffdc9e5-ece0-4420-ba12-b4ac1ed25573', 0);
+insert into users(id, telephone, username, password, email, is_blocked, role_id, version)
+values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8','1', 'Науменко Сергей', '$2y$10$OvF1JVol9zuT92MoqnwFceMle3hr88.dL6oe6Eb0ioAD434R1/BiG',
+'naumeko@mail.ru', false, '888f4834-c6e4-472e-808b-171febbb9137', 0);
+insert into users(id, telephone, username, password, email, is_blocked, role_id, version)
+values ('e5050cc4-98c4-4b48-9e47-8b5057c6b46c','marozova', 'marozova natalia', '$2y$10$eFbYvZne/FFfGUlvJfyqzuWTAj9Hq/7gta/uQAm0ZW9nKw.XFypOu',
+'maroz@mail.ru', true, '1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 0);
 
 insert into user_roles (role_id, user_id, version)
 values('1ffdc9e5-ece0-4420-ba12-b4ac1ed25573', '68c8432c-b963-46c2-b1ff-345452609ecf', 0);
@@ -171,11 +174,20 @@ values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', 'df9bacad-8a55-418c-a654-39a0234
 
 
 insert into questions (id, question, answer, version)
-values ('d1ee3bef-9295-4b2f-8c07-6abf16c5d7f9', 'вопрос1','ответ1', 0);
+values ('d1ee3bef-9295-4b2f-8c07-6abf16c5d7f9', 'Есть ли у вас рассрочка на спорт-пакет?',
+'У нас к каждому участнику индивидуальный подход во всем - оплата не исключени!
+Если у тебя нет возможности до начала кемпа внести всю сумму спортпакета, то напиши нам и мы предложим тебе варианты оплаты!', 0);
 insert into questions (id, question, answer, version)
-values ('7a869b3c-f152-42e8-965d-75b3d694702b', 'вопрос2','ответ2', 0);
+values ('7a869b3c-f152-42e8-965d-75b3d694702b', 'Обязательно ли покупать тур у вас?',
+'Вы можете приобрести тур самостоятельно. Но, приобретая тур у нас, вы получаете лучшую цену, круглосуточную поддержку на протяжении всего кемпа, индивидуальный подход по любому возникшему вопросу.', 0);
 insert into questions (id, question, answer, version)
-values ('42ecaf3b-7854-4709-89c9-f1e00ea65355', 'вопрос3','ответ3', 0);
+values ('42ecaf3b-7854-4709-89c9-f1e00ea65355', 'Я никогда не играл в волейбол. Есть ли у вас группы для новичков?','ответ3', 0);
+insert into questions (id, question, answer, version)
+values ('39baa098-5cb6-48da-8a0c-99fb8a8a830b', 'Где проходят кемпы выходного дня?',
+'Кемпы выходного дня проходят на территории собственного комплекса Пляж House. Это уникальный гостевой дом, для любителей пляжного волейбола и активного отдыха, в сосновом бору.', 0);
+insert into questions (id, question, answer, version)
+values ('92ecd29f-a4b7-4c98-87fa-e15419fb8263', 'Если я один, как мне оформить тур с 2-ух местным размещением?',
+'Стоимость данного размещения будет отличаться от стандартной стоимости. Для оформления тура с двухместным размещением сообщите об этом нашему менеджеру.', 0);
 
 
 insert into subscriptions (id, subscription_name, version, order_number)

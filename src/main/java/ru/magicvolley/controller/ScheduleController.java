@@ -36,6 +36,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MODERATOR')")
     public ApiResponse<ScheduleDto> getById(@PathVariable UUID id){
         return new ApiResponse<>(sheduleService.getById(id));
     }

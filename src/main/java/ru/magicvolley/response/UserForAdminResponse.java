@@ -29,18 +29,19 @@ public class UserForAdminResponse {
         this.id = userEntity.getId();
         this.name = userEntity.getUsername();
         this.telephone = userEntity.getTelephone();
-        this.isAdmin = userEntity.getRoles().stream().anyMatch(role -> role.getRole().equals(Role.ADMIN));
-        this.isModerator = userEntity.getRoles().stream().anyMatch(role -> role.getRole().equals(Role.MODERATOR));
-        this.isUser = userEntity.getRoles().stream().anyMatch(role -> role.getRole().equals(Role.USER));
+        this.isAdmin = userEntity.getRole().getRole().name().equals(Role.ADMIN.name());
+        this.isModerator = userEntity.getRole().getRole().name().equals(Role.MODERATOR.name());
+        this.isUser = userEntity.getRole().getRole().name().equals(Role.USER.name());
     }
 
     public UserForAdminResponse(UserDto userDto, MediaStorageInfo avatar) {
         this.id = userDto.getId();
         this.name = userDto.getUsername();
         this.telephone = userDto.getTelephone();
-        this.isAdmin = userDto.getRoles().stream().anyMatch(role -> role.equals(Role.ADMIN.name()));
-        this.isModerator = userDto.getRoles().stream().anyMatch(role -> role.equals(Role.MODERATOR.name()));
-        this.isUser = userDto.getRoles().stream().anyMatch(role -> role.equals(Role.USER.name()));
+        this.isAdmin = userDto.getRole().equals(Role.ADMIN.name());
+        this.isModerator = userDto.getRole().equals(Role.MODERATOR.name());
+        this.isUser = userDto.getRole().equals(Role.USER.name());
         this.avatar = avatar;
     }
+
 }

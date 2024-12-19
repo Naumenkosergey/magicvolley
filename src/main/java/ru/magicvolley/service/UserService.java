@@ -17,7 +17,6 @@ import ru.magicvolley.response.UserForAdminResponse;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -47,13 +46,14 @@ public class UserService {
     @Transactional
     public UUID create(AddUserRequest addUserRequest) {
 
-        Set<RoleEntity> rolesForRequest = roleService.getRolesForRequest(addUserRequest);
+        RoleEntity roleForRequest = roleService.getRoleForRequest(addUserRequest);
         UserEntity userEntity = UserEntity.builder()
                 .id(UUID.randomUUID())
                 .telephone(addUserRequest.getTelephone())
                 .isBlocked(Objects.nonNull(addUserRequest.getIsBlocked()) ? addUserRequest.getIsBlocked() : false)
                 .username(addUserRequest.getUsername())
-                .roles(rolesForRequest)
+                .roleId(roleForRequest.getId())
+                .role(roleForRequest)
                 .build();
         return create(userEntity);
     }
@@ -64,6 +64,7 @@ public class UserService {
         ProfileEntity profile = ProfileEntity.builder()
                 .userId(user.getId())
                 .fulName(user.getUsername())
+                .telephone(user.getTelephone())
                 .build();
         profileRepository.save(profile);
         return user.getId();
@@ -73,9 +74,10 @@ public class UserService {
     public UUID update(AddUserRequest addUserRequest) {
         UserEntity userFromDb = userRepository.findByTelephone(addUserRequest.getTelephone())
                 .orElseThrow(() -> new EntityNotFoundException(UserEntity.class, addUserRequest.getTelephone()));
-        Set<RoleEntity> rolesForRequest = roleService.getRolesForRequest(addUserRequest);
+        RoleEntity roleForRequest = roleService.getRoleForRequest(addUserRequest);
         userFromDb.setUsername(addUserRequest.getUsername());
-        userFromDb.setRoles(rolesForRequest);
+        userFromDb.setRoleId(roleForRequest.getId());
+        userFromDb.setRole(roleForRequest);
         userFromDb.setIsBlocked(Objects.nonNull(addUserRequest.getIsBlocked()) ? addUserRequest.getIsBlocked() : false);
 
         return userFromDb.getId();

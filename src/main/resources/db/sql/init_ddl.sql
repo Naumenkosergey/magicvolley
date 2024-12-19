@@ -11,14 +11,8 @@ create table if not exists users (
     telephone varchar(15) unique not null,
     password varchar(255),
     is_blocked boolean,
+    role_id uuid constraint user_role_fk references roles (id),
     version bigint
-);
-
-create table if not exists user_roles (
-    role_id uuid not null constraint user_role_role_fk references roles,
-    user_id uuid not null constraint user_role_user_fk references users,
-    version bigint,
-    constraint user_role_pk primary key (user_id, role_id)
 );
 
 create table if not exists media_storages (

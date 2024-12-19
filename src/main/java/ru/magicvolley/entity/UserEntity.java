@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -25,11 +23,11 @@ public class UserEntity {
     private String telephone;
     private String password;
     private Boolean isBlocked;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<RoleEntity> roles = new HashSet<>();
+    private UUID roleId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "roleId", insertable = false, updatable = false)
+    private RoleEntity role;
+
     @Version
     private Long version;
 }

@@ -1,14 +1,12 @@
 package ru.magicvolley.response;
 
-import ru.magicvolley.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.magicvolley.entity.UserEntity;
 
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +20,7 @@ public class JwtResponse {
     private UUID id;
     private String username;
     private String email;
-    private Set<String> roles;
+    private String role;
 
     public JwtResponse(String accessToken, String refreshToken, UserEntity userEntity) {
         this.accessToken = accessToken;
@@ -30,7 +28,7 @@ public class JwtResponse {
         this.id = userEntity.getId();
         this.username = userEntity.getUsername();
         this.email = userEntity.getEmail();
-        this.roles = userEntity.getRoles().stream().map(role -> role.getRole().name()).collect(Collectors.toSet());
+        this.role = userEntity.getRole().getRole().name();
     }
 
 //    public JwtResponse(String accessToken, String refreshToken, UserDetailsImpl userDetails, Set<String> roles) {

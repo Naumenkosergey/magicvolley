@@ -25,7 +25,6 @@ import ru.magicvolley.security.jwt.JwtUtils;
 import ru.magicvolley.security.service.UserDetailsImpl;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -71,11 +70,15 @@ public class AuthService {
     @Transactional
     public Boolean signup(SignUpRequest signUpRequest) {
 
-        if (userRepository.existsByTelephone(signUpRequest.getTelephone())) {
-            throw new RuntimeException("Error: Email is already in use!");
+        if (!signUpRequest.getTelephone().matches("[+?\\d]{11,12}")) {
+            throw new RuntimeException("Error: telephone is not valid!");
         }
 
-        RoleEntity userRole = roleRepository.findByRole(Role.USER)
+        if (userRepository.existsByTelephone(signUpRequest.getTelephone())) {
+            throw new RuntimeException("Error: telephone is already in use!");
+        }
+
+        RoleEntity roleUserFromDb = roleRepository.findByRole(Role.USER)
                 .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.USER));
 
         UserEntity user = UserEntity.builder()
@@ -83,7 +86,9 @@ public class AuthService {
                 .telephone(signUpRequest.getTelephone())
                 .username(signUpRequest.getUsername())
                 .password(encoder.encode(signUpRequest.getPassword()))
-                .roles(Set.of(userRole))
+                .isBlocked(Boolean.FALSE)
+                .roleId(roleUserFromDb.getId())
+                .role(roleUserFromDb)
                 .build();
         userService.create(user);
 
@@ -111,7 +116,7 @@ public class AuthService {
     @Transactional(propagation = Propagation.MANDATORY)
     public UserEntity addUserForCamp(String telephone) {
 
-        RoleEntity userRole = roleRepository.findByRole(Role.USER)
+        RoleEntity roleUserFromDb = roleRepository.findByRole(Role.USER)
                 .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.USER));
 
         UserEntity user = UserEntity.builder()
@@ -120,7 +125,7 @@ public class AuthService {
                 .username(telephone)
                 .password(encoder.encode(telephone))
                 .isBlocked(Boolean.FALSE)
-                .roles(Set.of(userRole))
+                .roleId(roleUserFromDb.getId())
                 .build();
         userService.create(user);
         return user;
