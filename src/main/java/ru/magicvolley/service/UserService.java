@@ -50,6 +50,7 @@ public class UserService {
         UserEntity userEntity = UserEntity.builder()
                 .id(UUID.randomUUID())
                 .telephone(addUserRequest.getTelephone())
+                .password(passwordEncoder.encode(addUserRequest.getTelephone()))
                 .isBlocked(Objects.nonNull(addUserRequest.getIsBlocked()) ? addUserRequest.getIsBlocked() : false)
                 .username(addUserRequest.getUsername())
                 .roleId(roleForRequest.getId())
