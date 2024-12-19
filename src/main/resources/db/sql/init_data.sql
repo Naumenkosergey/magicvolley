@@ -16,12 +16,6 @@ insert into users(id, telephone, username, password, email, is_blocked, role_id,
 values ('e5050cc4-98c4-4b48-9e47-8b5057c6b46c','marozova', 'marozova natalia', '$2y$10$eFbYvZne/FFfGUlvJfyqzuWTAj9Hq/7gta/uQAm0ZW9nKw.XFypOu',
 'maroz@mail.ru', true, '1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 0);
 
-insert into user_roles (role_id, user_id, version)
-values('1ffdc9e5-ece0-4420-ba12-b4ac1ed25573', '68c8432c-b963-46c2-b1ff-345452609ecf', 0);
-insert into user_roles (role_id, user_id, version)
-values('888f4834-c6e4-472e-808b-171febbb9137', 'a8fd2366-51d0-47d0-a06b-819f41af4cb8', 0);
-insert into user_roles (role_id, user_id, version)
-values('1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 'e5050cc4-98c4-4b48-9e47-8b5057c6b46c', 0);
 
 
 insert into media_storages(id, entity_id, content_type, data, file_name, size, type_entity, version)
