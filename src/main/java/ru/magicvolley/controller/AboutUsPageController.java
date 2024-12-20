@@ -30,4 +30,10 @@ public class AboutUsPageController {
     public ApiResponse<Boolean> update(@RequestBody AboutUsRequest aboutUsRequest) {
         return new ApiResponse<>(aboutUsPageService.update(aboutUsRequest));
     }
+
+    @PostMapping()
+    @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+    public ApiResponse<Boolean> create(@RequestBody AboutUsRequest aboutUsRequest) {
+        return new ApiResponse<>(aboutUsPageService.update(aboutUsRequest));
+    }
 }

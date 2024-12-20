@@ -33,6 +33,7 @@ public class ActivityService {
 
         return mapActivityToId.entrySet().stream().map(entry ->
                         AboutUsResponse.Activity.builder()
+                                .id(entry.getKey())
                                 .name(entry.getValue().getTitle())
                                 .images(mediaService.getCollection(allImagesForEntityIds.get(entry.getKey())))
                                 .build()
