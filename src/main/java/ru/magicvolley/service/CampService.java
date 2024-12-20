@@ -52,8 +52,6 @@ public class CampService {
     }
 
     public List<CampDtoForList> getList(List<CampEntity> campEntities) {
-//        Set<UUID> ids = campEntities.stream().map(CampEntity::getId).collect(Collectors.toSet());
-//        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForCamIds(ids);
         return campEntities.stream()
                 .map(this::buildCampDtoForList)
                 .toList();
@@ -78,7 +76,7 @@ public class CampService {
                 .info(campEntity.getInfo())
                 .dateStart(campEntity.getDateStart())
                 .dateEnd(campEntity.getDateEnd())
-                .countFree(campEntity.getCountFree())
+                .countFree(getCountFree(campEntity.getId()))
                 .countAll(campEntity.getCountAll())
                 .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
                 .coaches(campEntity.getCoaches().stream().map(x -> new CoachDto(x, prefixUrlMedia)).toList())
@@ -90,6 +88,17 @@ public class CampService {
                         ? null
                         : campUserService.getUsersForCampId(campEntity.getId()))
                 .build();
+    }
+
+    private Integer getCountFree(UUID campId) {
+        CampEntity campFromDb = campRepository.findById(campId)
+                .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, campId));
+        Integer bookingCount = campUserService.getUsersForCampId(campId).stream()
+                .filter(CampUserDto::getBookingConfirmed)
+                .map(CampUserDto::getBookingCount)
+                .reduce(Integer::sum)
+                .orElse(0);
+        return campFromDb.getCountAll() - bookingCount;
     }
 
     private CampDtoForList buildCampDtoForList(CampEntity campEntity) {
@@ -154,7 +163,6 @@ public class CampService {
                 .dateEnd(camp.getDateEnd())
                 .campType(campType)
                 .countAll(camp.getCountAll())
-                .countFree(camp.getCountFree())
                 .build();
         campRepository.saveAndFlush(campEntity);
 
@@ -221,8 +229,6 @@ public class CampService {
         campFromDb.setDateStart(campRequest.getDateStart());
         campFromDb.setDateEnd(campRequest.getDateEnd());
         campFromDb.setCountAll(campRequest.getCountAll());
-        campFromDb.setCountFree(campRequest.getCountFree());
-
 
         replaceImageCart(campRequest.getImageCart(), campFromDb);
         replaceMainImage(campRequest.getMainImage(), campFromDb);

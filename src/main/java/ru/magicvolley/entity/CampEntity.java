@@ -26,7 +26,6 @@ public class CampEntity {
     private LocalDate dateStart;
     private LocalDate dateEnd;
     private Integer countAll;
-    private Integer countFree;
     @Enumerated(EnumType.STRING)
     private CampType campType;
     @Column(name = "main_image_id")

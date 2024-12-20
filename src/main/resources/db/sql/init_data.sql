@@ -123,19 +123,19 @@ values('1c62bad8-8faf-43af-8f77-85fdc7eb72b7','Андрей Волков',
 'b1eb52d7-47f5-4106-a87e-bd8b5bdb6a37', 0, '2024-10-27T15:57:59.069749', '2024-10-27T15:57:59.069749', 'BEACH;CLASSIC');
 
 insert into camps(id, camp_name, camp_type, info, place, date_start, date_end, count_all,
-count_free, main_image_id, cart_image_id, version)
+main_image_id, cart_image_id, version)
 values('dd5dc5ea-f858-47c0-b518-be2d1565856d', '23 февраля день защитника отечества', 'SHORT',
 'Кемп для настоящих мужчин1;Кемп для настоящих мужчин2;Кемп для настоящих мужчин3;',
-'Пляж House Сумбулово', '2024-02-22','2024-02-24', 30, 0, '8651fdf6-6f7b-482d-97eb-4d9c7165e8a0', '8751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
+'Пляж House Сумбулово', '2024-02-22','2024-02-24', 30, '8651fdf6-6f7b-482d-97eb-4d9c7165e8a0', '8751fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
 insert into camps(id, camp_name, camp_type, info, place, date_start, date_end, count_all,
-count_free, main_image_id, cart_image_id, version)
+main_image_id, cart_image_id, version)
 values('7573f07f-3769-4f34-90cd-412fa1aab705', 'третие майские', 'SHORT',
-'Пляж House Сумбулово', 'Пляж House Сумбулово', '2024-05-09', '2024-05-12', 30, 15,
+'Пляж House Сумбулово', 'Пляж House Сумбулово', '2024-05-09', '2024-05-12', 30,
 '8851fdf6-6f7b-482d-97eb-4d9c7165e8a0', '8951fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
 insert into camps(id, camp_name, camp_type, info, place, date_start, date_end, count_all,
-count_free, main_image_id, cart_image_id, version)
+main_image_id, cart_image_id, version)
 values('df9bacad-8a55-418c-a654-39a02344c09a','киргизия','LONG','киргизия ждет тебя',
-'Киргизия', '2024-07-09', '2024-07-19', 70, 70,'8a51fdf6-6f7b-482d-97eb-4d9c7165e8a0', '8b51fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
+'Киргизия', '2024-07-09', '2024-07-19', 70,'8a51fdf6-6f7b-482d-97eb-4d9c7165e8a0', '8b51fdf6-6f7b-482d-97eb-4d9c7165e8a0', 0);
 --
 --
 insert into camp_users(camp_id, user_id, booking_confirmed, is_reserved, is_past, booking_count,  is_viewed)

@@ -19,4 +19,6 @@ public interface CampUserRepository extends JpaRepository<CampUserEntity, CampUs
     List<NotificationProjection> findAllNotificationProjection();
 
     Integer countByIsViewedFalse();
+
+    List<CampUserEntity> findAllByIdCampId(UUID uuid);
 }

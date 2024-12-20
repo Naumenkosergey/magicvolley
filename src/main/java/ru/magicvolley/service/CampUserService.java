@@ -2,7 +2,6 @@ package ru.magicvolley.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.botTelegram.Bot;
 import ru.magicvolley.dto.CampUserDto;
@@ -40,16 +39,17 @@ public class CampUserService {
             CampEntity campEntity = campRepository.findById(reservationDto.campId())
                     .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, reservationDto.campId()));
             String campName = campEntity.getCampName();
-            var username = reservationDto.name();
+            var username = reservationDto.username();
             var telephone = reservationDto.telephone();
-            bot.sendMessage(campName, username, reservationDto.bookingCount(), telephone);
+            bot.sendMessage(campName, username, telephone);
             //TODO seng telegram message
+        } else {
+            createCampUer(reservationDto.campId(), reservationDto.userId(), Boolean.FALSE);
         }
-        createCampUer(reservationDto.campId(), reservationDto.userId(), Boolean.FALSE);
         return true;
     }
 
-    private void createCampUer(UUID campId, UUID userId,  boolean isViewed) {
+    private void createCampUer(UUID campId, UUID userId, boolean isViewed) {
         CampUserEntity campUserEntity = CampUserEntity.builder()
                 .id(CampUserEntity.Id.builder()
                         .userId(userId)
@@ -78,7 +78,6 @@ public class CampUserService {
         return true;
     }
 
-    @Transactional(readOnly = true, propagation = Propagation.MANDATORY)
     public List<CampUserDto> getUsersForCampId(UUID campId) {
         List<CampUserEntity> campUserEntities = campUserRepository.findByIdCampId(campId);
         return campUserEntities.stream()

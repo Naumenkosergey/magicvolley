@@ -47,7 +47,6 @@ create table if not exists camps (
    date_start date,
    date_end date,
    count_all integer,
-   count_free integer,
    camp_type varchar(10),
    version bigint,
    main_image_id uuid references media_storages (id),

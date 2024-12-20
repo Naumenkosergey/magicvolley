@@ -5,7 +5,7 @@ import java.util.UUID;
 public record ReservationDto(
         UUID userId,
         UUID campId,
-        String name,
+        String username,
         String telephone,
         int bookingCount) {
 }
