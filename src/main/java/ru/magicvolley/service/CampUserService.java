@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.botTelegram.Bot;
 import ru.magicvolley.dto.CampUserDto;
 import ru.magicvolley.dto.ConfirmReservationDto;
 import ru.magicvolley.dto.ReservationDto;
@@ -30,11 +31,18 @@ public class CampUserService {
     private final CampRepository campRepository;
     private final AuthService authService;
     private final UserRepository userRepository;
+    private final Bot bot;
 
     @Transactional
     public Boolean makeReservation(ReservationDto reservationDto) {
 
         if (reservationDto.userId() == null) {
+            CampEntity campEntity = campRepository.findById(reservationDto.campId())
+                    .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, reservationDto.campId()));
+            String campName = campEntity.getCampName();
+            var username = reservationDto.name();
+            var telephone = reservationDto.telephone();
+            bot.sendMessage(campName, username, reservationDto.bookingCount(), telephone);
             //TODO seng telegram message
         }
         createCampUer(reservationDto.campId(), reservationDto.userId(), Boolean.FALSE);
