@@ -24,9 +24,7 @@ import ru.magicvolley.response.UserInfoResponse;
 import ru.magicvolley.security.jwt.JwtUtils;
 import ru.magicvolley.security.service.UserDetailsImpl;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,20 +53,20 @@ public class AuthService {
 
         String cookie = jwtUtils.generateJwtCookie(userDetails).toString();
 
-        List<String> roles = userDetails.getAuthorities().stream()
+        String role = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .findFirst().orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.USER));
 
         return new UserInfoResponse(userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 userDetails.getTelephone(),
                 cookie,
-                roles);
+                role);
     }
 
     @Transactional
-    public Boolean signup(SignUpRequest signUpRequest) {
+    public UserInfoResponse signup(SignUpRequest signUpRequest) {
 
         if (!signUpRequest.getTelephone().matches("[+?\\d]{11,12}")) {
             throw new RuntimeException("Error: telephone is not valid!");
@@ -92,7 +90,16 @@ public class AuthService {
                 .build();
         userService.create(user);
 
-        return Boolean.TRUE;
+        UserDetailsImpl userDetails = UserDetailsImpl.build(user);
+        String cookie = jwtUtils.generateJwtCookie(userDetails).toString();
+
+        return new UserInfoResponse(userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                userDetails.getTelephone(),
+                cookie,
+                roleUserFromDb.getRole().name());
+
     }
 
     public UUID getCurrentUserId() {

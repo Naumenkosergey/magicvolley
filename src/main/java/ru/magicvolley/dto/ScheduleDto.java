@@ -6,13 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.magicvolley.Util;
 import ru.magicvolley.entity.ScheduleEntity;
 import ru.magicvolley.entity.ScheduleGroupEntity;
 import ru.magicvolley.enums.DayOfWeek;
 
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,20 +26,10 @@ public class ScheduleDto {
     private String name;
     private List<Day> days;
 
-    public ScheduleDto(Map.Entry<UUID, List<ScheduleEntity>> entry,
-                       Map<UUID, ScheduleGroupEntity> scheduleGroupToSchedule) {
-
-        this.id = entry.getKey();
-        this.name = scheduleGroupToSchedule.get(entry.getKey()).getGroupName();
-        this.days = entry.getValue().stream()
-                .map(Day::new)
-                .collect(Collectors.toList());
-    }
-
     public ScheduleDto(ScheduleGroupEntity scheduleGroupFromDb, List<ScheduleEntity> schedules) {
         this.id = scheduleGroupFromDb.getId();
         this.name = scheduleGroupFromDb.getGroupName();
-        this.days = schedules.stream()
+        this.days = Util.getSaveStream(schedules)
                 .map(Day::new)
                 .collect(Collectors.toList());
     }

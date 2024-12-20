@@ -37,7 +37,13 @@ public class ScheduleController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MODERATOR')")
-    public ApiResponse<ScheduleDto> getById(@PathVariable UUID id){
+    public ApiResponse<ScheduleDto> getById(@PathVariable UUID id) {
         return new ApiResponse<>(sheduleService.getById(id));
+    }
+
+    @DeleteMapping("/trein/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ApiResponse<Boolean> delete(@PathVariable UUID id) {
+        return new ApiResponse<>(sheduleService.delete(id));
     }
 }

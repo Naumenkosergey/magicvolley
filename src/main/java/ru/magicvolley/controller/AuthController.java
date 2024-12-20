@@ -30,11 +30,13 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignUpRequest signupRequest){
-        boolean isCreateUser = authService.signup(signupRequest);
-        return isCreateUser
-                ? ResponseEntity.ok(new MessageResponse("User registered successfully!"))
-                : ResponseEntity.badRequest().body(new MessageResponse("login or email already exists"));
+    public ResponseEntity<UserInfoResponse> signup(@RequestBody SignUpRequest signupRequest){
+         var signup = authService.signup(signupRequest);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, signup.getCookie()).body(signup);
+
+//        return isCreateUser
+//                ? ResponseEntity.ok(new MessageResponse("User registered successfully!"))
+//                : ResponseEntity.badRequest().body(new MessageResponse("login or email already exists"));
     }
 
     @GetMapping("/logout")

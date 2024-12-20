@@ -2,6 +2,7 @@ package ru.magicvolley.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.ScheduleDto;
@@ -29,15 +30,16 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public List<ScheduleDto> getSchedule() {
 
+        List<ScheduleGroupEntity> scheduleGroupsFromDb = scheduleGroupRepository.findAll();
 
         var scheduleGroupIdToSchedule = scheduleRepository.findAll()
                 .stream().collect(Collectors.groupingBy(ScheduleEntity::getScheduleGroupId));
 
-        Map<UUID, ScheduleGroupEntity> scheduleGroupToSchedule = scheduleGroupRepository.findAllById(scheduleGroupIdToSchedule.keySet()).stream()
+        Map<UUID, ScheduleGroupEntity> scheduleGroupToSchedule = scheduleGroupsFromDb.stream()
                 .collect(Collectors.toMap(ScheduleGroupEntity::getId, Function.identity()));
 
-        return scheduleGroupIdToSchedule.entrySet().stream()
-                .map(entry -> new ScheduleDto(entry, scheduleGroupToSchedule))
+        return scheduleGroupsFromDb.stream()
+                .map(scheduleGroup -> new ScheduleDto(scheduleGroup, scheduleGroupIdToSchedule.get(scheduleGroup.getId())))
                 .sorted(Comparator.comparing(o -> scheduleGroupToSchedule.get(o.getId()).getOrderNumber()))
                 .collect(Collectors.toList());
     }
@@ -63,6 +65,7 @@ public class ScheduleService {
 
     private static List<ScheduleEntity> getNewSchedulesFromRequest(ScheduleDto scheduleDto, UUID scheduleGroupId) {
         return scheduleDto.getDays().stream()
+                .filter(day -> StringUtils.isNoneBlank(day.getTime()) && StringUtils.isNoneBlank(day.getAddress()))
                 .map(day -> ScheduleEntity.builder()
                         .id(UUID.randomUUID())
                         .day(day.getId())
@@ -97,5 +100,16 @@ public class ScheduleService {
             scheduleRepository.saveAll(newSchedules);
         }
         return scheduleGroupFromDb.getId();
+    }
+
+    @Transactional
+    public Boolean delete(UUID id) {
+        ScheduleGroupEntity scheduleGroupFromDb = scheduleGroupRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ScheduleEntity.class, id));
+
+        List<ScheduleEntity> schedulesFromDb = scheduleRepository.findAllByScheduleGroupId(scheduleGroupFromDb.getId());
+        scheduleRepository.deleteAll(schedulesFromDb);
+        scheduleGroupRepository.delete(scheduleGroupFromDb);
+        return true;
     }
 }
