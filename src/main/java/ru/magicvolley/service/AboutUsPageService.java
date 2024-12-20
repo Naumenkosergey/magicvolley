@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.entity.AboutUsPageEntity;
+import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.AboutUsPageRepository;
 import ru.magicvolley.request.AboutUsRequest;
 import ru.magicvolley.response.AboutUsResponse;
-
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -20,15 +19,18 @@ public class AboutUsPageService {
     private final ActivityService activityService;
 
 
-
     @Transactional(readOnly = true)
     public AboutUsResponse getAbout() {
-        AboutUsPageEntity aboutUsPageEntity = aboutUsPageRepository.findAll().stream().findFirst().orElse(null);
+        AboutUsPageEntity aboutUsPageEntity = aboutUsPageRepository.findAll().stream().findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Страница о нас не найдена"));
 
         return AboutUsResponse.builder()
-                .title(Objects.nonNull(aboutUsPageEntity) ? aboutUsPageEntity.getTitle() : "")
-                .subTitleFirst(Objects.nonNull(aboutUsPageEntity) ? aboutUsPageEntity.getSubtitleFirst() : "")
-                .subTitleSecond(Objects.nonNull(aboutUsPageEntity) ? aboutUsPageEntity.getSubtitleSecond() : "")
+                .title(aboutUsPageEntity.getTitle())
+                .subTitleFirst(aboutUsPageEntity.getSubtitleFirst())
+                .subTitleSecond(aboutUsPageEntity.getSubtitleSecond())
+                .numberOfCamps(aboutUsPageEntity.getNumberOfCamps())
+                .numberOfStudents(aboutUsPageEntity.getNumberOfStudents())
+                .numberOfWorkouts(aboutUsPageEntity.getNumberOfWorkouts())
                 .Activities(activityService.getActivities())
                 .reviews(reviewService.getReviews())
                 .master(masterService.getMaster())
@@ -38,15 +40,17 @@ public class AboutUsPageService {
 
     @Transactional
     public Boolean update(AboutUsRequest aboutUsRequest) {
-        AboutUsPageEntity aboutUsPageFromDb = aboutUsPageRepository.findAll().stream().findFirst().orElse(null);
+        AboutUsPageEntity aboutUsPageFromDb = aboutUsPageRepository.findAll().stream().findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Страница о нас не найдена"));
 
         aboutUsPageFromDb.setTitle(aboutUsRequest.getTitle());
         aboutUsPageFromDb.setSubtitleFirst(aboutUsRequest.getSubTitleFirst());
         aboutUsPageFromDb.setSubtitleSecond(aboutUsRequest.getSubTitleSecond());
+        aboutUsPageFromDb.setNumberOfCamps(aboutUsRequest.getNumberOfCamps());
+        aboutUsPageFromDb.setNumberOfStudents(aboutUsRequest.getNumberOfStudents());
+        aboutUsPageFromDb.setNumberOfWorkouts(aboutUsRequest.getNumberOfWorkouts());
 
         masterService.setMaster(aboutUsRequest.getMaster());
-//        activityService.setActivities(aboutUsRequest.getActivities());
-//        reviewService.setReviews(aboutUsRequest.getReviews());
 
         return true;
     }
