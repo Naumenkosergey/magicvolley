@@ -14,7 +14,7 @@ public class CampUserController {
 
     private final CampUserService campUserService;
 
-    @PutMapping()
+    @PostMapping()
 //    @PreAuthorize("hasAuthority('USER')")
     public ApiResponse<Boolean> makeReservation(@RequestBody ReservationDto reservationRequest) {
         return new ApiResponse<>(campUserService.makeReservation(reservationRequest));
