@@ -28,6 +28,7 @@ public class AboutUsResponse {
     @AllArgsConstructor
     @Builder
     public static class Activity {
+        private UUID id;
         private String name;
         private List<MediaStorageInfo> images;
     }
