@@ -24,6 +24,7 @@ import ru.magicvolley.response.UserInfoResponse;
 import ru.magicvolley.security.jwt.JwtUtils;
 import ru.magicvolley.security.service.UserDetailsImpl;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -59,10 +60,10 @@ public class AuthService {
 
         return new UserInfoResponse(userDetails.getId(),
                 userDetails.getUsername(),
-                userDetails.getEmail(),
                 userDetails.getTelephone(),
+                userDetails.getEmail(),
                 cookie,
-                role);
+                Set.of(role));
     }
 
     @Transactional
@@ -95,10 +96,10 @@ public class AuthService {
 
         return new UserInfoResponse(userDetails.getId(),
                 userDetails.getUsername(),
-                userDetails.getEmail(),
                 userDetails.getTelephone(),
+                userDetails.getEmail(),
                 cookie,
-                roleUserFromDb.getRole().name());
+                Set.of(roleUserFromDb.getRole().name()));
 
     }
 

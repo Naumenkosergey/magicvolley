@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -18,6 +19,6 @@ public class UserInfoResponse {
 	private String telephone;
 	private String email;
 	private String cookie;
-	private String role;
+	private Set<String> roles;
 
 }
