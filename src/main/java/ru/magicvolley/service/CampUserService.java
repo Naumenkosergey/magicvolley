@@ -41,7 +41,7 @@ public class CampUserService {
             String campName = campEntity.getCampName();
             var username = reservationDto.username();
             var telephone = reservationDto.telephone();
-            bot.sendMessage(campName, username, telephone);
+            bot.reservedCamp(campName, username, telephone);
             //TODO seng telegram message
         } else {
             createCampUer(reservationDto.campId(), reservationDto.userId(), Boolean.FALSE);

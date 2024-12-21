@@ -45,13 +45,29 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendMessage(String campName, String userName, String telephone) {
+    public void reservedCamp(String campName, String userName, String telephone) {
 
         var text = """
                 %s хочет забронировать кемп %s.
                 Телефон для связи: %s
                 """;
         String textFormat = String.format(text, userName, campName, telephone);
+        String chatIdStr = String.valueOf(697146925);
+        SendMessage message = new SendMessage(chatIdStr, textFormat);
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendAnswer(String answer, String userName, String telephone) {
+
+        var text = """
+                %s спрашивает: %s.
+                Телефон для связи: %s
+                """;
+        String textFormat = String.format(text, userName, answer, telephone);
         String chatIdStr = String.valueOf(697146925);
         SendMessage message = new SendMessage(chatIdStr, textFormat);
         try {
