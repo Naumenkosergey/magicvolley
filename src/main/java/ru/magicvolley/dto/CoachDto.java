@@ -28,6 +28,7 @@ public class CoachDto {
     private Boolean isBeach;
     private Boolean isClassic;
     private MediaStorageInfo mainImage;
+    private boolean isVisible;
 
     public CoachDto(CoachEntity coach, String prefixUrlMedia) {
         this.id = coach.getId();
@@ -37,5 +38,6 @@ public class CoachDto {
         this.isBeach = coach.getCoachType().contains(BEACH.name());
         this.isClassic = coach.getCoachType().contains(CLASSIC.name());
         this.mainImage = Objects.nonNull(coach.getAvatar()) ? new MediaStorageInfo(coach.getAvatar(), prefixUrlMedia) : null;
+        this.isVisible = Objects.nonNull(coach.isVisible()) ? isVisible : true;
     }
 }

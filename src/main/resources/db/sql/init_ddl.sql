@@ -32,6 +32,7 @@ create table if not exists coaches (
    coach_name varchar(100),
    info text,
    promo text,
+   is_visible boolean,
    coach_type varchar(20),
    version bigint,
    image_id uuid constraint coaches_image_fk references media_storages (id),
@@ -192,6 +193,7 @@ create table if not exists activity (
    title varchar(255),
    created_at date,
    updated_at date,
+   order_number integer,
    version bigint
 );
 

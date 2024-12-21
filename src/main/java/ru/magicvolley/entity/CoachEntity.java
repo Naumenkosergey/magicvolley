@@ -33,6 +33,7 @@ public class CoachEntity {
     private LocalDateTime updatedAt;
     @Version
     private Long version;
+    private boolean isVisible;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")

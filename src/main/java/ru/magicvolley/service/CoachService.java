@@ -68,6 +68,7 @@ public class CoachService {
         coachFromDb.setCoachName(coach.getName());
         coachFromDb.setInfo(String.join(";", coach.getInfos()));
         coachFromDb.setPromo(coach.getPromo());
+        coachFromDb.setVisible(Objects.nonNull(coach.isVisible()) ? coach.isVisible() : true);
 
         MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachFromDb.getId(), TypeEntity.COACH);
         setAvatar(mediaStorage, coachFromDb);
