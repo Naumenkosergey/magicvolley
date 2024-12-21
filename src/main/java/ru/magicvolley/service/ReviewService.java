@@ -34,6 +34,7 @@ public class ReviewService {
 
         return reviews.stream().map(reviewEntity ->
                 AboutUsResponse.Review.builder()
+                        .id(reviewEntity.getId())
                         .name(reviewEntity.getNameReviewer())
                         .image(new MediaStorageInfo(reviewEntity.getAvatarReviewer(), prefixUrlMedia))
                         .date(reviewEntity.getDateReview().toString())
@@ -48,7 +49,7 @@ public class ReviewService {
         ReviewEntity reviewFromDb = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(ReviewEntity.class, reviewId));
 
-        MediaStorageEntity avatarReviewer = mediaService.mediaInfoToMediaStorage(reviewRequest.getImage(), reviewFromDb.getId());
+        MediaStorageEntity avatarReviewer = mediaService.mediaInfoToMediaStorage(reviewRequest.getImage(), reviewFromDb.getId(), TypeEntity.REVIEW);
         reviewFromDb.setDateReview(dateReviewRequest);
         reviewFromDb.setReviewText(reviewRequest.getComment());
         reviewFromDb.setNameReviewer(reviewRequest.getName());
@@ -61,7 +62,7 @@ public class ReviewService {
     public UUID createReview(AboutUsRequest.Review reviewRequest) {
 
         UUID id = UUID.randomUUID();
-        MediaStorageEntity avatarReviewer = mediaService.mediaInfoToMediaStorage(reviewRequest.getImage(), id);
+        MediaStorageEntity avatarReviewer = mediaService.mediaInfoToMediaStorage(reviewRequest.getImage(), id, TypeEntity.REVIEW);
         ReviewEntity reviewNew = ReviewEntity.builder()
                 .id(id)
                 .nameReviewer(reviewRequest.getName())

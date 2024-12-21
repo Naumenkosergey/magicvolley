@@ -11,6 +11,7 @@ import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CoachEntity;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.CoachType;
+import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CoachRepository;
@@ -53,7 +54,7 @@ public class CoachService {
                 .info(String.join(";", coach.getInfos()))
                 .promo(coach.getPromo())
                 .build());
-        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachEntity.getId());
+        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachEntity.getId(), TypeEntity.COACH);
         setAvatar(mediaStorage, coachEntity);
         coachRepository.save(coachEntity);
         return coachEntity.getId();
@@ -68,7 +69,7 @@ public class CoachService {
         coachFromDb.setInfo(String.join(";", coach.getInfos()));
         coachFromDb.setPromo(coach.getPromo());
 
-        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachFromDb.getId());
+        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachFromDb.getId(), TypeEntity.COACH);
         setAvatar(mediaStorage, coachFromDb);
         coachRepository.save(coachFromDb);
         return coachFromDb.getId();

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import ru.magicvolley.dto.MediaStorageInfo;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -26,9 +27,42 @@ public class AboutUsRequest {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
+    public static class Activity {
+        private UUID id;
+        private String name;
+        private List<MediaStorageInfo> images;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Video {
+        private UUID id;
+        private String name;
+        private String url;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class Master {
+        private UUID id;
         private String name;
         private List<String> infos;
+        private MediaStorageInfo image;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Review {
+        private UUID id;
+        private String name;
+        private String date;
+        private String comment;
         private MediaStorageInfo image;
     }
 }

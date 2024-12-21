@@ -47,11 +47,13 @@ public class ActivityService {
                 .orElseThrow(() -> new EntityNotFoundException(ActivityEntity.class, activityId));
 
         activityFromDb.setTitle(activityRequest.getName());
-        activityRequest.getImages().forEach(image ->
-                mediaService.mediaInfoToMediaStorage(image, activityFromDb.getId()));
+
+        mediaService.deletedOldImagesUploadNewImages(activityRequest.getImages(), activityFromDb.getId(), TypeEntity.ACTIVITY);
 
         return true;
     }
+
+
 
     @Transactional
     public UUID createActivity(AboutUsRequest.Activity activityRequest) {
@@ -62,9 +64,8 @@ public class ActivityService {
                 .build();
 
         activityRepository.save(activityNew);
-
         activityRequest.getImages().forEach(image ->
-                mediaService.mediaInfoToMediaStorage(image, activityNew.getId()));
+                mediaService.mediaInfoToMediaStorage(image, activityNew.getId(), TypeEntity.ACTIVITY));
 
         return activityNew.getId();
     }
@@ -73,7 +74,7 @@ public class ActivityService {
     public Boolean delete(UUID activityId) {
         ActivityEntity activityFomDb = activityRepository.findById(activityId)
                 .orElseThrow(() -> new EntityNotFoundException(ActivityEntity.class, activityId));
-        mediaService.delete(activityFomDb.getId(), TypeEntity.ACTIVATE);
+        mediaService.delete(activityFomDb.getId(), TypeEntity.ACTIVITY);
         activityRepository.delete(activityFomDb);
         return true;
     }

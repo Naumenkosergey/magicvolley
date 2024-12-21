@@ -51,6 +51,7 @@ public class AboutUsResponse {
     @AllArgsConstructor
     @Builder
     public static class Master {
+        private UUID id;
         private String name;
         private List<String> infos;
         private MediaStorageInfo image;
@@ -61,6 +62,7 @@ public class AboutUsResponse {
     @AllArgsConstructor
     @Builder
     public static class Review {
+        private UUID id;
         private String name;
         private String date;
         private String comment;

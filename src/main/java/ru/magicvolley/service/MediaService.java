@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import ru.magicvolley.Util;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.dto.MediaUploadDto;
 import ru.magicvolley.entity.MediaStorageEntity;
@@ -80,16 +81,21 @@ public class MediaService {
                 .build();
     }
 
-    public MediaStorageEntity mediaInfoToMediaStorage(MediaStorageInfo mediaInfo, UUID entityId) {
+    public MediaStorageEntity mediaInfoToMediaStorage(MediaStorageInfo mediaInfo, UUID entityId, TypeEntity typeEntity) {
         if (Objects.nonNull(mediaInfo)) {
             try {
                 if (Objects.isNull(mediaInfo.getId())) {
-                    return createMediaStorage(mediaInfo, entityId);
+                    return createMediaStorage(mediaInfo, entityId, typeEntity);
                 } else {
                     MediaStorageEntity mediaStorage = mediaRepository.findById(mediaInfo.getId())
-                            .orElseThrow(() -> new EntityNotFoundException(MediaStorageEntity.class, mediaInfo.getId()));
+                            .orElse(null);
+                    if(Objects.isNull(mediaStorage)){
+                        return createMediaStorage(mediaInfo, entityId, typeEntity);
+                    }
                     mediaStorage.setEntityId(entityId);
                     mediaStorage.setContentType(mediaInfo.getContentType());
+                    mediaStorage.setTypeEntity(typeEntity);
+                    mediaRepository.save(mediaStorage);
                     return mediaStorage;
                 }
             } catch (IOException e) {
@@ -100,14 +106,14 @@ public class MediaService {
     }
 
 
-    private MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo, UUID entityId) throws IOException {
+    private MediaStorageEntity createMediaStorage(MediaStorageInfo mediaStorageInfo, UUID entityId, TypeEntity typeEntity) throws IOException {
         MediaStorageEntity mediaStorageEntity = MediaStorageEntity.builder()
                 .id(UUID.randomUUID())
                 .fileName(StringUtils.cleanPath(Objects.requireNonNull(mediaStorageInfo.getName())))
                 .data(mediaStorageInfo.getData())
                 .contentType(mediaStorageInfo.getContentType())
                 .size(mediaStorageInfo.getSize())
-                .typeEntity(mediaStorageInfo.getTypeEntity())
+                .typeEntity(typeEntity)
                 .entityId(entityId)
                 .build();
         mediaRepository.save(mediaStorageEntity);
@@ -128,8 +134,6 @@ public class MediaService {
         List<MediaStorageEntity> mediaStorageFromDbs = mediaRepository
                 .findAllByEntityIdAndTypeEntity(entityId, typeEntity);
         mediaRepository.deleteAll(mediaStorageFromDbs);
-
-
     }
 
     public void delete(Collection<UUID> ids, UUID entityId, TypeEntity typeEntity) {
@@ -161,6 +165,22 @@ public class MediaService {
             return collection.stream().toList();
         }
         return Collections.emptyList();
+    }
+
+    public void deletedOldImagesUploadNewImages(List<MediaStorageInfo> imagesForRequest, UUID entityId, TypeEntity typeEntity) {
+        Map<UUID, List<MediaStorageInfo>> allImagesForActivityIds = getAllImagesForEntityIds(Set.of(entityId));
+        Set<UUID> imageIdsForRequest = Util.getSaveStream(imagesForRequest).map(MediaStorageInfo::getId).collect(Collectors.toSet());
+        List<MediaStorageInfo> mediaStorageInfos = allImagesForActivityIds.get(entityId);
+        if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {
+            mediaStorageInfos.removeIf(x -> imageIdsForRequest.contains(x.getId()));
+        }
+        Set<UUID> ids = Util.getSaveStream(mediaStorageInfos)
+                .map(MediaStorageInfo::getId).collect(Collectors.toSet());
+        delete(ids, entityId, typeEntity);
+        if (CollectionUtils.isNotEmpty(imagesForRequest)) {
+            imagesForRequest.forEach(image ->
+                    mediaInfoToMediaStorage(image, entityId, typeEntity));
+        }
     }
 }
 
