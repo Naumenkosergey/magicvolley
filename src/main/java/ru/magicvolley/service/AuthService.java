@@ -2,6 +2,7 @@ package ru.magicvolley.service;
 
 import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import ru.magicvolley.enums.Role;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.RoleRepository;
 import ru.magicvolley.repository.UserRepository;
+import ru.magicvolley.request.AddUserCampRequest;
 import ru.magicvolley.request.LoginRequest;
 import ru.magicvolley.request.SignUpRequest;
 import ru.magicvolley.response.UserInfoResponse;
@@ -122,16 +124,16 @@ public class AuthService {
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
-    public UserEntity addUserForCamp(String telephone) {
+    public UserEntity addUserForCamp(AddUserCampRequest addUserCampRequest) {
 
         RoleEntity roleUserFromDb = roleRepository.findByRole(Role.USER)
                 .orElseThrow(() -> new EntityNotFoundException(RoleEntity.class, Role.USER));
 
         UserEntity user = UserEntity.builder()
                 .id(UUID.randomUUID())
-                .telephone(telephone)
-                .username(telephone)
-                .password(encoder.encode(telephone))
+                .telephone(addUserCampRequest.getTelephone())
+                .username(StringUtils.isNoneBlank(addUserCampRequest.getUsername()) ? addUserCampRequest.getUsername() : addUserCampRequest.getTelephone())
+                .password(encoder.encode(addUserCampRequest.getTelephone()))
                 .isBlocked(Boolean.FALSE)
                 .roleId(roleUserFromDb.getId())
                 .build();

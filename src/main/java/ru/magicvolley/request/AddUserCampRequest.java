@@ -14,5 +14,7 @@ import java.util.UUID;
 public class AddUserCampRequest {
 
     private String telephone;
+    private String username;
+    private Integer bookingCount;
     private UUID campId;
 }

@@ -19,6 +19,7 @@ import ru.magicvolley.response.NotificationResponse;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -44,12 +45,12 @@ public class CampUserService {
             bot.reservedCamp(campName, username, telephone);
             //TODO seng telegram message
         } else {
-            createCampUer(reservationDto.campId(), reservationDto.userId(), Boolean.FALSE);
+            createCampUser(reservationDto.campId(), reservationDto.userId(), Boolean.FALSE, 1);
         }
         return true;
     }
 
-    private void createCampUer(UUID campId, UUID userId, boolean isViewed) {
+    private void createCampUser(UUID campId, UUID userId, boolean isViewed, Integer bookingCount) {
         CampUserEntity campUserEntity = CampUserEntity.builder()
                 .id(CampUserEntity.Id.builder()
                         .userId(userId)
@@ -57,10 +58,10 @@ public class CampUserService {
                         .build()
                 )
                 .bookingConfirmed(Boolean.FALSE)
-                .bookingCount(1)
+                .bookingCount(Objects.nonNull(bookingCount) ? bookingCount : 1)
                 .isReserved(Boolean.TRUE)
                 .isPast(Boolean.FALSE)
-                .isViewed(Boolean.FALSE)
+                .isViewed(isViewed)
                 .build();
         campUserRepository.save(campUserEntity);
     }
@@ -106,9 +107,9 @@ public class CampUserService {
     @Transactional
     public boolean addUserToCamp(AddUserCampRequest addUserCampRequest) {
         UserEntity userEntity = userRepository.findByTelephone(addUserCampRequest.getTelephone()).orElse(
-                authService.addUserForCamp(addUserCampRequest.getTelephone()));
+                authService.addUserForCamp(addUserCampRequest));
 
-        createCampUer(addUserCampRequest.getCampId(), userEntity.getId(), Boolean.TRUE);
+        createCampUser(addUserCampRequest.getCampId(), userEntity.getId(), Boolean.TRUE, addUserCampRequest.getBookingCount());
         return true;
 
     }
