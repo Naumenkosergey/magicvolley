@@ -20,7 +20,7 @@
             </activation>
         </profile>
         <profile>
-            <id>production</id>
+            <id>prod</id>
             <properties>
                 <spring-active.profile>prod</spring-active.profile>
             </properties>

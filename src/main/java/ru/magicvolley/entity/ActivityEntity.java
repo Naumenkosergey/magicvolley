@@ -24,6 +24,7 @@ public class ActivityEntity {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+    private Integer orderNumber;
 
     @Version
     private Long version;

@@ -27,7 +27,7 @@ public class ActivityService {
 
     public List<AboutUsResponse.Activity> getActivities() {
         Map<UUID, ActivityEntity> mapActivityToId = activityRepository.findAll().stream()
-                .sorted(Comparator.comparing(ActivityEntity::getUpdatedAt))
+                .sorted(Comparator.comparing(ActivityEntity::getOrderNumber))
                 .collect(Collectors.toMap(ActivityEntity::getId, Function.identity(), (o1, o2) -> o1, LinkedHashMap::new));
         Map<UUID, List<MediaStorageInfo>> allImagesForEntityIds = mediaService.getAllImagesForEntityIds(mapActivityToId.keySet());
 
@@ -54,13 +54,18 @@ public class ActivityService {
     }
 
 
-
     @Transactional
     public UUID createActivity(AboutUsRequest.Activity activityRequest) {
+
+        Integer maxOrderNumberForActivity = activityRepository.findAll().stream()
+                .map(ActivityEntity::getOrderNumber)
+                .max(Comparator.naturalOrder())
+                .orElse(0);
 
         ActivityEntity activityNew = ActivityEntity.builder()
                 .id(UUID.randomUUID())
                 .title(activityRequest.getName())
+                .orderNumber(maxOrderNumberForActivity + 1)
                 .build();
 
         activityRepository.save(activityNew);

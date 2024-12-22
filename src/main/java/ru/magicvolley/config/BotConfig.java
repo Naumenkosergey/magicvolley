@@ -8,7 +8,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.magicvolley.botTelegram.Bot;
 
 @Configuration
-public class botConfig {
+public class BotConfig {
 
     @Bean
     public TelegramBotsApi telegramBotsApi(Bot bot) throws TelegramApiException {

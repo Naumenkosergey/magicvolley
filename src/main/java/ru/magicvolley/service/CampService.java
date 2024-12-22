@@ -171,7 +171,6 @@ public class CampService {
         setImageCart(imageCart, campEntity);
         createCampCoaches(camp.getCoaches(), campEntity);
         createCampPackages(camp.getPackages(), campEntity);
-        loadImagesForCamp(camp.getImages(), campEntity);
         return campEntity.getId();
     }
 
@@ -304,12 +303,14 @@ public class CampService {
     private static void setMainImage(MediaStorageEntity mediaStorage, CampEntity campEntity) {
         if (Objects.nonNull(mediaStorage)) {
             campEntity.setMainImage(mediaStorage);
+            campEntity.setMainImageId(mediaStorage.getId());
         }
     }
 
     private static void setImageCart(MediaStorageEntity mediaStorage, CampEntity campEntity) {
         if (Objects.nonNull(mediaStorage)) {
             campEntity.setImageCart(mediaStorage);
+            campEntity.setCartImageId(mediaStorage.getId());
         }
     }
 }

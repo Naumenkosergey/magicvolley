@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping(value = "/magicvolley/notifications", produces = MediaType.APPLICATION_JSON_VALUE)
 public class NotificationController {
 
-    CampUserService campUserService;
+    private final CampUserService campUserService;
 
     @GetMapping()
     @PreAuthorize("hasAuthority('ADMIN')")

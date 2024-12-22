@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import javax.sql.DataSource;
 
 @Configuration
-@Profile("!development")
+@Profile("prod")
 public class DataSourceProdConfig {
 
     @Bean(name = "masterDataSource")
