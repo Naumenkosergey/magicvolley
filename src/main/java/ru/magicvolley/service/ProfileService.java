@@ -103,5 +103,4 @@ public class ProfileService {
         return profileRepository.findById(passwordUpdateForProfile.id())
                 .orElseThrow(() -> new EntityNotFoundException(ProfileEntity.class, passwordUpdateForProfile.id()));
     }
-
 }

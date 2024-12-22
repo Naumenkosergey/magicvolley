@@ -31,6 +31,7 @@ public class CampUserService {
     private final CampRepository campRepository;
     private final AuthService authService;
     private final UserRepository userRepository;
+    private final ProfileCampService profileCampService;
     private final Bot bot;
 
     @Transactional
@@ -75,6 +76,8 @@ public class CampUserService {
         CampUserEntity campUserFromDb = campUserRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(CampUserEntity.class, id));
         campUserFromDb.setBookingConfirmed(confirmReservationRequest.isConfirm());
+
+        profileCampService.confirmOrUnconfirmCampForUser(confirmReservationRequest);
         campUserFromDb.setIsViewed(Boolean.TRUE);
         return true;
     }
