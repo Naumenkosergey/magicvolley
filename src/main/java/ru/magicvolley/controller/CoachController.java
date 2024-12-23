@@ -40,6 +40,16 @@ public class CoachController {
         return new ApiResponse<>(coachService.getAllMediaCoaches(CoachType.BEACH, CoachType.CLASSIC));
     }
 
+    @GetMapping("/all/media/beach")
+    public ApiResponse<List<MediaStorageInfo>> getAllMediaCoachesBeach(){
+        return new ApiResponse<>(coachService.getAllMediaCoaches(CoachType.BEACH));
+    }
+
+    @GetMapping("/all/media/classic")
+    public ApiResponse<List<MediaStorageInfo>> getAllMediaCoachesClassic(){
+        return new ApiResponse<>(coachService.getAllMediaCoaches(CoachType.CLASSIC));
+    }
+
     @GetMapping("/{id}")
     public ApiResponse<CoachDto> getById(@PathVariable UUID id){
         return new ApiResponse<>(coachService.getById(id));

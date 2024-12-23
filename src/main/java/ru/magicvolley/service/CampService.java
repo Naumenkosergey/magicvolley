@@ -17,6 +17,7 @@ import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CampPackageCardRepository;
 import ru.magicvolley.repository.CampRepository;
+import ru.magicvolley.repository.CampUserRepository;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -36,6 +37,7 @@ public class CampService {
 
     @Value("${media.prefix.url}")
     private String prefixUrlMedia;
+    private final CampUserRepository campUserRepository;
 
     @Transactional(readOnly = true)
     public List<CampDtoForList> getAll(CampType type) {
@@ -113,6 +115,7 @@ public class CampService {
     public CampDto getById(UUID id) {
         CampEntity campEntity = campRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
+        campUserService.recalculateIsViewUsers(campEntity.getId());
         Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()));
         return buildCampDto(campEntity, allImagesForCamIds);
     }

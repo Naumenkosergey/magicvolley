@@ -2,6 +2,7 @@ package ru.magicvolley.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.botTelegram.Bot;
 import ru.magicvolley.dto.CampUserDto;
@@ -114,6 +115,14 @@ public class CampUserService {
 
         createCampUser(addUserCampRequest.getCampId(), userEntity.getId(), Boolean.TRUE, addUserCampRequest.getBookingCount());
         return true;
+
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void recalculateIsViewUsers(UUID campId) {
+        List<CampUserEntity> allByIdCampId = campUserRepository.findAllByIdCampId(campId);
+        allByIdCampId.forEach(x -> x.setIsViewed(Boolean.TRUE));
+        campUserRepository.saveAll(allByIdCampId);
 
     }
 }
