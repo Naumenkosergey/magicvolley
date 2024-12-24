@@ -1,6 +1,7 @@
 package ru.magicvolley.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,27 +53,36 @@ public class CoachService {
                 .id(UUID.randomUUID())
                 .coachName(coach.getName())
                 .info(String.join(";", coach.getInfos()))
+                .coachType(getCoachTypeFromRequest(coach.getIsBeach(), coach.getIsClassic()))
                 .promo(coach.getPromo())
                 .build());
         MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachEntity.getId(), TypeEntity.COACH);
         setAvatar(mediaStorage, coachEntity);
-        coachRepository.save(coachEntity);
+        coachRepository.saveAndFlush(coachEntity);
+        if (CollectionUtils.isNotEmpty(coach.getImages())) {
+            coach.getImages().forEach(x -> mediaService.mediaInfoToMediaStorage(x, coachEntity.getId(), TypeEntity.COACH));
+//            mediaService.deletedOldImagesUploadNewImages(coach.getImages(), coachEntity.getId(), TypeEntity.COACH);
+        }
         return coachEntity.getId();
     }
 
     @Transactional
-    public UUID update(CoachDto coach, UUID coachId) {
+    public UUID update(CoachRequest coach, UUID coachId) {
 
         CoachEntity coachFromDb = coachRepository.findById(coachId)
                 .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, coach.getId()));
         coachFromDb.setCoachName(coach.getName());
         coachFromDb.setInfo(String.join(";", coach.getInfos()));
         coachFromDb.setPromo(coach.getPromo());
-        coachFromDb.setVisible(Objects.nonNull(coach.isVisible()) ? coach.isVisible() : true);
+        coachFromDb.setCoachType(getCoachTypeFromRequest(coach.getIsBeach(), coach.getIsClassic()));
 
         MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachFromDb.getId(), TypeEntity.COACH);
         setAvatar(mediaStorage, coachFromDb);
         coachRepository.save(coachFromDb);
+        if (CollectionUtils.isNotEmpty(coach.getImages())) {
+            coach.getImages().forEach(x -> mediaService.mediaInfoToMediaStorage(x, coachFromDb.getId(), TypeEntity.COACH));
+//            mediaService.deletedOldImagesUploadNewImages(coach.getImages(), coachEntity.getId(), TypeEntity.COACH);
+        }
         return coachFromDb.getId();
     }
 
@@ -103,4 +113,20 @@ public class CoachService {
         return Util.getSaveStream(mediaService.getAllImagesForEntityIds(coachesIds).entrySet())
                 .flatMap(x -> x.getValue().stream()).toList();
     }
+
+    @Transactional
+    public UUID updateCoachVisibility(Boolean isVisible, UUID coachId) {
+        CoachEntity coachFromDb = coachRepository.findById(coachId)
+                .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, coachId));
+        coachFromDb.setVisible(Objects.nonNull(isVisible) ? isVisible : true);
+        return coachFromDb.getId();
+    }
+
+    private String getCoachTypeFromRequest(Boolean isBeach, Boolean isClassic) {
+        return Util.getOrDefaultIfNull(isBeach, Boolean.FALSE) && Util.getOrDefaultIfNull(isClassic, Boolean.FALSE)
+                ? "BEACH;CLASSIC" :  Util.getOrDefaultIfNull(isBeach, Boolean.FALSE)
+                ? "BEACH" :  Util.getOrDefaultIfNull(isClassic, Boolean.FALSE)
+                ? "CLASSIC" : "BEACH;CLASSIC";
+    }
+
 }

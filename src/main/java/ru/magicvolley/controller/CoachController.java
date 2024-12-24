@@ -61,9 +61,15 @@ public class CoachController {
         return new ApiResponse<>(coachService.create(coach));
     }
 
+    @PutMapping("/undefined")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ApiResponse<UUID> createUndefined(@RequestBody CoachRequest coach){
+        return new ApiResponse<>(coachService.create(coach));
+    }
+
     @PutMapping("/{coachId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<UUID> update(@RequestBody CoachDto coach, @PathVariable UUID coachId){
+    public ApiResponse<UUID> update(@RequestBody CoachRequest coach, @PathVariable UUID coachId){
         return new ApiResponse<>(coachService.update(coach, coachId));
     }
 
@@ -72,4 +78,11 @@ public class CoachController {
     public ApiResponse<Boolean>delete(@PathVariable UUID coachId){
         return new ApiResponse<>(coachService.delete(coachId));
     }
+
+    @PutMapping("/visible/{coachId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ApiResponse<UUID> updateCoachVisibility(@RequestBody Boolean isVisible, @PathVariable UUID coachId){
+        return new ApiResponse<>(coachService.updateCoachVisibility(isVisible, coachId));
+    }
+
 }

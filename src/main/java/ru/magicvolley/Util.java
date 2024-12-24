@@ -30,4 +30,8 @@ public class Util {
         String type = Arrays.stream(types).map(CoachType::name).collect(Collectors.joining(";"));
         return "%" + type + "%";
     }
+
+    public static boolean getOrDefaultIfNull(Boolean value, Boolean defaultFalue) {
+        return Objects.nonNull(value) ? value : defaultFalue;
+    }
 }

@@ -20,5 +20,8 @@ public class CoachRequest {
     private String name;
     private List<String> infos;
     private String promo;
+    private Boolean isBeach;
+    private Boolean isClassic;
     private MediaStorageInfo mainImage;
+    private List<MediaStorageInfo> images;
 }
