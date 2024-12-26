@@ -38,6 +38,7 @@ public class SecurityConfig {
             "/magicvolley/camps/all",
             "/magicvolley/camps/long-all",
             "/magicvolley/camps/short-all",
+            "/magicvolley/camps/child-all",
             "/magicvolley/camps/{id}",
             "/magicvolley/camp-user",
             "/magicvolley/questions/all",
