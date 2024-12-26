@@ -100,7 +100,7 @@ create table if not exists profile_camps(
 create table if not exists questions(
 
     id uuid primary key not null,
-    question varchar(255),
+    question text,
     answer text,
     version bigint
 );

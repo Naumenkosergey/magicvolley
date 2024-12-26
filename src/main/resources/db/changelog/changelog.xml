@@ -6,7 +6,6 @@
 
     <include relativeToChangelogFile="true" file="/changeset_ddl.xml"/>
 
-    <include relativeToChangelogFile="true" file="/changeset_dev.xml"/>
     <include relativeToChangelogFile="true" file="/changeset_dml.xml"/>
 
 </databaseChangeLog>
