@@ -31,5 +31,6 @@ public class CampDto {
     private List<CoachDto> coaches;
     private List<CampPackageCardDto> packages;
     private List<CampUserDto> users;
+    private Boolean isPast;
 
 }

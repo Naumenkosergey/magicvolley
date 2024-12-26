@@ -21,6 +21,7 @@ public class PackageCardEntity {
     private String namePackage;
     private String info;
     private String costNamingLink;
+    @Version
     private Long version;
 
     @OneToMany(fetch = FetchType.LAZY)

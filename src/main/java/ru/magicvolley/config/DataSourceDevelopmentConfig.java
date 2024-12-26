@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
-@Profile("!prod")
+@Profile("development")
 public class DataSourceDevelopmentConfig {
 
     @Bean(name = "masterDataSource")
