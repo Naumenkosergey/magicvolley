@@ -35,6 +35,11 @@ public class CampController {
         return new ApiResponse<>(campService.getAll(CampType.SHORT));
     }
 
+    @GetMapping("/child-all")
+    public ApiResponse<List<CampDtoForList>> getChildAll() {
+        return new ApiResponse<>(campService.getAll(CampType.CHILD));
+    }
+
     @GetMapping("/{id}")
     public ApiResponse<CampDto> getById(@PathVariable UUID id) {
         return new ApiResponse<>(campService.getById(id));
@@ -50,6 +55,12 @@ public class CampController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ApiResponse<UUID> createLong(@RequestBody CampDto camp) {
         return new ApiResponse<>(campService.create(camp, CampType.LONG));
+    }
+
+    @PostMapping("/child")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ApiResponse<UUID> createChild(@RequestBody CampDto camp) {
+        return new ApiResponse<>(campService.create(camp, CampType.CHILD));
     }
 
     @PutMapping("/{id}")
