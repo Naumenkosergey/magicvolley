@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.Util;
 import ru.magicvolley.dto.CampDtoForList;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.dto.ProfileDto;
@@ -73,7 +74,7 @@ public class ProfileService {
                 .toList());
 
         List<UserForAdminResponse> usersAll = new ArrayList<>();
-        Boolean isAdmin = authService.isAdminCurrentUser();
+        Boolean isAdmin = Util.isAdminCurrentUser();
         if (isAdmin) {
             Map<UUID, MediaStorageInfo> map = profileRepository.findAll().stream()
                     .filter(x -> !x.getUserId().equals(profile.getUserId()))

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.magicvolley.entity.CampPackageCardEntity;
+import ru.magicvolley.enums.TypePackageCard;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,9 +29,13 @@ public class CampPackageCardDto {
     private Integer thirdPrice;
     private String thirdLimitation;
 
+    private TypePackageCard type;
+    private String displayName;
+
     public CampPackageCardDto(CampPackageCardEntity campPackageCardEntity) {
+        String namePackage = campPackageCardEntity.getPackageCard().getNamePackage();
         this.packageId = campPackageCardEntity.getPackageCard().getId();
-        this.name = campPackageCardEntity.getPackageCard().getNamePackage();
+        this.name = namePackage;
         this.costNamingLink = campPackageCardEntity.getPackageCard().getCostNamingLink();
         this.info = campPackageCardEntity.getInfo();
         this.totalPrice = campPackageCardEntity.getTotalPrice();
@@ -41,5 +46,31 @@ public class CampPackageCardDto {
         this.secondLimitation = campPackageCardEntity.getSecondLimitation();
         this.thirdPrice = campPackageCardEntity.getThirdPrice();
         this.thirdLimitation = campPackageCardEntity.getThirdLimitation();
+        this.type = getType(namePackage);
+        this.displayName = getDisplayNamePackage(namePackage);
+    }
+
+    private TypePackageCard getType(String packageName) {
+        if (packageName.toUpperCase().contains(TypePackageCard.GOLD.name())) {
+            return TypePackageCard.GOLD;
+        } else if (packageName.toUpperCase().contains(TypePackageCard.SILVER.name())) {
+            return TypePackageCard.SILVER;
+        } else if (packageName.toUpperCase().contains(TypePackageCard.PREMIUM.name())) {
+            return TypePackageCard.PREMIUM;
+        } else if (packageName.toUpperCase().contains(TypePackageCard.TOUR.name())) {
+            return TypePackageCard.TOUR;
+        } else return null;
+    }
+
+    private String getDisplayNamePackage(String packageName) {
+        if (packageName.toUpperCase().contains(TypePackageCard.GOLD.name())) {
+            return "Пакет \"Gold\"";
+        } else if (packageName.toUpperCase().contains(TypePackageCard.SILVER.name())) {
+            return "Пакет \"Silver\"";
+        } else if (packageName.toUpperCase().contains(TypePackageCard.PREMIUM.name())) {
+            return "Пакет \"Premium\"";
+        } else if (packageName.toUpperCase().contains(TypePackageCard.TOUR.name())) {
+            return "Пакет \"Tour\"";
+        } else return null;
     }
 }

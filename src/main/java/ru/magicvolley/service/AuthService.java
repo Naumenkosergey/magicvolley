@@ -105,24 +105,6 @@ public class AuthService {
 
     }
 
-    public UUID getCurrentUserId() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetailsImpl userDetailsImpl) {
-            return userDetailsImpl.getId();
-        } else {
-            throw new AuthenticationException("Наавторизованный пользователь") {
-            };
-        }
-    }
-
-    public Boolean isAdminCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetailsImpl userDetailsImpl) {
-            return userDetailsImpl.getAuthorities().stream().anyMatch(r -> r.toString().equals(Role.ADMIN.name()));
-        }
-        return Boolean.FALSE;
-    }
-
     @Transactional(propagation = Propagation.MANDATORY)
     public UserEntity addUserForCamp(AddUserCampRequest addUserCampRequest) {
 

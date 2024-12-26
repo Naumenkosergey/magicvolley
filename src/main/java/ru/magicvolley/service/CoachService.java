@@ -34,6 +34,7 @@ public class CoachService {
     @Transactional
     public List<CoachDto> getAll(CoachType... types) {
         return coachRepository.findAllByCoachTypeLike(Util.getLike(types)).stream()
+                .filter(coach -> Util.isAdminCurrentUser() || Objects.equals(Util.getOrDefaultIfNull(coach.isVisible(), Boolean.TRUE), Boolean.TRUE))
                 .sorted(Comparator.comparing(CoachEntity::getCreatedAt))
                 .map(x -> new CoachDto(x, prefixUrlMedia))
                 .collect(Collectors.toList());

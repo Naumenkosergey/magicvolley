@@ -6,6 +6,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.Util;
 import ru.magicvolley.dto.*;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
@@ -47,7 +48,9 @@ public class CampService {
 
     @Transactional(readOnly = true)
     public List<CampDtoForList> getAll() {
+        LocalDate now = LocalDate.now();
         List<CampEntity> campEntities = campRepository.findAll().stream()
+                .filter(camp -> camp.getDateEnd().isBefore(now))
                 .sorted(Comparator.comparing(CampEntity::getDateStart)).toList();
         return getList(campEntities);
     }
@@ -70,7 +73,7 @@ public class CampService {
             mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
                     || Objects.equals(x.getId(), campEntity.getCartImageId()));
         }
-        Boolean isAdminCurrentUser = authService.isAdminCurrentUser();
+        Boolean isAdminCurrentUser = Util.isAdminCurrentUser();
         return CampDto.builder()
                 .id(campEntity.getId())
                 .name(campEntity.getCampName())
@@ -80,7 +83,9 @@ public class CampService {
                 .countFree(getCountFree(campEntity.getId()))
                 .countAll(campEntity.getCountAll())
                 .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
-                .coaches(campEntity.getCoaches().stream().map(x -> new CoachDto(x, prefixUrlMedia)).toList())
+                .coaches(campEntity.getCoaches().stream()
+                        .filter(coach -> Objects.equals(Util.getOrDefaultIfNull(coach.isVisible(), Boolean.TRUE), Boolean.TRUE))
+                        .map(x -> new CoachDto(x, prefixUrlMedia)).toList())
                 .packages(campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
                 .mainImage(new MediaStorageInfo(campEntity.getMainImage(), prefixUrlMedia))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
@@ -207,6 +212,7 @@ public class CampService {
     private void createCampCoaches(Collection<CoachDto> coaches, CampEntity campEntity) {
         if (CollectionUtils.isNotEmpty(coaches)) {
             List<CampCoachEntity> campCoachEntities = coaches.stream()
+                    .filter(coach -> Objects.equals(Util.getOrDefaultIfNull(coach.isVisible(), Boolean.TRUE), Boolean.TRUE))
                     .map(coach -> CampCoachEntity.builder()
                             .id(CampCoachEntity.Id.builder()
                                     .campId(campEntity.getId())
