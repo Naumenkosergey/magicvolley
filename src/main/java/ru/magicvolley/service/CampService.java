@@ -35,6 +35,7 @@ public class CampService {
     private final CampUserService campUserService;
     private final MediaService mediaService;
     private final AuthService authService;
+    private final DateStringService dateStringService;
 
     @Value("${media.prefix.url}")
     private String prefixUrlMedia;
@@ -42,27 +43,31 @@ public class CampService {
 
     @Transactional(readOnly = true)
     public List<CampDtoForList> getAll(CampType type) {
-        List<CampEntity> campEntities = campRepository.findAllByCampType(type);
+        List<CampEntity> campEntities = campRepository.findAllByCampType(type).stream()
+                .sorted(Comparator.comparing(CampEntity::getDateStart))
+                .toList();
         return getList(campEntities);
     }
 
     @Transactional(readOnly = true)
     public List<CampDtoForList> getAll() {
-        LocalDate now = LocalDate.now();
         List<CampEntity> campEntities = campRepository.findAll().stream()
-                .filter(camp -> camp.getDateEnd().isBefore(now))
                 .sorted(Comparator.comparing(CampEntity::getDateStart)).toList();
         return getList(campEntities);
     }
 
     public List<CampDtoForList> getList(List<CampEntity> campEntities) {
+        LocalDate now = LocalDate.now();
         return campEntities.stream()
+                .filter(camp -> camp.getDateEnd().isBefore(now))
                 .map(this::buildCampDtoForList)
                 .toList();
     }
 
-    public List<CampDtoForList> getCampList(List<CampEntity> campEntities) {
+    public List<CampDtoForList> getCampList(List<CampEntity> campEntities, boolean isPast) {
+        LocalDate now = LocalDate.now();
         return campEntities.stream()
+                .filter(camp -> isPast ? camp.getDateEnd().isAfter(now) : camp.getDateEnd().isBefore(now))
                 .map(this::buildCampDtoForList)
                 .toList();
     }
@@ -82,7 +87,7 @@ public class CampService {
                 .dateEnd(campEntity.getDateEnd())
                 .countFree(getCountFree(campEntity.getId()))
                 .countAll(campEntity.getCountAll())
-                .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
+                .dateString(dateStringService.getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
                 .coaches(campEntity.getCoaches().stream()
                         .filter(coach -> Objects.equals(Util.getOrDefaultIfNull(coach.isVisible(), Boolean.TRUE), Boolean.TRUE))
                         .map(x -> new CoachDto(x, prefixUrlMedia)).toList())
@@ -111,7 +116,7 @@ public class CampService {
         return CampDtoForList.builder()
                 .id(campEntity.getId())
                 .name(campEntity.getCampName())
-                .dateString(getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
+                .dateString(dateStringService.getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
                 .build();
     }
@@ -121,42 +126,8 @@ public class CampService {
         CampEntity campEntity = campRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
         campUserService.recalculateIsViewUsers(campEntity.getId());
-        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()));
+        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.CAMP);
         return buildCampDto(campEntity, allImagesForCamIds);
-    }
-
-
-    private String getDateString(LocalDate dateStart, LocalDate dateEnd) {
-        String monthStartString = getMounthString(Objects.nonNull(dateStart) ? dateStart.getMonthValue() : 0);
-        String monthEndString = getMounthString(Objects.nonNull(dateStart) ? dateEnd.getMonthValue() : 0);
-
-        if (monthStartString.equals(monthEndString)) {
-            return getMonth(dateStart) + "-" + getMonth(dateEnd) + " " + monthStartString;
-        } else {
-            return getMonth(dateStart) + " " + monthStartString + " - " + getMonth(dateEnd) + " " + monthEndString;
-        }
-    }
-
-    private int getMonth(LocalDate date) {
-        return Objects.nonNull(date) ? date.getDayOfMonth() : 0;
-    }
-
-    private String getMounthString(int month) {
-        return switch (month) {
-            case 1 -> "января";
-            case 2 -> "февраля";
-            case 3 -> "марта";
-            case 4 -> "апряля";
-            case 5 -> "мая";
-            case 6 -> "июня";
-            case 7 -> "июля";
-            case 8 -> "августа";
-            case 9 -> "сентября";
-            case 10 -> "октября";
-            case 11 -> "ноября";
-            case 12 -> "декабря";
-            default -> "";
-        };
     }
 
     @Transactional

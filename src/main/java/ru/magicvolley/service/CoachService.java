@@ -111,7 +111,7 @@ public class CoachService {
                 .map(CoachEntity::getId)
                 .collect(Collectors.toSet());
 
-        return Util.getSaveStream(mediaService.getAllImagesForEntityIds(coachesIds).entrySet())
+        return Util.getSaveStream(mediaService.getAllImagesForEntityIds(coachesIds, TypeEntity.COACH).entrySet())
                 .flatMap(x -> x.getValue().stream()).toList();
     }
 

@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CampDto {
+public class PastCampDto {
 
     private UUID id;
     private String name;
@@ -23,12 +23,10 @@ public class CampDto {
     private LocalDate dateStart;
     private LocalDate dateEnd;
     private String dateString;
-    private Integer countAll;
-    private Integer countFree;
     private MediaStorageInfo mainImage;
     private MediaStorageInfo imageCart;
     private List<MediaStorageInfo> images;
     private List<CoachDto> coaches;
-    private List<CampPackageCardDto> packages;
     private List<CampUserDto> users;
+    private List<MediaStorageInfo> gallery;
 }

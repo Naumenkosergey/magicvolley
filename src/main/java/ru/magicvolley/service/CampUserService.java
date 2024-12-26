@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.Util;
 import ru.magicvolley.botTelegram.Bot;
 import ru.magicvolley.dto.CampUserDto;
 import ru.magicvolley.dto.ConfirmReservationDto;
@@ -120,9 +121,10 @@ public class CampUserService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void recalculateIsViewUsers(UUID campId) {
-        List<CampUserEntity> allByIdCampId = campUserRepository.findAllByIdCampId(campId);
-        allByIdCampId.forEach(x -> x.setIsViewed(Boolean.TRUE));
-        campUserRepository.saveAll(allByIdCampId);
-
+        if (Util.isAdminCurrentUser()) {
+            List<CampUserEntity> allByIdCampId = campUserRepository.findAllByIdCampId(campId);
+            allByIdCampId.forEach(x -> x.setIsViewed(Boolean.TRUE));
+            campUserRepository.saveAll(allByIdCampId);
+        }
     }
 }

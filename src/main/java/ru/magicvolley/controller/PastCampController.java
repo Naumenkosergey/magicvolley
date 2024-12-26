@@ -6,9 +6,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.dto.CampDto;
 import ru.magicvolley.dto.CampDtoForList;
+import ru.magicvolley.dto.PastCampDto;
 import ru.magicvolley.enums.CampType;
+import ru.magicvolley.request.PastCampForUpdate;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.CampService;
+import ru.magicvolley.service.PastCampService;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,39 +21,28 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PastCampController {
 
-    private final CampService campService;
+    private final PastCampService pastCampService;
+
 
     @GetMapping("/all")
     public ApiResponse<List<CampDtoForList>> getAll() {
-        return new ApiResponse<>(campService.getAll());
+        return new ApiResponse<>(pastCampService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<CampDto> getById(@PathVariable UUID id) {
-        return new ApiResponse<>(campService.getById(id));
+    public ApiResponse<PastCampDto> getById(@PathVariable UUID id) {
+        return new ApiResponse<>(pastCampService.getById(id));
     }
 
-    @PostMapping("/short")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<UUID> createShort(@RequestBody CampDto camp) {
-        return new ApiResponse<>(campService.create(camp, CampType.SHORT));
-    }
-
-    @PostMapping("/long")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<UUID> createLong(@RequestBody CampDto camp) {
-        return new ApiResponse<>(campService.create(camp, CampType.LONG));
-    }
-
-    @PutMapping("/{id}")
+    @PutMapping("/{campId}")
     @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
-    public ApiResponse<UUID> update(@RequestBody CampDto camp) {
-        return new ApiResponse<>(campService.update(camp));
+    public ApiResponse<UUID> update(@RequestBody PastCampForUpdate pastCampForUpdate, @PathVariable UUID campId) {
+        return new ApiResponse<>(pastCampService.update(pastCampForUpdate, campId));
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<Boolean> delete(@PathVariable UUID id) {
-        return new ApiResponse<>(campService.delete(id));
-    }
+//    @DeleteMapping("/{id}")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    public ApiResponse<Boolean> delete(@PathVariable UUID id) {
+//        return new ApiResponse<>(campPastService.delete(id));
+//    }
 }

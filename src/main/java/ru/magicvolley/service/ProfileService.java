@@ -8,6 +8,7 @@ import ru.magicvolley.Util;
 import ru.magicvolley.dto.CampDtoForList;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.dto.ProfileDto;
+import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.entity.ProfileCampsEntity;
 import ru.magicvolley.entity.ProfileEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
@@ -27,10 +28,8 @@ import java.util.stream.Collectors;
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
-    private final CoachService coachService;
     private final UserService userService;
     private final CampService campService;
-    private final AuthService authService;
     @Value("${media.prefix.url}")
     private String prefixUrlMedia;
 
@@ -63,15 +62,13 @@ public class ProfileService {
 
     private ProfileDto mapProfileEntityToProfileDto(ProfileEntity profile) {
 
-        List<CampDtoForList> pastCamps = campService.getCampList(profile.getProfileCamps().stream()
+        List<CampEntity> campEntities = profile.getProfileCamps().stream()
                 .filter(ProfileCampsEntity::getIsPast)
                 .map(ProfileCampsEntity::getCamp)
-                .toList());
+                .toList();
 
-        List<CampDtoForList> nearestCamps = campService.getCampList(profile.getProfileCamps().stream()
-                .filter(ProfileCampsEntity::getIsBooked)
-                .map(ProfileCampsEntity::getCamp)
-                .toList());
+        List<CampDtoForList> pastCamps = campService.getCampList(campEntities, true);
+        List<CampDtoForList> nearestCamps = campService.getCampList(campEntities, false);
 
         List<UserForAdminResponse> usersAll = new ArrayList<>();
         Boolean isAdmin = Util.isAdminCurrentUser();

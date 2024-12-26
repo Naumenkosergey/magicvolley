@@ -154,8 +154,8 @@ public class MediaService {
         }
     }
 
-    public Map<UUID, List<MediaStorageInfo>> getAllImagesForEntityIds(Set<UUID> ids) {
-        return mediaRepository.findAllByEntityIdIn(ids).stream()
+    public Map<UUID, List<MediaStorageInfo>> getAllImagesForEntityIds(Set<UUID> ids, TypeEntity typeEntity) {
+        return mediaRepository.findAllByEntityIdInAndTypeEntity(ids, typeEntity).stream()
                 .map(x -> new MediaStorageInfo(x, prefixUrlMedia))
                 .collect(Collectors.groupingBy(MediaStorageInfo::getEntityId));
     }
@@ -168,7 +168,7 @@ public class MediaService {
     }
 
     public void deletedOldImagesUploadNewImages(List<MediaStorageInfo> imagesForRequest, UUID entityId, TypeEntity typeEntity) {
-        Map<UUID, List<MediaStorageInfo>> allImagesForActivityIds = getAllImagesForEntityIds(Set.of(entityId));
+        Map<UUID, List<MediaStorageInfo>> allImagesForActivityIds = getAllImagesForEntityIds(Set.of(entityId), typeEntity);
         Set<UUID> imageIdsForRequest = Util.getSaveStream(imagesForRequest).map(MediaStorageInfo::getId).collect(Collectors.toSet());
         List<MediaStorageInfo> mediaStorageInfos = allImagesForActivityIds.get(entityId);
         if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {

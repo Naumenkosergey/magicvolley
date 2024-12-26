@@ -29,7 +29,7 @@ public class ActivityService {
         Map<UUID, ActivityEntity> mapActivityToId = activityRepository.findAll().stream()
                 .sorted(Comparator.comparing(ActivityEntity::getOrderNumber))
                 .collect(Collectors.toMap(ActivityEntity::getId, Function.identity(), (o1, o2) -> o1, LinkedHashMap::new));
-        Map<UUID, List<MediaStorageInfo>> allImagesForEntityIds = mediaService.getAllImagesForEntityIds(mapActivityToId.keySet());
+        Map<UUID, List<MediaStorageInfo>> allImagesForEntityIds = mediaService.getAllImagesForEntityIds(mapActivityToId.keySet(), TypeEntity.ACTIVITY);
 
         return mapActivityToId.entrySet().stream().map(entry ->
                         AboutUsResponse.Activity.builder()

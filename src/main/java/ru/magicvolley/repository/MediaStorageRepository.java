@@ -19,4 +19,6 @@ public interface MediaStorageRepository extends JpaRepository<MediaStorageEntity
     List<MediaStorageEntity> findAllByIdInAndEntityIdAndTypeEntity(Collection<UUID> ids, UUID entityId, TypeEntity typeEntity);
 
     List<MediaStorageEntity> findAllByEntityIdAndTypeEntity(UUID entityId, TypeEntity typeEntity);
+
+    List<MediaStorageEntity> findAllByEntityIdInAndTypeEntity(Collection<UUID> entityIds, TypeEntity typeEntity);
 }

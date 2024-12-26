@@ -2,5 +2,8 @@ package ru.magicvolley.enums;
 
 public enum TypePackageCard {
 
-    GOLD, SILVER, PREMIUM, TOUR
+    PREMIUM,
+    GOLD,
+    SILVER,
+    TOUR
 }
