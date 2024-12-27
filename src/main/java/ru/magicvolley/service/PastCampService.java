@@ -49,7 +49,7 @@ public class PastCampService {
     public List<CampDtoForList> getList(List<CampEntity> campEntities) {
         LocalDate now = LocalDate.now();
         return campEntities.stream()
-                .filter(camp -> camp.getDateEnd().isAfter(now))
+                .filter(camp -> now.isAfter(camp.getDateEnd()))
                 .map(this::buildCampDtoForList)
                 .toList();
     }

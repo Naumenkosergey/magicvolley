@@ -59,7 +59,7 @@ public class CampService {
     public List<CampDtoForList> getList(List<CampEntity> campEntities) {
         LocalDate now = LocalDate.now();
         return campEntities.stream()
-                .filter(camp -> camp.getDateEnd().isBefore(now))
+                .filter(camp -> now.isBefore(camp.getDateEnd()))
                 .map(this::buildCampDtoForList)
                 .toList();
     }
@@ -67,7 +67,7 @@ public class CampService {
     public List<CampDtoForList> getCampList(List<CampEntity> campEntities, boolean isPast) {
         LocalDate now = LocalDate.now();
         return campEntities.stream()
-                .filter(camp -> isPast ? camp.getDateEnd().isAfter(now) : camp.getDateEnd().isBefore(now))
+                .filter(camp -> isPast ? now.isAfter(camp.getDateEnd()) : now.isBefore(camp.getDateEnd()))
                 .map(this::buildCampDtoForList)
                 .toList();
     }
