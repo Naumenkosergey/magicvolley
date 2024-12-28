@@ -735,7 +735,7 @@
         "tags": [
           "camp-controller"
         ],
-        "operationId": "getById_7",
+        "operationId": "getById_6",
         "parameters": [
           {
             "name": "id",
@@ -1763,37 +1763,6 @@
         }
       }
     },
-    "/magicvolley/past-camps/{id}": {
-      "get": {
-        "tags": [
-          "past-camp-controller"
-        ],
-        "operationId": "getById_5",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponsePastCampDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/magicvolley/past-camps/all": {
       "get": {
         "tags": [
@@ -2011,7 +1980,7 @@
         "tags": [
           "coach-controller"
         ],
-        "operationId": "getById_6",
+        "operationId": "getById_5",
         "parameters": [
           {
             "name": "id",
@@ -3294,6 +3263,12 @@
             "items": {
               "$ref": "#/components/schemas/CampUserDto"
             }
+          },
+          "gallery": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaStorageInfo"
+            }
           }
         }
       },
@@ -4151,96 +4126,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Price"
-            }
-          }
-        }
-      },
-      "ApiResponsePastCampDto": {
-        "type": "object",
-        "properties": {
-          "statusCode": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "result": {
-            "$ref": "#/components/schemas/PastCampDto"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageTotal": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sort": {
-            "type": "string"
-          },
-          "permissions": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "PastCampDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "info": {
-            "type": "string"
-          },
-          "dateStart": {
-            "type": "string",
-            "format": "date"
-          },
-          "dateEnd": {
-            "type": "string",
-            "format": "date"
-          },
-          "dateString": {
-            "type": "string"
-          },
-          "mainImage": {
-            "$ref": "#/components/schemas/MediaStorageInfo"
-          },
-          "imageCart": {
-            "$ref": "#/components/schemas/MediaStorageInfo"
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MediaStorageInfo"
-            }
-          },
-          "coaches": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CoachDto"
-            }
-          },
-          "users": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CampUserDto"
-            }
-          },
-          "gallery": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MediaStorageInfo"
             }
           }
         }
