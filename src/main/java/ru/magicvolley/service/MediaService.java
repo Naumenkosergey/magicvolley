@@ -89,7 +89,7 @@ public class MediaService {
                 } else {
                     MediaStorageEntity mediaStorage = mediaRepository.findById(mediaInfo.getId())
                             .orElse(null);
-                    if(Objects.isNull(mediaStorage)){
+                    if (Objects.isNull(mediaStorage)) {
                         return createMediaStorage(mediaInfo, entityId, typeEntity);
                     }
                     mediaStorage.setEntityId(entityId);
@@ -169,6 +169,11 @@ public class MediaService {
 
     public void deletedOldImagesUploadNewImages(List<MediaStorageInfo> imagesForRequest, UUID entityId, TypeEntity typeEntity) {
         Map<UUID, List<MediaStorageInfo>> allImagesForActivityIds = getAllImagesForEntityIds(Set.of(entityId), typeEntity);
+        if (allImagesForActivityIds.isEmpty()) {
+            imagesForRequest.forEach(image ->
+                    mediaInfoToMediaStorage(image, entityId, typeEntity));
+            return;
+        }
         Set<UUID> imageIdsForRequest = Util.getSaveStream(imagesForRequest).map(MediaStorageInfo::getId).collect(Collectors.toSet());
         List<MediaStorageInfo> mediaStorageInfos = allImagesForActivityIds.get(entityId);
         if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {

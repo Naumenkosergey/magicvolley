@@ -4,13 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.magicvolley.dto.CampDto;
 import ru.magicvolley.dto.CampDtoForList;
-import ru.magicvolley.dto.PastCampDto;
-import ru.magicvolley.enums.CampType;
 import ru.magicvolley.request.PastCampForUpdate;
 import ru.magicvolley.response.api.ApiResponse;
-import ru.magicvolley.service.CampService;
 import ru.magicvolley.service.PastCampService;
 
 import java.util.List;
@@ -27,11 +23,6 @@ public class PastCampController {
     @GetMapping("/all")
     public ApiResponse<List<CampDtoForList>> getAll() {
         return new ApiResponse<>(pastCampService.getAll());
-    }
-
-    @GetMapping("/{id}")
-    public ApiResponse<PastCampDto> getById(@PathVariable UUID id) {
-        return new ApiResponse<>(pastCampService.getById(id));
     }
 
     @PutMapping("/{campId}")

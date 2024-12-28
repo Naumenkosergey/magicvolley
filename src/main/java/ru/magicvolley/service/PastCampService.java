@@ -2,16 +2,13 @@ package ru.magicvolley.service;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.magicvolley.Util;
-import ru.magicvolley.dto.*;
+import ru.magicvolley.dto.CampDtoForList;
+import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.CampCoachEntity;
 import ru.magicvolley.entity.CampEntity;
-import ru.magicvolley.entity.CampPackageCardEntity;
-import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.CampCoachRepository;
@@ -20,7 +17,9 @@ import ru.magicvolley.repository.CampUserRepository;
 import ru.magicvolley.request.PastCampForUpdate;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -54,33 +53,6 @@ public class PastCampService {
                 .toList();
     }
 
-    private PastCampDto buildPastCampDto(CampEntity campEntity, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds, Map<UUID, List<MediaStorageInfo>>  allPastGalleryForCamId) {
-        List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campEntity.getId());
-        if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {
-            mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
-                    || Objects.equals(x.getId(), campEntity.getCartImageId()));
-        }
-        Boolean isAdminCurrentUser = Util.isAdminCurrentUser();
-        return PastCampDto.builder()
-                .id(campEntity.getId())
-                .name(campEntity.getCampName())
-                .info(campEntity.getInfo())
-                .dateStart(campEntity.getDateStart())
-                .dateEnd(campEntity.getDateEnd())
-                .dateString(dateStringService.getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
-                .coaches(campEntity.getCoaches().stream()
-                        .filter(coach -> Objects.equals(Util.getOrDefaultIfNull(coach.isVisible(), Boolean.TRUE), Boolean.TRUE))
-                        .map(x -> new CoachDto(x, prefixUrlMedia)).toList())
-                .mainImage(new MediaStorageInfo(campEntity.getMainImage(), prefixUrlMedia))
-                .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
-                .images(mediaStorageInfos)
-                .users(!isAdminCurrentUser
-                        ? null
-                        : campUserService.getUsersForCampId(campEntity.getId()))
-                .gallery(allPastGalleryForCamId.get(campEntity.getId()))
-                .build();
-    }
-
     private CampDtoForList buildCampDtoForList(CampEntity campEntity) {
         return CampDtoForList.builder()
                 .id(campEntity.getId())
@@ -88,15 +60,6 @@ public class PastCampService {
                 .dateString(dateStringService.getDateString(campEntity.getDateStart(), campEntity.getDateEnd()))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
                 .build();
-    }
-
-    @Transactional(readOnly = true)
-    public PastCampDto getById(UUID id) {
-        CampEntity campEntity = campRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
-        Map<UUID, List<MediaStorageInfo>> allImagesForCamId = mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.CAMP);
-        Map<UUID, List<MediaStorageInfo>> allPastGalleryForCamId = mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.PAST_GALLERY);
-        return buildPastCampDto(campEntity, allImagesForCamId, allPastGalleryForCamId);
     }
 
     @Transactional

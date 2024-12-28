@@ -78,6 +78,11 @@ public class CampService {
             mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
                     || Objects.equals(x.getId(), campEntity.getCartImageId()));
         }
+        boolean isPast = LocalDate.now().isAfter(campEntity.getDateEnd());
+        List<MediaStorageInfo> galleryImages = isPast
+                ? mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.PAST_GALLERY).get(campEntity.getId())
+                : List.of();
+
         Boolean isAdminCurrentUser = Util.isAdminCurrentUser();
         return CampDto.builder()
                 .id(campEntity.getId())
@@ -91,13 +96,14 @@ public class CampService {
                 .coaches(campEntity.getCoaches().stream()
                         .filter(coach -> Objects.equals(Util.getOrDefaultIfNull(coach.isVisible(), Boolean.TRUE), Boolean.TRUE))
                         .map(x -> new CoachDto(x, prefixUrlMedia)).toList())
-                .packages(campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
+                .packages(isPast ? List.of() : campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
                 .mainImage(new MediaStorageInfo(campEntity.getMainImage(), prefixUrlMedia))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
                 .images(mediaStorageInfos)
                 .users(!isAdminCurrentUser
                         ? null
                         : campUserService.getUsersForCampId(campEntity.getId()))
+                .gallery(galleryImages)
                 .build();
     }
 
