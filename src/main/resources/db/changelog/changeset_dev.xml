@@ -5,7 +5,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <changeSet id="init_data_dev" author="naumenko_sn">
-        <preConditions onFail="MARK_RAN" onFailMessage="seed data was not applied">
+        <preConditions onFail="CONTINUE" onFailMessage="seed data was not applied">
             <changeLogPropertyDefined property="apply.dev-seed.migration" value="true"/>
         </preConditions>
         <sqlFile relativeToChangelogFile="true" path="../sql/init_data_dev.sql" stripComments="true"
