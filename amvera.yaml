@@ -6,4 +6,3 @@ build:
   dockerfile: Dockerfile
 run:
   containerPort: 8081
-  servicePort: 8081
