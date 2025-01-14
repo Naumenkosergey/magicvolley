@@ -36,6 +36,9 @@ public class JwtUtils {
     @Value("${jwtCookieName}")
     private String jwtCookie;
 
+    @Value("${domainCookie}")
+    private String domainCookie;
+
     public String getJwtFromCookies(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
         if (cookie != null) {
@@ -47,9 +50,11 @@ public class JwtUtils {
 
     public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
         String jwt = generateTokenFromUsername(userPrincipal.getTelephone());
+
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt)
                 .path("/").maxAge(24 * 60 * 60)
                 .httpOnly(false)
+                .domain(domainCookie)
                 .build();
         return cookie;
     }
@@ -57,6 +62,7 @@ public class JwtUtils {
     public ResponseCookie getCleanJwtCookie() {
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, null)
                 .path("/")
+                .domain(domainCookie)
                 .build();
         return cookie;
     }
