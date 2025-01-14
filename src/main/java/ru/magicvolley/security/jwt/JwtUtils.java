@@ -53,7 +53,7 @@ public class JwtUtils {
 
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt)
                 .path("/").maxAge(24 * 60 * 60)
-                .httpOnly(true)
+                .httpOnly(false)
                 .domain(domainCookie)
                 .build();
         return cookie;
