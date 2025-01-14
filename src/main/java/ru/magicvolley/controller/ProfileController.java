@@ -32,12 +32,6 @@ public class ProfileController {
         return new ApiResponse<>(profileService.getById(id));
     }
 
-//    @PostMapping
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public ResponseEntity<UserEntity> create(@RequestBody UserDto user){
-//        return new ResponseEntity<>(profileService.create(user), HttpStatus.OK);
-//    }
-//
     @PutMapping
     @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ApiResponse<UUID> update(@RequestBody ProfileForUpdate profile){
@@ -49,12 +43,4 @@ public class ProfileController {
     public ApiResponse<ProfileEntity> updatePassword(@RequestBody PasswordUpdateForProfile passwordUpdateForProfile){
         return new ApiResponse<>(profileService.updatePassword(passwordUpdateForProfile));
     }
-//
-//    @DeleteMapping("/{id}")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public HttpStatus delete(@PathVariable UUID id){
-//        profileService.delete(id);
-//        return HttpStatus.OK;
-//    }
-//
 }
