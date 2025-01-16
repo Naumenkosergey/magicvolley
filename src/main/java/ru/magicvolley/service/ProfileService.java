@@ -9,11 +9,14 @@ import ru.magicvolley.dto.CampDtoForList;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.dto.ProfileDto;
 import ru.magicvolley.entity.CampEntity;
+import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.entity.ProfileCampsEntity;
 import ru.magicvolley.entity.ProfileEntity;
+import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.ProfileRepository;
 import ru.magicvolley.request.PasswordUpdateForProfile;
+import ru.magicvolley.request.ProfileAvatarsRequest;
 import ru.magicvolley.request.ProfileForUpdate;
 import ru.magicvolley.response.UserForAdminResponse;
 
@@ -32,6 +35,7 @@ public class ProfileService {
     private final CampService campService;
     @Value("${media.prefix.url}")
     private String prefixUrlMedia;
+    private final MediaService mediaService;
 
     @Transactional(readOnly = true)
     public List<ProfileDto> getAll() {
@@ -100,5 +104,27 @@ public class ProfileService {
         userService.updatePassword(passwordUpdateForProfile);
         return profileRepository.findById(passwordUpdateForProfile.id())
                 .orElseThrow(() -> new EntityNotFoundException(ProfileEntity.class, passwordUpdateForProfile.id()));
+    }
+
+    @Transactional
+    public UUID updateAvatar(ProfileAvatarsRequest profileAvatarsRequest) {
+
+        ProfileEntity profileEntity = profileRepository.findById(profileAvatarsRequest.getProfileId())
+                .orElseThrow(() -> new EntityNotFoundException(ProfileEntity.class, profileAvatarsRequest.getProfileId()));
+        MediaStorageEntity avatarProfile = mediaService.mediaInfoToMediaStorage(profileAvatarsRequest.getAvatar(), profileAvatarsRequest.getProfileId(), TypeEntity.USER);
+        profileEntity.setAvatar(avatarProfile);
+        profileRepository.save(profileEntity);
+        return profileEntity.getUserId();
+    }
+
+    @Transactional
+    public Boolean deleteAvatar(UUID profileId) {
+        ProfileEntity profileEntity = profileRepository.findById(profileId)
+                .orElseThrow(() -> new EntityNotFoundException(ProfileEntity.class, profileId));
+        if (profileEntity.getAvatar() != null) {
+            mediaService.delete(profileEntity.getAvatar());
+            profileEntity.setAvatar(null);
+        }
+        return true;
     }
 }

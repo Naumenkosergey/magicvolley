@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.magicvolley.dto.ProfileDto;
 import ru.magicvolley.entity.ProfileEntity;
 import ru.magicvolley.request.PasswordUpdateForProfile;
+import ru.magicvolley.request.ProfileAvatarsRequest;
 import ru.magicvolley.request.ProfileForUpdate;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.ProfileService;
@@ -43,4 +44,18 @@ public class ProfileController {
     public ApiResponse<ProfileEntity> updatePassword(@RequestBody PasswordUpdateForProfile passwordUpdateForProfile){
         return new ApiResponse<>(profileService.updatePassword(passwordUpdateForProfile));
     }
+
+    @PutMapping("/update-avatar")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+    public ApiResponse<UUID> updateAvatar(@RequestBody ProfileAvatarsRequest profileAvatar){
+        return new ApiResponse<>(profileService.updateAvatar(profileAvatar));
+    }
+
+    @PutMapping("/{id}/delete-avatar")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
+    public ApiResponse<Boolean> deleteAvatar(@PathVariable  UUID id){
+        return new ApiResponse<>(profileService.deleteAvatar(id));
+    }
+
+
 }

@@ -104,7 +104,6 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
-//         fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
     }
 
     @Bean

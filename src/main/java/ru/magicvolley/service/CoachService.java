@@ -62,7 +62,6 @@ public class CoachService {
         coachRepository.saveAndFlush(coachEntity);
         if (CollectionUtils.isNotEmpty(coach.getImages())) {
             coach.getImages().forEach(x -> mediaService.mediaInfoToMediaStorage(x, coachEntity.getId(), TypeEntity.COACH));
-//            mediaService.deletedOldImagesUploadNewImages(coach.getImages(), coachEntity.getId(), TypeEntity.COACH);
         }
         return coachEntity.getId();
     }
@@ -82,7 +81,6 @@ public class CoachService {
         coachRepository.save(coachFromDb);
         if (CollectionUtils.isNotEmpty(coach.getImages())) {
             coach.getImages().forEach(x -> mediaService.mediaInfoToMediaStorage(x, coachFromDb.getId(), TypeEntity.COACH));
-//            mediaService.deletedOldImagesUploadNewImages(coach.getImages(), coachEntity.getId(), TypeEntity.COACH);
         }
         return coachFromDb.getId();
     }
