@@ -1,14 +1,17 @@
 package ru.magicvolley.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.UserDto;
+import ru.magicvolley.entity.CampUserEntity;
 import ru.magicvolley.entity.ProfileEntity;
 import ru.magicvolley.entity.RoleEntity;
 import ru.magicvolley.entity.UserEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
+import ru.magicvolley.repository.CampUserRepository;
 import ru.magicvolley.repository.ProfileRepository;
 import ru.magicvolley.repository.UserRepository;
 import ru.magicvolley.request.AddUserRequest;
@@ -28,6 +31,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final CampUserRepository campUserRepository;
 
     @Transactional
     public List<UserDto> getAll() {
@@ -86,7 +90,12 @@ public class UserService {
 
     @Transactional
     public void delete(UUID id) {
+        List<CampUserEntity> allCampUserByUser = campUserRepository.findAllByIdUserId(id);
+        if (CollectionUtils.isNotEmpty(allCampUserByUser)) {
+            campUserRepository.deleteAll(allCampUserByUser);
+        }
         userRepository.deleteById(id);
+        profileRepository.deleteById(id);
     }
 
 

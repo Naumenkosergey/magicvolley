@@ -20,5 +20,7 @@ public interface CampUserRepository extends JpaRepository<CampUserEntity, CampUs
 
     Integer countByIsViewedFalse();
 
-    List<CampUserEntity> findAllByIdCampId(UUID uuid);
+    List<CampUserEntity> findAllByIdCampId(UUID campId);
+
+    List<CampUserEntity> findAllByIdUserId(UUID userId);
 }
