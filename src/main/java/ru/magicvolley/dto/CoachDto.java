@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.magicvolley.Util;
 import ru.magicvolley.entity.CoachEntity;
 
 import java.util.Arrays;
@@ -38,6 +39,6 @@ public class CoachDto {
         this.isBeach = coach.getCoachType().contains(BEACH.name());
         this.isClassic = coach.getCoachType().contains(CLASSIC.name());
         this.mainImage = Objects.nonNull(coach.getAvatar()) ? new MediaStorageInfo(coach.getAvatar(), prefixUrlMedia) : null;
-        this.isVisible = Objects.nonNull(coach.isVisible()) ? isVisible : true;
+        this.isVisible = Util.getOrDefaultIfNull(coach.isVisible(), Boolean.TRUE);
     }
 }
