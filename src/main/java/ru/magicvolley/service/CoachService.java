@@ -56,6 +56,7 @@ public class CoachService {
                 .info(String.join(";", coach.getInfos()))
                 .coachType(getCoachTypeFromRequest(coach.getIsBeach(), coach.getIsClassic()))
                 .promo(coach.getPromo())
+                .isVisible(Boolean.TRUE)
                 .build());
         MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachEntity.getId(), TypeEntity.COACH);
         setAvatar(mediaStorage, coachEntity);
@@ -123,8 +124,8 @@ public class CoachService {
 
     private String getCoachTypeFromRequest(Boolean isBeach, Boolean isClassic) {
         return Util.getOrDefaultIfNull(isBeach, Boolean.FALSE) && Util.getOrDefaultIfNull(isClassic, Boolean.FALSE)
-                ? "BEACH;CLASSIC" :  Util.getOrDefaultIfNull(isBeach, Boolean.FALSE)
-                ? "BEACH" :  Util.getOrDefaultIfNull(isClassic, Boolean.FALSE)
+                ? "BEACH;CLASSIC" : Util.getOrDefaultIfNull(isBeach, Boolean.FALSE)
+                ? "BEACH" : Util.getOrDefaultIfNull(isClassic, Boolean.FALSE)
                 ? "CLASSIC" : "BEACH;CLASSIC";
     }
 
