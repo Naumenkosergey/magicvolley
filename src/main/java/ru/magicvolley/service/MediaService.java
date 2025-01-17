@@ -170,7 +170,7 @@ public class MediaService {
     public void deletedOldImagesUploadNewImages(List<MediaStorageInfo> imagesForRequest, UUID entityId, TypeEntity typeEntity) {
         Map<UUID, List<MediaStorageInfo>> allImagesForActivityIds = getAllImagesForEntityIds(Set.of(entityId), typeEntity);
         if (allImagesForActivityIds.isEmpty()) {
-            imagesForRequest.forEach(image ->
+            Util.getSaveStream(imagesForRequest).forEach(image ->
                     mediaInfoToMediaStorage(image, entityId, typeEntity));
             return;
         }

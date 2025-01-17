@@ -224,24 +224,8 @@ public class CampService {
     }
 
     private void loadImagesForCamp(List<MediaStorageInfo> images, CampEntity campFromDb) {
-//        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campFromDb.getId()));
-
 
         mediaService.deletedOldImagesUploadNewImages(images, campFromDb.getId(), TypeEntity.CAMP);
-//        Set<UUID> imagesRequestIds = Util.getSaveStream(images).map(MediaStorageInfo::getId).collect(Collectors.toSet());
-//
-//        List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campFromDb.getId());
-//        if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {
-//            mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campFromDb.getMainImageId())
-//                    || Objects.equals(x.getId(), campFromDb.getCartImageId()));
-//            mediaStorageInfos.removeIf(x -> imagesRequestIds.contains(x.getId()));
-//        }
-//        Set<UUID> ids = Util.getSaveStream(mediaStorageInfos)
-//                .map(MediaStorageInfo::getId).collect(Collectors.toSet());
-//        mediaService.delete(ids, campFromDb.getId(), TypeEntity.CAMP);
-//        if (CollectionUtils.isNotEmpty(images)) {
-//            images.forEach(image -> mediaService.mediaInfoToMediaStorage(image, campFromDb.getId(), TypeEntity.CAMP));
-//        }
     }
 
     private void replaceMainImage(MediaStorageInfo mainImageInfo, CampEntity campFromDb) {
