@@ -67,7 +67,6 @@ public class ProfileService {
     private ProfileDto mapProfileEntityToProfileDto(ProfileEntity profile) {
 
         List<CampEntity> campEntities = profile.getProfileCamps().stream()
-                .filter(ProfileCampsEntity::getIsPast)
                 .map(ProfileCampsEntity::getCamp)
                 .toList();
 
