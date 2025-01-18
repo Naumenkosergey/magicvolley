@@ -74,7 +74,7 @@ public class CampService {
                 .toList();
     }
 
-    private CampDto buildCampDto(CampEntity campEntity, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds) {
+    public CampDto buildCampDto(CampEntity campEntity, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds) {
         List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campEntity.getId());
         if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {
             mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())

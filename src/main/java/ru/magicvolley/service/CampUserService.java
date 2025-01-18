@@ -78,6 +78,7 @@ public class CampUserService {
         CampUserEntity campUserFromDb = campUserRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(CampUserEntity.class, id));
         campUserFromDb.setBookingConfirmed(confirmReservationRequest.isConfirm());
+        campUserFromDb.setBookingCount(confirmReservationRequest.count());
 
         profileCampService.confirmOrUnconfirmCampForUser(confirmReservationRequest);
         campUserFromDb.setIsViewed(Boolean.TRUE);

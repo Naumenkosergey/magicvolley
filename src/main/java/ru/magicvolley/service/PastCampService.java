@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.dto.CampDto;
 import ru.magicvolley.dto.CampDtoForList;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.CampCoachEntity;
@@ -17,9 +18,7 @@ import ru.magicvolley.repository.CampUserRepository;
 import ru.magicvolley.request.PastCampForUpdate;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +31,7 @@ public class PastCampService {
     private final MediaService mediaService;
     private final AuthService authService;
     private final DateStringService dateStringService;
+    private final CampService campService;
 
     @Value("${media.prefix.url}")
     private String prefixUrlMedia;
@@ -83,5 +83,13 @@ public class PastCampService {
         campCoachRepository.deleteAll(campCoaches);
         campRepository.delete(campFromDb);
         return true;
+    }
+
+    @Transactional(readOnly = true)
+    public CampDto getById(UUID campId) {
+        CampEntity campFromDb = campRepository.findById(campId)
+                .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + campId));
+        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campId), TypeEntity.PAST_GALLERY);
+        return campService.buildCampDto(campFromDb, allImagesForCamIds);
     }
 }

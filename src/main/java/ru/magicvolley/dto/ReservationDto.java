@@ -6,6 +6,5 @@ public record ReservationDto(
         UUID userId,
         UUID campId,
         String username,
-        String telephone,
-        int bookingCount) {
+        String telephone) {
 }
