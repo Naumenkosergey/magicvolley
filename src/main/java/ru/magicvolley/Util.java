@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 public class Util {
 
     public static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("YYYY-MM-DD");
+    public static String UNDEFINED_VALUE = "Не указано";
 
     public static <T> Stream<T> getSaveStream(Collection<T> collections) {
 
@@ -36,8 +37,24 @@ public class Util {
         return "%" + type + "%";
     }
 
-    public static boolean getOrDefaultIfNull(Boolean value, Boolean defaultFalue) {
-        return Objects.nonNull(value) ? value : defaultFalue;
+    public static boolean getOrDefaultIfNull(Boolean value, Boolean defaultValue) {
+        return Objects.nonNull(value) ? value : defaultValue;
+    }
+
+    public static Integer getOrDefaultIfNull(String value) {
+        return Objects.nonNull(value) ? Integer.parseInt(value) : 0;
+    }
+
+    public static String getOrUndefinedIfNull(Integer value) {
+        return isNonNullAndNotZeroValue(value) ? String.valueOf(value) : UNDEFINED_VALUE;
+    }
+
+    public static String getOrUndefinedIfNull(String value) {
+        return Objects.nonNull(value) ? value : UNDEFINED_VALUE;
+    }
+
+    private Boolean isNonNullAndNotZeroValue(Integer value) {
+        return Objects.nonNull(value) && value != 0;
     }
 
 

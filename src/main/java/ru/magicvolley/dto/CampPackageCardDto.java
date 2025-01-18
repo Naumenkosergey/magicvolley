@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.magicvolley.Util;
 import ru.magicvolley.entity.CampPackageCardEntity;
 import ru.magicvolley.enums.TypePackageCard;
 
@@ -17,16 +18,16 @@ public class CampPackageCardDto {
     private String name;
     private String costNamingLink;
     private String info;
-    private Integer totalPrice;
-    private Integer bookingPrice;
+    private String totalPrice;
+    private String bookingPrice;
 
-    private Integer firstPrice;
+    private String firstPrice;
     private String firstLimitation;
 
-    private Integer secondPrice;
+    private String secondPrice;
     private String secondLimitation;
 
-    private Integer thirdPrice;
+    private String thirdPrice;
     private String thirdLimitation;
 
     private TypePackageCard type;
@@ -38,14 +39,14 @@ public class CampPackageCardDto {
         this.name = namePackage;
         this.costNamingLink = campPackageCardEntity.getPackageCard().getCostNamingLink();
         this.info = campPackageCardEntity.getInfo();
-        this.totalPrice = campPackageCardEntity.getTotalPrice();
-        this.bookingPrice = campPackageCardEntity.getBookingPrice();
-        this.firstPrice = campPackageCardEntity.getFirstPrice();
-        this.firstLimitation = campPackageCardEntity.getFirstLimitation();
-        this.secondPrice = campPackageCardEntity.getSecondPrice();
-        this.secondLimitation = campPackageCardEntity.getSecondLimitation();
-        this.thirdPrice = campPackageCardEntity.getThirdPrice();
-        this.thirdLimitation = campPackageCardEntity.getThirdLimitation();
+        this.totalPrice =  Util.getOrUndefinedIfNull(campPackageCardEntity.getTotalPrice());
+        this.bookingPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getBookingPrice());
+        this.firstPrice =  Util.getOrUndefinedIfNull(campPackageCardEntity.getFirstPrice());
+        this.firstLimitation =  Util.getOrUndefinedIfNull(campPackageCardEntity.getFirstLimitation());
+        this.secondPrice =  Util.getOrUndefinedIfNull(campPackageCardEntity.getSecondPrice());
+        this.secondLimitation =  Util.getOrUndefinedIfNull(campPackageCardEntity.getSecondLimitation());
+        this.thirdPrice =  Util.getOrUndefinedIfNull(campPackageCardEntity.getThirdPrice());
+        this.thirdLimitation =  Util.getOrUndefinedIfNull(campPackageCardEntity.getThirdLimitation());
         this.type = getType(namePackage);
         this.displayName = getDisplayNamePackage(namePackage);
     }
@@ -73,4 +74,5 @@ public class CampPackageCardDto {
             return "Пакет \"Tour\"";
         } else return null;
     }
+
 }

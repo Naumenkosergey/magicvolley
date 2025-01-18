@@ -184,13 +184,13 @@ public class CampService {
                         .packageCardId(packageCard.getPackageId())
                         .build())
                 .info(packageCard.getInfo())
-                .totalPrice(packageCard.getTotalPrice())
-                .bookingPrice(packageCard.getBookingPrice())
-                .firstPrice(packageCard.getFirstPrice())
+                .totalPrice(Util.getOrDefaultIfNull(packageCard.getTotalPrice()))
+                .bookingPrice(Util.getOrDefaultIfNull(packageCard.getBookingPrice()))
+                .firstPrice(Util.getOrDefaultIfNull(packageCard.getFirstPrice()))
                 .firstLimitation(packageCard.getFirstLimitation())
-                .secondPrice(packageCard.getSecondPrice())
+                .secondPrice(Util.getOrDefaultIfNull(packageCard.getSecondPrice()))
                 .secondLimitation(packageCard.getSecondLimitation())
-                .thirdPrice(packageCard.getThirdPrice())
+                .thirdPrice(Util.getOrDefaultIfNull(packageCard.getThirdPrice()))
                 .thirdLimitation(packageCard.getThirdLimitation())
                 .build();
     }
