@@ -1,6 +1,6 @@
 package ru.magicvolley.exceptions;
 
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends ValidationException {
 
     public EntityNotFoundException(String message) {
         super(message);

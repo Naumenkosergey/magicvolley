@@ -3,6 +3,7 @@ package ru.magicvolley.service;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.CampType;
 import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
+import ru.magicvolley.exceptions.ValidationException;
 import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CampPackageCardRepository;
 import ru.magicvolley.repository.CampRepository;
@@ -138,6 +140,12 @@ public class CampService {
 
     @Transactional
     public UUID create(CampDto camp, CampType campType) {
+        if (StringUtils.isBlank(camp.getName())) {
+            throw new ValidationException("не указано название");
+        }
+        if (Objects.isNull(camp.getDateStart()) || Objects.isNull(camp.getDateEnd())) {
+            throw new ValidationException("не указана дата начала или окончания кэмпа");
+        }
 
         CampEntity campEntity = CampEntity.builder()
                 .id(UUID.randomUUID())
