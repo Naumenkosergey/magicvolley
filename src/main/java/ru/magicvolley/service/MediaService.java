@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -120,6 +121,7 @@ public class MediaService {
         return mediaStorageEntity;
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
     public void delete(MediaStorageEntity mediaStorage) {
         if (Objects.nonNull(mediaStorage) && Objects.nonNull(mediaStorage.getId())) {
             MediaStorageEntity mediaStorageFromDb = mediaRepository.findById(mediaStorage.getId())

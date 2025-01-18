@@ -29,7 +29,7 @@ public class ProfileEntity {
     private UserEntity user;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "imageId", insertable = false, updatable = false)
+    @JoinColumn(name = "imageId")
     private MediaStorageEntity avatar;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

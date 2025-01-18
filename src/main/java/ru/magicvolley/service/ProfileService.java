@@ -122,8 +122,8 @@ public class ProfileService {
         ProfileEntity profileEntity = profileRepository.findById(profileId)
                 .orElseThrow(() -> new EntityNotFoundException(ProfileEntity.class, profileId));
         if (profileEntity.getAvatar() != null) {
-            mediaService.delete(profileEntity.getAvatar());
             profileEntity.setAvatar(null);
+            mediaService.delete(profileEntity.getAvatar());
         }
         return true;
     }

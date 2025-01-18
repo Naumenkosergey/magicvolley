@@ -51,7 +51,7 @@ public class ProfileController {
         return new ApiResponse<>(profileService.updateAvatar(profileAvatar));
     }
 
-    @PutMapping("/{id}/delete-avatar")
+    @DeleteMapping("/{id}/delete-avatar")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ApiResponse<Boolean> deleteAvatar(@PathVariable  UUID id){
         return new ApiResponse<>(profileService.deleteAvatar(id));
