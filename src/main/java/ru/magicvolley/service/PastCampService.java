@@ -89,7 +89,7 @@ public class PastCampService {
     public CampDto getById(UUID campId) {
         CampEntity campFromDb = campRepository.findById(campId)
                 .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + campId));
-        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campId), TypeEntity.PAST_GALLERY);
-        return campService.buildCampDto(campFromDb, allImagesForCamIds);
+//        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campId), TypeEntity.PAST_GALLERY);
+        return campService.buildCampDto(campFromDb);
     }
 }

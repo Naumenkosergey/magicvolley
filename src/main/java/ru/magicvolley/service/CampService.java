@@ -74,12 +74,12 @@ public class CampService {
                 .toList();
     }
 
-    public CampDto buildCampDto(CampEntity campEntity, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds) {
-        List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campEntity.getId());
-        if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {
-            mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
-                    || Objects.equals(x.getId(), campEntity.getCartImageId()));
-        }
+    public CampDto buildCampDto(CampEntity campEntity/*, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds*/) {
+//        List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campEntity.getId());
+//        if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {
+//            mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
+//                    || Objects.equals(x.getId(), campEntity.getCartImageId()));
+//        }
         boolean isPast = LocalDate.now().isAfter(campEntity.getDateEnd());
         List<MediaStorageInfo> galleryImages = isPast
                 ? mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.PAST_GALLERY).get(campEntity.getId())
@@ -101,7 +101,7 @@ public class CampService {
                 .packages(isPast ? List.of() : campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
                 .mainImage(new MediaStorageInfo(campEntity.getMainImage(), prefixUrlMedia))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
-                .images(mediaStorageInfos)
+                .images(mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.CAMP).get(campEntity.getId()))
                 .users(!isAdminCurrentUser
                         ? null
                         : campUserService.getUsersForCampId(campEntity.getId()))
@@ -134,8 +134,8 @@ public class CampService {
         CampEntity campEntity = campRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
         campUserService.recalculateIsViewUsers(campEntity.getId());
-        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.CAMP);
-        return buildCampDto(campEntity, allImagesForCamIds);
+//        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.CAMP);
+        return buildCampDto(campEntity/*, allImagesForCamIds*/);
     }
 
     @Transactional
