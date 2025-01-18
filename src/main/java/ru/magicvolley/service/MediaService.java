@@ -190,13 +190,12 @@ public class MediaService {
         }
     }
 
-    public List<MediaResponse> getAllImages(TypeEntity typeEntity) {
+    public List<MediaStorageInfo> getAllImages(TypeEntity typeEntity) {
         return Util.getSaveStream(mediaRepository.findAllByTypeEntity(typeEntity))
-                .map(this::mapToFileResponse)
+                .map(x -> new MediaStorageInfo(x, prefixUrlMedia))
                 .limit(100)
                 .collect(Collectors.toList());
     }
-
 }
 
 

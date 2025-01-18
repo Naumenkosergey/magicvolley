@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.HomePageEntity;
-import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.repository.HomePageRepository;
 import ru.magicvolley.request.HomeContactBlockRequest;
 import ru.magicvolley.request.HomeMainBlockRequest;
@@ -62,7 +61,6 @@ public class HomeService {
                 .contactBlock(getContact(homeFromDb))
                 .camps(campService.getAll())
                 .questions(questionService.getAll())
-                .medias(mediaService.getAllImages(TypeEntity.PAST_GALLERY))
                 .build();
     }
 

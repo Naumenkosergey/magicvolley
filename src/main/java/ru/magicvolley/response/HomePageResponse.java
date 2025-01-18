@@ -20,7 +20,6 @@ public class HomePageResponse {
     private UUID id;
     private List<CampDtoForList> camps;
     private List<CoachDto> coaches;
-    private List<MediaResponse> medias;
     private List<QuestionResponse> questions;
 
     MainBlockResponse mainBlock;

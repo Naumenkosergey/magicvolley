@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.entity.AboutUsPageEntity;
+import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.AboutUsPageRepository;
 import ru.magicvolley.request.AboutUsRequest;
@@ -17,6 +18,7 @@ public class AboutUsPageService {
     private final MasterService masterService;
     private final ReviewService reviewService;
     private final ActivityService activityService;
+    private final MediaService mediaService;
 
 
     @Transactional(readOnly = true)
@@ -34,6 +36,7 @@ public class AboutUsPageService {
                 .Activities(activityService.getActivities())
                 .reviews(reviewService.getReviews())
                 .master(masterService.getMaster())
+                .gallery(mediaService.getAllImages(TypeEntity.PAST_GALLERY))
                 .build();
 
     }

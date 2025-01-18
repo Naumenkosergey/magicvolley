@@ -23,6 +23,7 @@ public class AboutUsResponse {
     private Integer numberOfStudents;
     private List<Activity> Activities;
     private Video video;
+    private List<MediaStorageInfo> gallery;
     private Master master;
     private List<Review> reviews;
 
