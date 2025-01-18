@@ -158,8 +158,8 @@ public class CampService {
                 .build();
         campRepository.saveAndFlush(campEntity);
 
-        MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(camp.getMainImage(), campEntity.getId(), TypeEntity.CAMP);
-        MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(camp.getImageCart(), campEntity.getId(), TypeEntity.CAMP);
+        MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(camp.getMainImage(), campEntity.getId(), TypeEntity.MAIN_IMAGE_CAMP);
+        MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(camp.getImageCart(), campEntity.getId(), TypeEntity.CART_IMAGE_CAMP);
         setMainImage(mainImage, campEntity);
         setImageCart(imageCart, campEntity);
         loadImagesForCamp(camp.getImages(), campEntity);
@@ -238,16 +238,16 @@ public class CampService {
     }
 
     private void replaceMainImage(MediaStorageInfo mainImageInfo, CampEntity campFromDb) {
-        if (Objects.nonNull(mainImageInfo) && Objects.nonNull(campFromDb.getMainImageId()) && !Objects.equals(mainImageInfo.getId(), campFromDb.getMainImage().getId())) {
-            MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(mainImageInfo, campFromDb.getId(), TypeEntity.CAMP);
+        if (Objects.nonNull(mainImageInfo) && Objects.nonNull(campFromDb.getMainImageId()) && !Objects.equals(mainImageInfo.getId(), campFromDb.getMainImageId())) {
+            MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(mainImageInfo, campFromDb.getId(), TypeEntity.MAIN_IMAGE_CAMP);
             campFromDb.setMainImage(mainImage);
             campFromDb.setMainImageId(mainImage.getId());
         }
     }
 
     private void replaceImageCart(MediaStorageInfo cartImageInfo, CampEntity campFromDb) {
-        if (Objects.nonNull(cartImageInfo) && Objects.nonNull(campFromDb.getMainImageId()) && !Objects.equals(cartImageInfo.getId(), campFromDb.getMainImage().getId())) {
-            MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(cartImageInfo, campFromDb.getId(), TypeEntity.CAMP);
+        if (Objects.nonNull(cartImageInfo) && Objects.nonNull(campFromDb.getCartImageId()) && !Objects.equals(cartImageInfo.getId(), campFromDb.getCartImageId())) {
+            MediaStorageEntity imageCart = mediaService.mediaInfoToMediaStorage(cartImageInfo, campFromDb.getId(), TypeEntity.CART_IMAGE_CAMP);
             campFromDb.setCartImageId(imageCart.getId());
             campFromDb.setImageCart(imageCart);
         }

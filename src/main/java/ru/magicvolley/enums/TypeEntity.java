@@ -11,6 +11,8 @@ public enum TypeEntity {
     ADMIN,
     ACTIVITY,
     REVIEW,
-    PAST_GALLERY
+    PAST_GALLERY,
+    MAIN_IMAGE_CAMP,
+    CART_IMAGE_CAMP
 }
  
