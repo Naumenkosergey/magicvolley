@@ -42,7 +42,7 @@ public class Util {
     }
 
     public static Integer getOrDefaultIfNull(String value) {
-        return Objects.nonNull(value) && Objects.equals(value, UNDEFINED_VALUE) ? Integer.parseInt(value) : 0;
+        return Objects.nonNull(value) && !Objects.equals(value, UNDEFINED_VALUE) ? Integer.parseInt(value) : 0;
     }
 
     public static String getOrUndefinedIfNull(Integer value) {
