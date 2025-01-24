@@ -5,6 +5,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.magicvolley.Util;
 import ru.magicvolley.dto.UserDto;
 import ru.magicvolley.entity.CampUserEntity;
 import ru.magicvolley.entity.ProfileEntity;
@@ -53,8 +54,8 @@ public class UserService {
         RoleEntity roleForRequest = roleService.getRoleForRequest(addUserRequest);
         UserEntity userEntity = UserEntity.builder()
                 .id(UUID.randomUUID())
-                .telephone(addUserRequest.getTelephone())
-                .password(passwordEncoder.encode(addUserRequest.getTelephone()))
+                .telephone(Util.trim(addUserRequest.getTelephone(), '+'))
+                .password(passwordEncoder.encode(Util.trim(addUserRequest.getTelephone(),'+')))
                 .isBlocked(Objects.nonNull(addUserRequest.getIsBlocked()) ? addUserRequest.getIsBlocked() : false)
                 .username(addUserRequest.getUsername())
                 .roleId(roleForRequest.getId())
@@ -69,7 +70,7 @@ public class UserService {
         ProfileEntity profile = ProfileEntity.builder()
                 .userId(user.getId())
                 .fulName(user.getUsername())
-                .telephone(user.getTelephone())
+                .telephone(Util.addNotExistChar(user.getTelephone(), '+'))
                 .build();
         profileRepository.save(profile);
         return user.getId();

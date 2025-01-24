@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.magicvolley.Util;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.dto.UserDto;
 import ru.magicvolley.entity.UserEntity;
@@ -37,7 +38,7 @@ public class UserForAdminResponse {
     public UserForAdminResponse(UserDto userDto, MediaStorageInfo avatar) {
         this.id = userDto.getId();
         this.name = userDto.getUsername();
-        this.telephone = userDto.getTelephone();
+        this.telephone = Util.addNotExistChar(userDto.getTelephone(), '+');
         this.isAdmin = userDto.getRole().equals(Role.ADMIN.name());
         this.isModerator = userDto.getRole().equals(Role.MODERATOR.name());
         this.isUser = userDto.getRole().equals(Role.USER.name());

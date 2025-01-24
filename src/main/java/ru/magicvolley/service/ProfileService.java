@@ -87,8 +87,8 @@ public class ProfileService {
         }
 
         return new ProfileDto(profile.getFulName(),
-                profile.getBirthday(),
-                profile.getUser().getEmail(),
+                Util.getOrUndefinedIfNull(profile.getBirthday()),
+                Util.getOrUndefinedIfNull(profile.getUser().getEmail()),
                 profile.getTelephone(),
                 pastCamps,
                 nearestCamps,

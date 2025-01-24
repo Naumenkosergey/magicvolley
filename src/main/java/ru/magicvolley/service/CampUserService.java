@@ -44,7 +44,7 @@ public class CampUserService {
                     .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, reservationDto.campId()));
             String campName = campEntity.getCampName();
             var username = reservationDto.username();
-            var telephone = reservationDto.telephone();
+            var telephone = Util.addNotExistChar(reservationDto.telephone(), '+');
             bot.reservedCamp(campName, username, telephone);
             //TODO seng telegram message
         } else {

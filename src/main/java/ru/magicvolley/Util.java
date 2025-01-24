@@ -7,6 +7,7 @@ import ru.magicvolley.enums.CoachType;
 import ru.magicvolley.enums.Role;
 import ru.magicvolley.security.service.UserDetailsImpl;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,6 +21,7 @@ public class Util {
 
     public static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("YYYY-MM-DD");
     public static String UNDEFINED_VALUE = "Не указано";
+    public static String EMPTY_VALUE = "";
 
     public static <T> Stream<T> getSaveStream(Collection<T> collections) {
 
@@ -74,5 +76,21 @@ public class Util {
             throw new AuthenticationException("Наавторизованный пользователь") {
             };
         }
+    }
+
+    public static String trim(String string, char ch) {
+        return trim(string, ch, ch);
+    }
+
+    public static String trim(String string, char leadingChar, char trailingChar) {
+        return string.replaceAll("^[" + leadingChar + "]+|[" + trailingChar + "]+$", "");
+    }
+
+    public static String addNotExistChar(String telephone, char c) {
+        return "+" + trim(telephone, '+');
+    }
+
+    public static String getOrUndefinedIfNull(LocalDate birthday) {
+        return Objects.nonNull(birthday) ? birthday.format(DATE_FORMAT) : EMPTY_VALUE;
     }
 }

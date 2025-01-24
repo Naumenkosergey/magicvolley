@@ -1,5 +1,7 @@
 package ru.magicvolley.botTelegram;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -13,6 +15,7 @@ public class Bot extends TelegramLongPollingBot {
     private static final String START = "/start";
     private static final String RESERVED = "/reserved";
     private static final String ANSWER = "/answer";
+    private static final Logger log = LoggerFactory.getLogger(Bot.class);
 
     public Bot(@Value("${bot.token}") String botToken) {
         super(botToken);
