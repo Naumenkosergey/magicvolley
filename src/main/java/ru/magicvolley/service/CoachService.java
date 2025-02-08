@@ -41,6 +41,15 @@ public class CoachService {
     }
 
     @Transactional
+    public List<CoachDto> getAll() {
+        return coachRepository.findAll().stream()
+                .filter(coach -> Util.isAdminCurrentUser() || Objects.equals(Util.getOrDefaultIfNull(coach.isVisible(), Boolean.TRUE), Boolean.TRUE))
+                .sorted(Comparator.comparing(CoachEntity::getCreatedAt))
+                .map(x -> new CoachDto(x, prefixUrlMedia))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public CoachDto getById(UUID id) {
         return coachRepository.findById(id)
                 .map(x -> new CoachDto(x, prefixUrlMedia))

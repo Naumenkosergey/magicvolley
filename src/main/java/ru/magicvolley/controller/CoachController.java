@@ -32,7 +32,7 @@ public class CoachController {
 
     @GetMapping("/all")
     public ApiResponse<List<CoachDto>> getAll(){
-        return new ApiResponse<>(coachService.getAll(CoachType.BEACH, CoachType.CLASSIC));
+        return new ApiResponse<>(coachService.getAll());
     }
 
     @GetMapping("/all/media")

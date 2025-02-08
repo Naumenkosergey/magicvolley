@@ -274,6 +274,8 @@ public class CampService {
         CampEntity campFromDb = campRepository.findById(campId)
                 .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, campId));
         List<CampCoachEntity> campCoaches = campCoachRepository.findAllByIdCoachId(campId);
+        List<CampPackageCardEntity> campPackages = campPackageCardRepository.findAllByIdCampId(campId);
+        campPackageCardRepository.deleteAll(campPackages);
         campCoachRepository.deleteAll(campCoaches);
         campRepository.delete(campFromDb);
         return true;
