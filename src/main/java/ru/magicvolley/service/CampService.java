@@ -41,6 +41,8 @@ public class CampService {
 
     @Value("${media.prefix.url}")
     private String prefixUrlMedia;
+    @Value("${filter.past.camp}")
+    private boolean filterPastCamp;
     private final CampUserRepository campUserRepository;
 
     @Transactional(readOnly = true)
@@ -60,8 +62,12 @@ public class CampService {
 
     public List<CampDtoForList> getList(List<CampEntity> campEntities) {
         LocalDate now = LocalDate.now();
-        return campEntities.stream()
+        return filterPastCamp
+            ? campEntities.stream()
                 .filter(camp -> now.isBefore(camp.getDateEnd()))
+                .map(this::buildCampDtoForList)
+                .toList()
+            : campEntities.stream()
                 .map(this::buildCampDtoForList)
                 .toList();
     }
@@ -74,12 +80,7 @@ public class CampService {
                 .toList();
     }
 
-    public CampDto buildCampDto(CampEntity campEntity/*, Map<UUID, List<MediaStorageInfo>> allImagesForCamIds*/) {
-//        List<MediaStorageInfo> mediaStorageInfos = allImagesForCamIds.get(campEntity.getId());
-//        if (CollectionUtils.isNotEmpty(mediaStorageInfos)) {
-//            mediaStorageInfos.removeIf(x -> Objects.equals(x.getId(), campEntity.getMainImageId())
-//                    || Objects.equals(x.getId(), campEntity.getCartImageId()));
-//        }
+    public CampDto buildCampDto(CampEntity campEntity) {
         boolean isPast = LocalDate.now().isAfter(campEntity.getDateEnd());
         List<MediaStorageInfo> galleryImages = isPast
                 ? mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.PAST_GALLERY).get(campEntity.getId())

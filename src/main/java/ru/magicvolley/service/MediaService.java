@@ -139,6 +139,7 @@ public class MediaService {
         }
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
     public void delete(UUID entityId, TypeEntity typeEntity) {
 
         List<MediaStorageEntity> mediaStorageFromDbs = mediaRepository

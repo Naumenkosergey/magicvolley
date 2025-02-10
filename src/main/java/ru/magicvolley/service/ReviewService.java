@@ -80,8 +80,8 @@ public class ReviewService {
     public Boolean delete(UUID reviewId) {
         ReviewEntity reviewFomDb = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(ReviewEntity.class, reviewId));
-        mediaService.delete(reviewFomDb.getId(), TypeEntity.REVIEW);
         reviewRepository.delete(reviewFomDb);
+        mediaService.delete(reviewFomDb.getId(), TypeEntity.REVIEW);
         return true;
     }
 }
