@@ -17,6 +17,7 @@ import ru.magicvolley.exceptions.EntityNotFoundException;
 import ru.magicvolley.repository.CampCoachRepository;
 import ru.magicvolley.repository.CoachRepository;
 import ru.magicvolley.request.CoachRequest;
+import ru.magicvolley.response.CoachResponse;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,10 +51,11 @@ public class CoachService {
     }
 
     @Transactional
-    public CoachDto getById(UUID id) {
-        return coachRepository.findById(id)
-                .map(x -> new CoachDto(x, prefixUrlMedia))
+    public CoachResponse getById(UUID id) {
+        CoachEntity coach = coachRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(CoachEntity.class, id));
+        List<MediaStorageInfo> allImages = mediaService.getAllImages(coach.getId(), TypeEntity.COACH);
+        return new CoachResponse(coach, prefixUrlMedia, allImages);
     }
 
     @Transactional
@@ -67,8 +69,8 @@ public class CoachService {
                 .promo(coach.getPromo())
                 .isVisible(Boolean.TRUE)
                 .build());
-        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachEntity.getId(), TypeEntity.COACH);
-        setAvatar(mediaStorage, coachEntity);
+        MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachEntity.getId(), TypeEntity.COACH_AVATAR);
+        setAvatar(mainImage, coachEntity);
         coachRepository.saveAndFlush(coachEntity);
         if (CollectionUtils.isNotEmpty(coach.getImages())) {
             coach.getImages().forEach(x -> mediaService.mediaInfoToMediaStorage(x, coachEntity.getId(), TypeEntity.COACH));
@@ -86,13 +88,18 @@ public class CoachService {
         coachFromDb.setPromo(coach.getPromo());
         coachFromDb.setCoachType(getCoachTypeFromRequest(coach.getIsBeach(), coach.getIsClassic()));
 
-        MediaStorageEntity mediaStorage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachFromDb.getId(), TypeEntity.COACH);
-        setAvatar(mediaStorage, coachFromDb);
+        MediaStorageEntity mainImage = mediaService.mediaInfoToMediaStorage(coach.getMainImage(), coachFromDb.getId(), TypeEntity.COACH_AVATAR);
+        setAvatar(mainImage, coachFromDb);
         coachRepository.save(coachFromDb);
-        if (CollectionUtils.isNotEmpty(coach.getImages())) {
-            coach.getImages().forEach(x -> mediaService.mediaInfoToMediaStorage(x, coachFromDb.getId(), TypeEntity.COACH));
-        }
+        replaceCoachImages(coach, mainImage, coachFromDb);
         return coachFromDb.getId();
+    }
+
+    private void replaceCoachImages(CoachRequest coach, MediaStorageEntity mainImage, CoachEntity coachFromDb) {
+        List<MediaStorageInfo> coachImagesFromRequest = coach.getImages().stream()
+                .filter(x -> !x.getId().equals(mainImage.getId()))
+                .collect(Collectors.toList());
+        mediaService.deletedOldImagesUploadNewImages(coachImagesFromRequest, coachFromDb.getId(), TypeEntity.COACH);
     }
 
     private static void setAvatar(MediaStorageEntity mediaStorage, CoachEntity coachEntity) {

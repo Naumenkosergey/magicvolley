@@ -7,6 +7,7 @@ import ru.magicvolley.dto.CoachDto;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.enums.CoachType;
 import ru.magicvolley.request.CoachRequest;
+import ru.magicvolley.response.CoachResponse;
 import ru.magicvolley.response.api.ApiResponse;
 import ru.magicvolley.service.CoachService;
 
@@ -51,7 +52,7 @@ public class CoachController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<CoachDto> getById(@PathVariable UUID id){
+    public ApiResponse<CoachResponse> getById(@PathVariable UUID id){
         return new ApiResponse<>(coachService.getById(id));
     }
 

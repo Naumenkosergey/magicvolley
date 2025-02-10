@@ -3,6 +3,7 @@ package ru.magicvolley.enums;
 public enum TypeEntity {
 
     COACH,
+    COACH_AVATAR,
     CAMP,
     USER,
     CAMP_COACH,

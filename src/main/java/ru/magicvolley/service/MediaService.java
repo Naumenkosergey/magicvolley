@@ -131,6 +131,14 @@ public class MediaService {
 
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void delete(Collection<UUID> ids) {
+        if (CollectionUtils.isNotEmpty(ids)) {
+            List<MediaStorageEntity> allById = mediaRepository.findAllById(ids);
+            mediaRepository.deleteAll(allById);
+        }
+    }
+
     public void delete(UUID entityId, TypeEntity typeEntity) {
 
         List<MediaStorageEntity> mediaStorageFromDbs = mediaRepository
@@ -197,6 +205,15 @@ public class MediaService {
                 .collect(Collectors.toList());
         Collections.shuffle(medias);
         return medias;
+    }
+
+
+    public List<MediaStorageInfo> getAllImages(UUID entityId, TypeEntity typeEntity) {
+
+        return mediaRepository
+                .findAllByEntityIdAndTypeEntity(entityId, typeEntity).stream()
+                .map(x -> new MediaStorageInfo(x, prefixUrlMedia))
+                .collect(Collectors.toList());
     }
 }
 
