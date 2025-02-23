@@ -31,10 +31,11 @@ public class SubscriptionPriceController {
         return new ApiResponse<>(subscriptionPriceService.createSubscriptionPrice(subscriptionPriceRequest));
     }
 
-    @PutMapping()
+    @PutMapping("/{subscriptionPriceId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ApiResponse<UUID> updateSubscriptionPrice(@RequestBody SubscriptionPriceRequest subscriptionPriceRequest) {
+    public ApiResponse<UUID> updateSubscriptionPrice(@RequestBody SubscriptionPriceRequest subscriptionPriceRequest,
+                                                     @PathVariable UUID subscriptionPriceId) {
 
-        return new ApiResponse<>(subscriptionPriceService.updateSubscriptionPrice(subscriptionPriceRequest));
+        return new ApiResponse<>(subscriptionPriceService.updateSubscriptionPrice(subscriptionPriceRequest, subscriptionPriceId));
     }
 }

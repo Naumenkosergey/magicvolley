@@ -47,7 +47,7 @@ public class SubscriptionPriceService {
                 .orElse(0);
         SubscriptionEntity subscriptionEntity = SubscriptionEntity.builder()
                 .id(UUID.randomUUID())
-                .subscriptionName(subscriptionPriceRequest.getSubscriptionName())
+                .subscriptionName(subscriptionPriceRequest.getName())
                 .orderNumber(maxOrder + 1)
                 .build();
         ssubscriptionRepository.save(subscriptionEntity);
@@ -68,13 +68,11 @@ public class SubscriptionPriceService {
     }
 
     @Transactional
-    public UUID updateSubscriptionPrice(SubscriptionPriceRequest subscriptionPriceRequest) {
+    public UUID updateSubscriptionPrice(SubscriptionPriceRequest subscriptionPriceRequest, UUID subscriptionPriceId) {
 
-        if (Objects.nonNull(subscriptionPriceRequest.getId())) {
-            SubscriptionEntity subscriptionFromDb = ssubscriptionRepository.findById(subscriptionPriceRequest.getId())
-                    .orElseThrow(() -> new EntityNotFoundException(SubscriptionEntity.class, subscriptionPriceRequest.getId()));
-            subscriptionFromDb.setSubscriptionName(subscriptionPriceRequest.getSubscriptionName());
-        }
+        SubscriptionEntity subscriptionFromDb = ssubscriptionRepository.findById(subscriptionPriceId)
+                .orElseThrow(() -> new EntityNotFoundException(SubscriptionEntity.class, subscriptionPriceId));
+        subscriptionFromDb.setSubscriptionName(subscriptionPriceRequest.getName());
 
         if (CollectionUtils.isNotEmpty(subscriptionPriceRequest.getPrices())) {
             Map<UUID, SubscriptionPriceRequest.Price> mapPriceIdToPrice = subscriptionPriceRequest.getPrices().stream()

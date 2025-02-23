@@ -16,7 +16,7 @@ import java.util.UUID;
 public class SubscriptionPriceRequest {
 
     private UUID id;
-    private String subscriptionName;
+    private String name;
     private List<Price> prices;
 
     @AllArgsConstructor
