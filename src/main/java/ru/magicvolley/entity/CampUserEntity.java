@@ -6,12 +6,12 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "camp_users")
-@EqualsAndHashCode(of = "id")
 public class CampUserEntity {
     @EmbeddedId
     private Id id;

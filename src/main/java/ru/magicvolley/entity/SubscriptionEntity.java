@@ -3,10 +3,8 @@ package ru.magicvolley.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Version;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -14,16 +12,15 @@ import java.util.UUID;
 @Table(name = "subscriptions")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 public class SubscriptionEntity {
     @Id
     private UUID id;
     private String subscriptionName;
+    @Version
     private Long version;
     private Integer orderNumber;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "subscriptionId", insertable = false, updatable = false)
-//    private List<SubscriptionPriceEntity> prices;
 }

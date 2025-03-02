@@ -6,12 +6,12 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "package_card")
-@EqualsAndHashCode(of = "id")
 public class PackageCardEntity {
 
     @Id

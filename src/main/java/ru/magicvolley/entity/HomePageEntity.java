@@ -6,12 +6,12 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "home_page")
-@EqualsAndHashCode(of = "id")
 public class HomePageEntity {
 
     @Id

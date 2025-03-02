@@ -77,7 +77,7 @@ public class SubscriptionPriceService {
         if (CollectionUtils.isNotEmpty(subscriptionPriceRequest.getPrices())) {
             Map<UUID, SubscriptionPriceRequest.Price> mapPriceIdToPrice = subscriptionPriceRequest.getPrices().stream()
                     .filter(price -> Objects.nonNull(price.getId()))
-                    .collect(Collectors.toMap(SubscriptionPriceRequest.Price::getId, Function.identity()));
+                    .collect(Collectors.toMap(SubscriptionPriceRequest.Price::getId, Function.identity(), (o, o2) -> o2, LinkedHashMap::new));
             List<SubscriptionPriceEntity> pricesFromDb = subscriptionPriceRepository.findAllById(mapPriceIdToPrice.keySet());
             pricesFromDb.forEach(priceFromDb -> {
                 var priceFromRequest = mapPriceIdToPrice.get(priceFromDb.getId());
@@ -89,5 +89,15 @@ public class SubscriptionPriceService {
             });
         }
         return subscriptionPriceRequest.getId();
+    }
+
+    @Transactional
+    public Boolean deleteSubscriptionPrice(UUID subscriptionPriceId) {
+        SubscriptionEntity subscriptionFromDb = ssubscriptionRepository.findById(subscriptionPriceId)
+                .orElseThrow(() -> new EntityNotFoundException(SubscriptionEntity.class, subscriptionPriceId));
+        List<SubscriptionPriceEntity> allBySubscriptionId = subscriptionPriceRepository.findAllBySubscriptionId(subscriptionFromDb.getId());
+        subscriptionPriceRepository.deleteAll(allBySubscriptionId);
+        ssubscriptionRepository.delete(subscriptionFromDb);
+        return true;
     }
 }

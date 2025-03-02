@@ -15,7 +15,6 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
 public class CampEntity {
 
     @Id

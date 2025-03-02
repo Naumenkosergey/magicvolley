@@ -32,10 +32,17 @@ public class SubscriptionPriceController {
     }
 
     @PutMapping("/{subscriptionPriceId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('MODERATOR')")
     public ApiResponse<UUID> updateSubscriptionPrice(@RequestBody SubscriptionPriceRequest subscriptionPriceRequest,
                                                      @PathVariable UUID subscriptionPriceId) {
 
         return new ApiResponse<>(subscriptionPriceService.updateSubscriptionPrice(subscriptionPriceRequest, subscriptionPriceId));
+    }
+
+    @DeleteMapping("/{subscriptionPriceId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ApiResponse<Boolean> updateSubscriptionPrice(@PathVariable UUID subscriptionPriceId) {
+
+        return new ApiResponse<>(subscriptionPriceService.deleteSubscriptionPrice(subscriptionPriceId));
     }
 }

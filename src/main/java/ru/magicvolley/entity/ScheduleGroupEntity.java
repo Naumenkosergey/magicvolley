@@ -3,10 +3,7 @@ package ru.magicvolley.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -14,7 +11,8 @@ import java.util.UUID;
 @Table(name = "schedule_groups")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 public class ScheduleGroupEntity {
     @Id
@@ -22,9 +20,4 @@ public class ScheduleGroupEntity {
     private String groupName;
     private Long version;
     private Integer orderNumber;
-
-
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "scheduleGroupId", insertable = false, updatable = false)
-//    private List<ScheduleEntity> schedule;
 }

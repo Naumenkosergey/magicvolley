@@ -14,7 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "media_storages")
-@EqualsAndHashCode(of = "id")
 public class MediaStorageEntity {
 
     @Id

@@ -12,7 +12,6 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
 public class MasterEntity {
 
     @Id

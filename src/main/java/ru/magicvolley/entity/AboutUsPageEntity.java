@@ -1,17 +1,20 @@
 package ru.magicvolley.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.*;
 
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "about_us_page")
-@EqualsAndHashCode(of = "id")
 public class AboutUsPageEntity {
 
     @Id

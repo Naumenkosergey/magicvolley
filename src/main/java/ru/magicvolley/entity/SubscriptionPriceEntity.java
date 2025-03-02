@@ -1,10 +1,7 @@
 package ru.magicvolley.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -13,7 +10,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 public class SubscriptionPriceEntity {
     @Id
     private UUID id;
@@ -23,6 +21,8 @@ public class SubscriptionPriceEntity {
 
 
     private UUID subscriptionId;
+    @Version
+    private Long version;
 
     @ManyToOne
     @JoinColumn(name = "subscriptionId", insertable = false, updatable = false)

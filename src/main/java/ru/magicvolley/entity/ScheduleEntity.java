@@ -1,10 +1,7 @@
 package ru.magicvolley.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.magicvolley.enums.DayOfWeek;
 
 import java.time.LocalTime;
@@ -14,7 +11,8 @@ import java.util.UUID;
 @Table(name = "schedule")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 public class ScheduleEntity {
     @Id
