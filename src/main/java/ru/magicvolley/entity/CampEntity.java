@@ -52,6 +52,11 @@ public class CampEntity {
     @JoinColumn(name = "camp_id", insertable = false, updatable = false)
     private List<CampPackageCardEntity> packages;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "camp_id", insertable = false, updatable = false)
+    private List<ProgramEntity> programs;
+
+
 
 
     @Version

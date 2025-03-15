@@ -1,0 +1,54 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="add table programs" author="naumenko_sn">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="programs"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="programs">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="info" type="text"/>
+            <column name="day_of_week" type="varchar(20)"/>
+            <column name="order_number" type="int"/>
+            <column name="created_at" type="date"/>
+            <column name="updated_at" type="date"/>
+            <column name="version" type="bigint"/>
+            <column name="camp_id" type="uuid"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="camp_id"
+                                 baseTableName="programs"
+                                 constraintName="program_fk_camp"
+                                 referencedColumnNames="id"
+                                 referencedTableName="camps"/>
+        <rollback>
+            <dropTable tableName="programs"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="insert value program" author="naumenko_sn">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="programs"/>
+        </preConditions>
+
+        <sql>
+            insert into programs (id, info, day_of_week, order_number, created_at, updated_at, version, camp_id)
+            VALUES (gen_random_uuid(), 'заезд в любое время;обед;тренировка 1-я группа;тренировка 2-я группа;ужин;теоретический семинар',
+            'Понедельник', 1, now(), now(), 0, 'dd5dc5ea-f858-47c0-b518-be2d1565856d');
+            insert into programs (id, info, day_of_week, order_number, created_at, updated_at, version, camp_id)
+            VALUES (gen_random_uuid(), 'завтрак;тренировка 1-я группа;тренировка 2-я группа;обед;тренировка 1-я группа;тренировка 2-я группа;ужин;вечерняя программа',
+            'Вторник', 2, now(), now(), 0, 'dd5dc5ea-f858-47c0-b518-be2d1565856d');
+        </sql>
+        <rollback>
+        </rollback>
+    </changeSet>
+
+
+</databaseChangeLog>

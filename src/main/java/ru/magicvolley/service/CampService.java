@@ -38,6 +38,7 @@ public class CampService {
     private final MediaService mediaService;
     private final AuthService authService;
     private final DateStringService dateStringService;
+    private final ProgramService programService;
 
     @Value("${media.prefix.url}")
     private String prefixUrlMedia;
@@ -99,6 +100,7 @@ public class CampService {
                 .coaches(campEntity.getCoaches().stream()
                         .filter(coach -> Objects.equals(Util.getOrDefaultIfNull(coach.isVisible(), Boolean.TRUE), Boolean.TRUE))
                         .map(x -> new CoachDto(x, prefixUrlMedia)).toList())
+                .program(programService.getAllProgramForCamp(campEntity.getId()))
                 .packages(isPast ? List.of() : campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
                 .mainImage(new MediaStorageInfo(campEntity.getMainImage(), prefixUrlMedia))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
@@ -133,10 +135,9 @@ public class CampService {
     @Transactional(readOnly = true)
     public CampDto getById(UUID id) {
         CampEntity campEntity = campRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("не найден кемп по id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Не найден кемп по id " + id));
         campUserService.recalculateIsViewUsers(campEntity.getId());
-//        Map<UUID, List<MediaStorageInfo>> allImagesForCamIds = mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.CAMP);
-        return buildCampDto(campEntity/*, allImagesForCamIds*/);
+        return buildCampDto(campEntity);
     }
 
     @Transactional
@@ -145,7 +146,7 @@ public class CampService {
             throw new ValidationException("не указано название");
         }
         if (Objects.isNull(camp.getDateStart()) || Objects.isNull(camp.getDateEnd())) {
-            throw new ValidationException("не указана дата начала или окончания кэмпа");
+            throw new ValidationException("Не указана дата начала или окончания кемпа");
         }
 
         CampEntity campEntity = CampEntity.builder()

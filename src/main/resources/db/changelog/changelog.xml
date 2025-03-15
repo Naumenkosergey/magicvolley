@@ -9,4 +9,6 @@
     <include relativeToChangelogFile="true" file="/changeset_dev.xml"/>
     <include relativeToChangelogFile="true" file="/changeset_dml.xml"/>
 
+    <include relativeToChangelogFile="true" file="../features/feature1/changeset.xml"/>
+
 </databaseChangeLog>
