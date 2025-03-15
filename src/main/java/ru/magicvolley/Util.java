@@ -56,7 +56,7 @@ public class Util {
     }
 
     public static String getOrUndefinedIfNullForLimitation(String value) {
-        return Objects.nonNull(value) ? getStringDateConcat(LocalDate.parse(value)) : UNDEFINED_VALUE;
+        return Objects.nonNull(value) && !Objects.equals(value, UNDEFINED_VALUE) ? getStringDateConcat(LocalDate.parse(value)) : UNDEFINED_VALUE;
     }
 
     private Boolean isNonNullAndNotZeroValue(Integer value) {
