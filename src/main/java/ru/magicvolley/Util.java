@@ -52,7 +52,11 @@ public class Util {
     }
 
     public static String getOrUndefinedIfNull(String value) {
-        return Objects.nonNull(value) ? value : UNDEFINED_VALUE;
+        return Objects.nonNull(value) ? getStringDateConcat(LocalDate.parse(value)) : UNDEFINED_VALUE;
+    }
+
+    public static String getOrUndefinedIfNullForLimitation(String value) {
+        return Objects.nonNull(value) ? getStringDateConcat(LocalDate.parse(value)) : UNDEFINED_VALUE;
     }
 
     private Boolean isNonNullAndNotZeroValue(Integer value) {
@@ -92,5 +96,63 @@ public class Util {
 
     public static String getOrUndefinedIfNull(LocalDate birthday) {
         return Objects.nonNull(birthday) ? birthday.format(DATE_FORMAT) : EMPTY_VALUE;
+    }
+    
+    public static String getNumberMonth(LocalDate date) {
+        return switch (date.getMonth()) {
+            case JANUARY -> "01";
+            case FEBRUARY -> "02";
+            case MARCH -> "03";
+            case APRIL -> "04";
+            case MAY -> "05";
+            case JUNE -> "06";
+            case JULY -> "07";
+            case AUGUST -> "08";
+            case SEPTEMBER -> "09";
+            case OCTOBER -> "10";
+            case NOVEMBER -> "11";
+            case DECEMBER -> "12";
+        };
+    }
+
+    public static String getNumberDay(LocalDate date) {
+        return switch (date.getDayOfMonth()) {
+            case 1 -> "01";
+            case 2 -> "02";
+            case 3 -> "03";
+            case 4 -> "04";
+            case 5 -> "05";
+            case 6 -> "06";
+            case 7 -> "07";
+            case 8 -> "08";
+            case 9 -> "09";
+            case 10 -> "10";
+            case 11 -> "11";
+            case 12 -> "12";
+            case 13 -> "13";
+            case 14 -> "14";
+            case 15 -> "15";
+            case 16 -> "16";
+            case 17 -> "17";
+            case 18 -> "18";
+            case 19 -> "19";
+            case 20 -> "20";
+            case 21 -> "21";
+            case 22 -> "22";
+            case 23 -> "23";
+            case 24 -> "24";
+            case 25 -> "25";
+            case 26 -> "26";
+            case 27 -> "27";
+            case 28 -> "28";
+            case 29 -> "29";
+            case 30 -> "30";
+            case 31 -> "31";
+            default -> throw new IllegalStateException("Unexpected value: " + date.getDayOfMonth());
+        };
+    }
+
+    public String getStringDateConcat(LocalDate date) {
+        return getNumberDay(date) + "." + getNumberMonth(date);
     }
 }

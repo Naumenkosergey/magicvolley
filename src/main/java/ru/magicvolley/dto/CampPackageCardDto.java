@@ -42,11 +42,11 @@ public class CampPackageCardDto {
         this.totalPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getTotalPrice());
         this.bookingPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getBookingPrice());
         this.firstPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getFirstPrice());
-        this.firstLimitation = Util.getOrUndefinedIfNull(campPackageCardEntity.getFirstLimitation());
+        this.firstLimitation = Util.getOrUndefinedIfNullForLimitation(campPackageCardEntity.getFirstLimitation());
         this.secondPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getSecondPrice());
-        this.secondLimitation = Util.getOrUndefinedIfNull(campPackageCardEntity.getSecondLimitation());
+        this.secondLimitation = Util.getOrUndefinedIfNullForLimitation(campPackageCardEntity.getSecondLimitation());
         this.thirdPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getThirdPrice());
-        this.thirdLimitation = Util.getOrUndefinedIfNull(campPackageCardEntity.getThirdLimitation());
+        this.thirdLimitation = Util.getOrUndefinedIfNullForLimitation(campPackageCardEntity.getThirdLimitation());
         this.type = getType(namePackage);
         this.displayName = getDisplayNamePackage(namePackage);
     }
