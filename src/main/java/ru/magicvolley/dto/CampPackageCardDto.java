@@ -39,14 +39,14 @@ public class CampPackageCardDto {
         this.name = namePackage;
         this.costNamingLink = campPackageCardEntity.getPackageCard().getCostNamingLink();
         this.info = campPackageCardEntity.getInfo();
-        this.totalPrice =  Util.getOrUndefinedIfNull(campPackageCardEntity.getTotalPrice());
+        this.totalPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getTotalPrice());
         this.bookingPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getBookingPrice());
-        this.firstPrice =  Util.getOrUndefinedIfNull(campPackageCardEntity.getFirstPrice());
-        this.firstLimitation =  Util.getOrUndefinedIfNull(campPackageCardEntity.getFirstLimitation());
-        this.secondPrice =  Util.getOrUndefinedIfNull(campPackageCardEntity.getSecondPrice());
-        this.secondLimitation =  Util.getOrUndefinedIfNull(campPackageCardEntity.getSecondLimitation());
-        this.thirdPrice =  Util.getOrUndefinedIfNull(campPackageCardEntity.getThirdPrice());
-        this.thirdLimitation =  Util.getOrUndefinedIfNull(campPackageCardEntity.getThirdLimitation());
+        this.firstPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getFirstPrice());
+        this.firstLimitation = Util.getOrUndefinedIfNull(campPackageCardEntity.getFirstLimitation());
+        this.secondPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getSecondPrice());
+        this.secondLimitation = Util.getOrUndefinedIfNull(campPackageCardEntity.getSecondLimitation());
+        this.thirdPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getThirdPrice());
+        this.thirdLimitation = Util.getOrUndefinedIfNull(campPackageCardEntity.getThirdLimitation());
         this.type = getType(namePackage);
         this.displayName = getDisplayNamePackage(namePackage);
     }
@@ -58,9 +58,9 @@ public class CampPackageCardDto {
             return TypePackageCard.SILVER;
         } else if (packageName.toUpperCase().contains(TypePackageCard.PREMIUM.name())) {
             return TypePackageCard.PREMIUM;
-        } else if (packageName.toUpperCase().contains(TypePackageCard.TOUR.name())) {
+        } else {
             return TypePackageCard.TOUR;
-        } else return null;
+        }
     }
 
     private String getDisplayNamePackage(String packageName) {
@@ -70,9 +70,9 @@ public class CampPackageCardDto {
             return "Пакет \"Silver\"";
         } else if (packageName.toUpperCase().contains(TypePackageCard.PREMIUM.name())) {
             return "Пакет \"Premium\"";
-        } else if (packageName.toUpperCase().contains(TypePackageCard.TOUR.name())) {
-            return "Пакет \"Tour\"";
-        } else return null;
+        } else {
+            return "Пакет \"Тур\"";
+        }
     }
 
 }
