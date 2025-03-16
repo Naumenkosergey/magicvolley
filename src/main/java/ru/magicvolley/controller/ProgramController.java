@@ -11,7 +11,7 @@ import ru.magicvolley.service.ProgramService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/magicvolley/program", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/magicvolley/camp/programs", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class ProgramController {
 
@@ -23,7 +23,7 @@ public class ProgramController {
         return new ApiResponse<>(programService.createProgram(request));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping()
     @PreAuthorize("hasAuthority('MODERATOR') or hasAuthority('ADMIN')")
     public ApiResponse<UUID> update(@RequestBody ProgramRequest programRequest) {
         return new ApiResponse<>(programService.updateProgram(programRequest));
