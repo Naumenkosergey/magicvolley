@@ -33,22 +33,4 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="insert value program" author="naumenko_sn">
-        <preConditions onFail="MARK_RAN">
-            <tableExists tableName="programs"/>
-        </preConditions>
-
-        <sql>
-            insert into programs (id, info, day_of_week, order_number, created_at, updated_at, version, camp_id)
-            VALUES (gen_random_uuid(), 'заезд в любое время;обед;тренировка 1-я группа;тренировка 2-я группа;ужин;теоретический семинар',
-            'Понедельник', 1, now(), now(), 0, 'dd5dc5ea-f858-47c0-b518-be2d1565856d');
-            insert into programs (id, info, day_of_week, order_number, created_at, updated_at, version, camp_id)
-            VALUES (gen_random_uuid(), 'завтрак;тренировка 1-я группа;тренировка 2-я группа;обед;тренировка 1-я группа;тренировка 2-я группа;ужин;вечерняя программа',
-            'Вторник', 2, now(), now(), 0, 'dd5dc5ea-f858-47c0-b518-be2d1565856d');
-        </sql>
-        <rollback>
-        </rollback>
-    </changeSet>
-
-
 </databaseChangeLog>
