@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 @UtilityClass
 public class Util {
 
-    public static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("YYYY-MM-DD");
+    public static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static String UNDEFINED_VALUE = "Не указано";
     public static String EMPTY_VALUE = "";
 
@@ -52,11 +52,15 @@ public class Util {
     }
 
     public static String getOrUndefinedIfNull(String value) {
-        return Objects.nonNull(value) ? getStringDateConcat(LocalDate.parse(value)) : UNDEFINED_VALUE;
+        return Objects.nonNull(value) ? value : UNDEFINED_VALUE;
+    }
+
+    public static String getOrUndefinedIfNullForLimitationString(String value) {
+        return Objects.nonNull(value) && !Objects.equals(value, UNDEFINED_VALUE) ? getStringDateConcat(LocalDate.parse(value)) : UNDEFINED_VALUE;
     }
 
     public static String getOrUndefinedIfNullForLimitation(String value) {
-        return Objects.nonNull(value) && !Objects.equals(value, UNDEFINED_VALUE) ? getStringDateConcat(LocalDate.parse(value)) : UNDEFINED_VALUE;
+        return Objects.nonNull(value) && !Objects.equals(value, UNDEFINED_VALUE) ? LocalDate.parse(value).format(DATE_FORMAT) : UNDEFINED_VALUE;
     }
 
     private Boolean isNonNullAndNotZeroValue(Integer value) {
