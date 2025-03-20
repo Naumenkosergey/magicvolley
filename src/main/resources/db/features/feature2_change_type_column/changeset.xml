@@ -1,0 +1,27 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="alter_table_camps_type_for_column_info_text" author="naumenko_sn">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="camps"/>
+            <columnExists tableName="camps" columnName="info"/>
+        </preConditions>
+        <sql>ALTER TABLE camps ALTER COLUMN info TYPE text</sql>
+        <rollback>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="alter_table_coaches_type_for_column_info_text" author="naumenko_sn">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="coaches"/>
+            <columnExists tableName="coaches" columnName="info"/>
+        </preConditions>
+        <sql>ALTER TABLE coaches ALTER COLUMN info TYPE text</sql>
+        <rollback>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
