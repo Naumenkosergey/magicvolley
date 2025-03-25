@@ -9,7 +9,7 @@
             <tableExists tableName="camps"/>
             <columnExists tableName="camps" columnName="info"/>
         </preConditions>
-        <sql>ALTER TABLE camps ALTER COLUMN info TYPE text</sql>
+        <modifyDataType tableName="camps" columnName="info" newDataType="text"/>
         <rollback>
         </rollback>
     </changeSet>
@@ -19,7 +19,17 @@
             <tableExists tableName="coaches"/>
             <columnExists tableName="coaches" columnName="info"/>
         </preConditions>
-        <sql>ALTER TABLE coaches ALTER COLUMN info TYPE text</sql>
+        <modifyDataType tableName="coaches" columnName="info" newDataType="text"/>
+        <rollback>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="alter_table_reviews_type_for_column_review_text" author="naumenko_sn">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="reviews"/>
+            <columnExists tableName="reviews" columnName="review_text"/>
+        </preConditions>
+        <modifyDataType tableName="reviews" columnName="review_text" newDataType="text"/>
         <rollback>
         </rollback>
     </changeSet>
