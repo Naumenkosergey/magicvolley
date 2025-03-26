@@ -10,6 +10,6 @@
     <include relativeToChangelogFile="true" file="/changeset_dml.xml"/>
 
     <include relativeToChangelogFile="true" file="../features/feature1/changeset.xml"/>
-    <include relativeToChangelogFile="true" file="../features/feature2_change_type_column/changeset.xml"/>
+<!--    <include relativeToChangelogFile="true" file="../features/feature2_change_type_column/changeset.xml"/>-->
 
 </databaseChangeLog>
