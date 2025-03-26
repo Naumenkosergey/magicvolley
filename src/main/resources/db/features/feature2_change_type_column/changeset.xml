@@ -7,7 +7,6 @@
     <changeSet id="alter_table_camps_type_for_column_info_text" author="naumenko_sn">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="camps"/>
-            <columnExists tableName="camps" columnName="info"/>
         </preConditions>
         <modifyDataType tableName="camps" columnName="info" newDataType="text"/>
         <rollback>
@@ -17,7 +16,6 @@
     <changeSet id="alter_table_coaches_type_for_column_info_text" author="naumenko_sn">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="coaches"/>
-            <columnExists tableName="coaches" columnName="info"/>
         </preConditions>
         <modifyDataType tableName="coaches" columnName="info" newDataType="text"/>
         <rollback>
@@ -27,7 +25,6 @@
     <changeSet id="alter_table_reviews_type_for_column_review_text" author="naumenko_sn">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="reviews"/>
-            <columnExists tableName="reviews" columnName="review_text"/>
         </preConditions>
         <modifyDataType tableName="reviews" columnName="review_text" newDataType="text"/>
         <rollback>
