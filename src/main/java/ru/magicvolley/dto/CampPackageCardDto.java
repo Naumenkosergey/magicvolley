@@ -44,13 +44,13 @@ public class CampPackageCardDto {
         this.info = campPackageCardEntity.getInfo();
         this.totalPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getTotalPrice());
         this.bookingPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getBookingPrice());
-        this.firstPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getFirstPrice());
+        this.firstPrice = Util.getOrNullIfNull(campPackageCardEntity.getFirstPrice());
         this.firstLimitation = Util.getOrUndefinedIfNullForLimitation(campPackageCardEntity.getFirstLimitation());
         this.firstLimitationString = Util.getOrUndefinedIfNullForLimitationString(campPackageCardEntity.getFirstLimitation());
-        this.secondPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getSecondPrice());
+        this.secondPrice = Util.getOrNullIfNull(campPackageCardEntity.getSecondPrice());
         this.secondLimitation = Util.getOrUndefinedIfNullForLimitation(campPackageCardEntity.getSecondLimitation());
         this.secondLimitationString = Util.getOrUndefinedIfNullForLimitationString(campPackageCardEntity.getSecondLimitation());
-        this.thirdPrice = Util.getOrUndefinedIfNull(campPackageCardEntity.getThirdPrice());
+        this.thirdPrice = Util.getOrNullIfNull(campPackageCardEntity.getThirdPrice());
         this.thirdLimitation = Util.getOrUndefinedIfNullForLimitation(campPackageCardEntity.getThirdLimitation());
         this.thirdLimitationString = Util.getOrUndefinedIfNullForLimitationString(campPackageCardEntity.getThirdLimitation());
         this.type = getType(namePackage);

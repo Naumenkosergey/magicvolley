@@ -51,6 +51,10 @@ public class Util {
         return isNonNullAndNotZeroValue(value) ? String.valueOf(value) : UNDEFINED_VALUE;
     }
 
+    public static String getOrNullIfNull(Integer value) {
+        return isNonNullAndNotZeroValue(value) ? String.valueOf(value) : null;
+    }
+
     public static String getOrUndefinedIfNull(String value) {
         return Objects.nonNull(value) ? value : UNDEFINED_VALUE;
     }
