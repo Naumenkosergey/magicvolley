@@ -18,6 +18,7 @@ public class AboutUsResponse {
     private String title;
     private String subTitleFirst;
     private String subTitleSecond;
+    private String subTitleThird;
     private Integer numberOfWorkouts;
     private Integer numberOfCamps;
     private Integer numberOfStudents;

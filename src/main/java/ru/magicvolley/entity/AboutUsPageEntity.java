@@ -22,6 +22,7 @@ public class AboutUsPageEntity {
     private String title;
     private String subtitleFirst;
     private String subtitleSecond;
+    private String subtitleThird;
     private Integer numberOfWorkouts;
     private Integer numberOfCamps;
     private Integer numberOfStudents;

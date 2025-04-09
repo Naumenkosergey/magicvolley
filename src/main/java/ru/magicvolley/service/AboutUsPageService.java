@@ -30,6 +30,7 @@ public class AboutUsPageService {
                 .title(aboutUsPageEntity.getTitle())
                 .subTitleFirst(aboutUsPageEntity.getSubtitleFirst())
                 .subTitleSecond(aboutUsPageEntity.getSubtitleSecond())
+                .subTitleThird(aboutUsPageEntity.getSubtitleThird())
                 .numberOfCamps(aboutUsPageEntity.getNumberOfCamps())
                 .numberOfStudents(aboutUsPageEntity.getNumberOfStudents())
                 .numberOfWorkouts(aboutUsPageEntity.getNumberOfWorkouts())
@@ -49,6 +50,7 @@ public class AboutUsPageService {
         aboutUsPageFromDb.setTitle(aboutUsRequest.getTitle());
         aboutUsPageFromDb.setSubtitleFirst(aboutUsRequest.getSubTitleFirst());
         aboutUsPageFromDb.setSubtitleSecond(aboutUsRequest.getSubTitleSecond());
+        aboutUsPageFromDb.setSubtitleThird(aboutUsRequest.getSubTitleThird());
         aboutUsPageFromDb.setNumberOfCamps(aboutUsRequest.getNumberOfCamps());
         aboutUsPageFromDb.setNumberOfStudents(aboutUsRequest.getNumberOfStudents());
         aboutUsPageFromDb.setNumberOfWorkouts(aboutUsRequest.getNumberOfWorkouts());
