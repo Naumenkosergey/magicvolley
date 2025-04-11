@@ -51,9 +51,10 @@ public class ScheduleService {
                 .id(UUID.randomUUID())
                 .groupName(scheduleDto.getName())
                 .orderNumber(lastNumber + 1)
+                .link(scheduleDto.getLink())
                 .build();
 
-        List<ScheduleEntity> scheduleEntities = getNewSchedulesFromRequest(scheduleDto, scheduleGroupEntity.getId());
+        List<ScheduleEntity> scheduleEntities = getNewSchedulesFromRequest(scheduleDto, scheduleGroupEntity.getId(), scheduleGroupEntity);
 
         scheduleGroupRepository.save(scheduleGroupEntity);
         if (CollectionUtils.isNotEmpty(scheduleEntities)) {
@@ -63,13 +64,14 @@ public class ScheduleService {
         return scheduleGroupEntity.getId();
     }
 
-    private static List<ScheduleEntity> getNewSchedulesFromRequest(ScheduleDto scheduleDto, UUID scheduleGroupId) {
+    private static List<ScheduleEntity> getNewSchedulesFromRequest(ScheduleDto scheduleDto, UUID scheduleGroupId,  ScheduleGroupEntity scheduleGroup) {
         return scheduleDto.getDays().stream()
                 .filter(day -> StringUtils.isNoneBlank(day.getTime()) && StringUtils.isNoneBlank(day.getAddress()))
                 .map(day -> ScheduleEntity.builder()
                         .id(UUID.randomUUID())
                         .day(day.getId())
                         .scheduleGroupId(scheduleGroupId)
+                        .scheduleGroup(scheduleGroup)
                         .trainingTime(LocalTime.of(Integer.parseInt(day.getTime().split(":")[0]),
                                 Integer.parseInt(day.getTime().split(":")[1])))
                         .address(day.getAddress())
@@ -92,10 +94,11 @@ public class ScheduleService {
                 .orElseThrow(() -> new EntityNotFoundException(ScheduleEntity.class, request.getId()));
 
         scheduleGroupFromDb.setGroupName(request.getName());
+        scheduleGroupFromDb.setLink(request.getLink());
         var schedules = scheduleRepository.findAllByScheduleGroupId(scheduleGroupFromDb.getId());
         scheduleRepository.deleteAll(schedules);
 
-        List<ScheduleEntity> newSchedules = getNewSchedulesFromRequest(request, scheduleGroupFromDb.getId());
+        List<ScheduleEntity> newSchedules = getNewSchedulesFromRequest(request, scheduleGroupFromDb.getId(), scheduleGroupFromDb);
         if (CollectionUtils.isNotEmpty(newSchedules)) {
             scheduleRepository.saveAll(newSchedules);
         }

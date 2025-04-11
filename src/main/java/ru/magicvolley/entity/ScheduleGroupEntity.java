@@ -20,4 +20,5 @@ public class ScheduleGroupEntity {
     private String groupName;
     private Long version;
     private Integer orderNumber;
+    private String link;
 }

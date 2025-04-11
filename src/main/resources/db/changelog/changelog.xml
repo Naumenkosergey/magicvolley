@@ -12,5 +12,6 @@
     <include relativeToChangelogFile="true" file="../features/feature1/changeset.xml"/>
     <include relativeToChangelogFile="true" file="../features/feature2_change_type_column/changeset.xml"/>
     <include relativeToChangelogFile="true" file="../features/feature3_subtitle_third/changeset.xml"/>
+    <include relativeToChangelogFile="true" file="../features/feature4_add_link/changeset.xml"/>
 
 </databaseChangeLog>

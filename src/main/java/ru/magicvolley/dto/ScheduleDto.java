@@ -25,6 +25,7 @@ public class ScheduleDto {
     private UUID id;
     private String name;
     private List<Day> days;
+    private String link;
 
     public ScheduleDto(ScheduleGroupEntity scheduleGroupFromDb, List<ScheduleEntity> schedules) {
         this.id = scheduleGroupFromDb.getId();
@@ -32,6 +33,7 @@ public class ScheduleDto {
         this.days = Util.getSaveStream(schedules)
                 .map(Day::new)
                 .collect(Collectors.toList());
+        this.link = scheduleGroupFromDb.getLink();
     }
 
 
@@ -54,9 +56,6 @@ public class ScheduleDto {
         private String getTimeFormatString(LocalTime startTime) {
 
             return String.format("%02d:%02d", startTime.getHour(), startTime.getMinute());
-//            String startTimeString = String.format("%02d:%02d", startTime.getHour(), startTime.getMinute());
-//            String endTimeString = String.format("%02d:%02d", endTime.getHour(), endTime.getMinute());
-//            return startTimeString + "-" + endTimeString;
         }
     }
 }
