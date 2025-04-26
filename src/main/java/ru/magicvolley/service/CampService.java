@@ -44,6 +44,8 @@ public class CampService {
     private String prefixUrlMedia;
     @Value("${filter.past.camp}")
     private boolean filterPastCamp;
+    @Value("${nearest.camp.count}")
+    private Integer nearestCampCount;
     private final CampUserRepository campUserRepository;
 
     @Transactional(readOnly = true)
@@ -58,6 +60,15 @@ public class CampService {
     public List<CampDtoForList> getAll() {
         List<CampEntity> campEntities = campRepository.findAll().stream()
                 .sorted(Comparator.comparing(CampEntity::getDateStart)).toList();
+        return getList(campEntities);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CampDtoForList> getAllNearest() {
+        List<CampEntity> campEntities = campRepository.findAll().stream()
+                .sorted(Comparator.comparing(CampEntity::getDateStart))
+                .limit(nearestCampCount)
+                .toList();
         return getList(campEntities);
     }
 

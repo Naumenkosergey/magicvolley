@@ -59,7 +59,7 @@ public class HomeService {
                 .id(homeFromDb.getId())
                 .mainBlock(getMainBlock(homeFromDb))
                 .contactBlock(getContact(homeFromDb))
-                .camps(campService.getAll())
+                .camps(campService.getAllNearest())
                 .questions(questionService.getAll())
                 .build();
     }
