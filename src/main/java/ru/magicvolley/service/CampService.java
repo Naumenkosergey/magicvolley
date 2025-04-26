@@ -65,7 +65,9 @@ public class CampService {
 
     @Transactional(readOnly = true)
     public List<CampDtoForList> getAllNearest() {
+        LocalDate now = LocalDate.now();
         List<CampEntity> campEntities = campRepository.findAll().stream()
+                .filter(camp -> !now.isAfter(camp.getDateStart()))
                 .sorted(Comparator.comparing(CampEntity::getDateStart))
                 .limit(nearestCampCount)
                 .toList();
