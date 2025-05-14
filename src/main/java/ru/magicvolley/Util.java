@@ -1,6 +1,7 @@
 package ru.magicvolley;
 
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ru.magicvolley.enums.CoachType;
@@ -44,7 +45,7 @@ public class Util {
     }
 
     public static Integer getOrDefaultIfNull(String value) {
-        return Objects.nonNull(value) && !Objects.equals(value, UNDEFINED_VALUE) ? Integer.parseInt(value) : 0;
+        return StringUtils.isNotBlank(value) && !Objects.equals(value, UNDEFINED_VALUE) ? Integer.parseInt(value) : 0;
     }
 
     public static String getOrUndefinedIfNull(Integer value) {
@@ -56,15 +57,15 @@ public class Util {
     }
 
     public static String getOrUndefinedIfNull(String value) {
-        return Objects.nonNull(value) ? value : UNDEFINED_VALUE;
+        return StringUtils.isNotBlank(value) ? value : UNDEFINED_VALUE;
     }
 
     public static String getOrUndefinedIfNullForLimitationString(String value) {
-        return Objects.nonNull(value) && !Objects.equals(value, UNDEFINED_VALUE) ? getStringDateConcat(LocalDate.parse(value)) : UNDEFINED_VALUE;
+        return StringUtils.isNotBlank(value) && !Objects.equals(value, UNDEFINED_VALUE) ? getStringDateConcat(LocalDate.parse(value)) : UNDEFINED_VALUE;
     }
 
     public static String getOrUndefinedIfNullForLimitation(String value) {
-        return Objects.nonNull(value) && !Objects.equals(value, UNDEFINED_VALUE) ? LocalDate.parse(value).format(DATE_FORMAT) : UNDEFINED_VALUE;
+        return StringUtils.isNotBlank(value) && !Objects.equals(value, UNDEFINED_VALUE) ? LocalDate.parse(value).format(DATE_FORMAT) : UNDEFINED_VALUE;
     }
 
     private Boolean isNonNullAndNotZeroValue(Integer value) {
