@@ -12,6 +12,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 public class Bot extends TelegramLongPollingBot {
 
+    @Value("${telegram.user.id}")
+    private Long userId;
+
     private static final String START = "/start";
     private static final String RESERVED = "/reserved";
     private static final String ANSWER = "/answer";
@@ -55,7 +58,7 @@ public class Bot extends TelegramLongPollingBot {
                 Телефон для связи: %s
                 """;
         String textFormat = String.format(text, userName, campName, telephone);
-        String chatIdStr = String.valueOf(697146925);
+        String chatIdStr = String.valueOf(userId);
         SendMessage message = new SendMessage(chatIdStr, textFormat);
         try {
             execute(message);
@@ -71,7 +74,7 @@ public class Bot extends TelegramLongPollingBot {
                 Телефон для связи: %s
                 """;
         String textFormat = String.format(text, userName, answer, telephone);
-        String chatIdStr = String.valueOf(697146925);
+        String chatIdStr = String.valueOf(userId);
         SendMessage message = new SendMessage(chatIdStr, textFormat);
         try {
             execute(message);
@@ -83,10 +86,10 @@ public class Bot extends TelegramLongPollingBot {
 
     void startCommand(Long chatId, String userName) {
         var test = """
-                Привет, %s я бот, который поможет тебе в работе с базой данных
+                Привет, %s я бот, который поможет тебе в работе с базой данных твой id: %d
                                 
                 """;
-        String testFormat = String.format(test, userName);
+        String testFormat = String.format(test, userName, chatId);
         sendMessage(chatId, testFormat);
     }
 
