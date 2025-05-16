@@ -1,0 +1,17 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="delete_cost_naming_link_for_tour_package" author="naumenko_sn">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="package_card"/>
+        </preConditions>
+        <sql>UPDATE package_card SET cost_naming_link='' WHERE id = 7 </sql>
+        <rollback>
+            <sql>UPDATE package_card SET cost_naming_link='Детский тариф' WHERE id = 7</sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

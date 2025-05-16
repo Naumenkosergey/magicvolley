@@ -70,7 +70,7 @@ public class UserService {
         ProfileEntity profile = ProfileEntity.builder()
                 .userId(user.getId())
                 .fulName(user.getUsername())
-                .telephone(Util.addNotExistChar(user.getTelephone(), '+'))
+                .telephone(Util.trim(user.getTelephone(), '+'))
                 .build();
         profileRepository.save(profile);
         return user.getId();

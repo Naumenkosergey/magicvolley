@@ -13,5 +13,6 @@
     <include relativeToChangelogFile="true" file="../features/feature2_change_type_column/changeset.xml"/>
     <include relativeToChangelogFile="true" file="../features/feature3_subtitle_third/changeset.xml"/>
     <include relativeToChangelogFile="true" file="../features/feature4_add_link/changeset.xml"/>
+    <include relativeToChangelogFile="true" file="../features/feature5_remove_tour_name_link/changeset.xml"/>
 
 </databaseChangeLog>

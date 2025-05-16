@@ -17,7 +17,7 @@ public class CampUserController {
     private final CampUserService campUserService;
 
     @PostMapping()
-    public ApiResponse<Boolean> makeReservation(@RequestBody ReservationDto reservationRequest) {
+    public ApiResponse<String> makeReservation(@RequestBody ReservationDto reservationRequest) {
         return new ApiResponse<>(campUserService.makeReservation(reservationRequest));
     }
 

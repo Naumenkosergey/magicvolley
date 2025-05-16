@@ -90,6 +90,7 @@ public class CampService {
         LocalDate now = LocalDate.now();
         return campEntities.stream()
                 .filter(camp -> isPast ? now.isAfter(camp.getDateEnd()) : now.isBefore(camp.getDateEnd()))
+                .sorted(Comparator.comparing(CampEntity::getDateStart))
                 .map(this::buildCampDtoForList)
                 .toList();
     }

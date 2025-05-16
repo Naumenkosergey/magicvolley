@@ -38,7 +38,7 @@ public class UserForAdminResponse {
     public UserForAdminResponse(UserDto userDto, MediaStorageInfo avatar) {
         this.id = userDto.getId();
         this.name = userDto.getUsername();
-        this.telephone = Util.addNotExistChar(userDto.getTelephone(), '+');
+        this.telephone = Util.trim(userDto.getTelephone(), '+');
         this.isAdmin = userDto.getRole().equals(Role.ADMIN.name());
         this.isModerator = userDto.getRole().equals(Role.MODERATOR.name());
         this.isUser = userDto.getRole().equals(Role.USER.name());

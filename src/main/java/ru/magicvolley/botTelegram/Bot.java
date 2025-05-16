@@ -47,7 +47,7 @@ public class Bot extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.info("Не удалось отправить сообщение в Telegram");
         }
     }
 
@@ -63,7 +63,7 @@ public class Bot extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.info("Не удалось забронировать через Telegram");
         }
     }
 
@@ -79,7 +79,7 @@ public class Bot extends TelegramLongPollingBot {
         try {
             execute(message);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.info("Не удалось отправить сообщение в Telegram");
         }
     }
 

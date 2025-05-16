@@ -37,8 +37,9 @@ public class CampUserService {
     private final Bot bot;
 
     @Transactional
-    public Boolean makeReservation(ReservationDto reservationDto) {
+    public String makeReservation(ReservationDto reservationDto) {
 
+        String nameResult = reservationDto.username();
         if (reservationDto.userId() == null) {
             CampEntity campEntity = campRepository.findById(reservationDto.campId())
                     .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, reservationDto.campId()));
@@ -46,11 +47,12 @@ public class CampUserService {
             var username = reservationDto.username();
             var telephone = Util.addNotExistChar(reservationDto.telephone(), '+');
             bot.reservedCamp(campName, username, telephone);
-            //TODO seng telegram message
         } else {
             createCampUser(reservationDto.campId(), reservationDto.userId(), Boolean.FALSE, 1);
+            nameResult = userRepository.findById(reservationDto.userId())
+                    .orElseThrow(() -> new EntityNotFoundException(UserEntity.class, reservationDto.userId())).getUsername();
         }
-        return true;
+        return nameResult;
     }
 
     private void createCampUser(UUID campId, UUID userId, boolean isViewed, Integer bookingCount) {
