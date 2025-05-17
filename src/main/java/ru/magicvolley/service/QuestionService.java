@@ -9,6 +9,7 @@ import ru.magicvolley.repository.QuestionRepository;
 import ru.magicvolley.request.QuestionRequest;
 import ru.magicvolley.response.QuestionResponse;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -25,6 +26,7 @@ public class QuestionService {
 
         return questionRepository.findAll().stream()
                 .map(QuestionResponse::new)
+                .sorted(Comparator.comparing(QuestionResponse::getAnswer))
                 .collect(Collectors.toList());
     }
 
