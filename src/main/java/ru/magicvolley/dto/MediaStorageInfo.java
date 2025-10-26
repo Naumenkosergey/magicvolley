@@ -40,7 +40,6 @@ public class MediaStorageInfo {
             this.contentType = imageStorage.getContentType();
             this.size = imageStorage.getSize();
             this.typeEntity = imageStorage.getTypeEntity();
-//        this.data = imageStorage.getData();
             this.url = urlPath;
         }
     }

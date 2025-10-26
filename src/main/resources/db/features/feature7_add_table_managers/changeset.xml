@@ -1,0 +1,48 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="add_table_managers" author="naumenko_sn">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="managers"/>
+            </not>
+        </preConditions>
+        <createTable tableName="managers">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="varchar(255)"/>
+            <column name="contacts" type="varchar(255)"/>
+            <column name="text_under_image" type="varchar(255)"/>
+            <column name="image_admin_id" type="uuid"/>
+            <column name="version" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_manager_for_table_manager_from_home_pages" author="naumenko_sn">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="managers"/>
+        </preConditions>
+
+        <sql>
+            insert into managers (id, image_admin_id, text_under_image, email, contacts, version)
+            select hp.image_admin_id, hp.image_admin_id, hp.text_under_image, hp.email, hp.contacts, hp.version
+            from home_page hp where hp.title = 'Magic Volley'
+        </sql>
+        <rollback>
+            <delete tableName="managers"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="update table home_page" author="naumenko_sn">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="home_page"/>
+        </preConditions>
+
+        <dropColumn tableName="home_page" columnName="old_column"/>
+    </changeSet>
+
+</databaseChangeLog>

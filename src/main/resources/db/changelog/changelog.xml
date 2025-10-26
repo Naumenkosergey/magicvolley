@@ -15,5 +15,6 @@
     <include relativeToChangelogFile="true" file="../features/feature4_add_link/changeset.xml"/>
     <include relativeToChangelogFile="true" file="../features/feature5_remove_tour_name_link/changeset.xml"/>
     <include relativeToChangelogFile="true" file="../features/feature6_change_type_column_answer_home/changeset.xml"/>
+    <include relativeToChangelogFile="true" file="../features/feature7_add_table_managers/changeset.xml"/>
 
 </databaseChangeLog>

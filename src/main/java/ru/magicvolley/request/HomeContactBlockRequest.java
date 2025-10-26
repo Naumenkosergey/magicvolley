@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.magicvolley.dto.MediaStorageInfo;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -16,11 +17,20 @@ import java.util.UUID;
 public class HomeContactBlockRequest {
 
     private UUID id;
-    private MediaStorageInfo imageAdmin;
-    private String textUnderImage;
+    private List<ManagerInfo> managers;
     private String linkVk;
     private String linkTg;
     private String linkInstagram;
-    private String email;
-    private String contacts;
+
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ManagerInfo {
+        private MediaStorageInfo imageAdmin;
+        private String textUnderImage;
+        private String email;
+        private String contacts;
+    }
 }

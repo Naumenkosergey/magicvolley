@@ -41,15 +41,20 @@ public class HomePageResponse {
     @Builder
     public static class ContactBlockResponse {
 
-        private MediaStorageInfo imageAdmin;
-        private String textUnderImage;
+        private List<ManagerInfo> managers;
         private String linkVk;
         private String linkTg;
         private String linkInstagram;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ManagerInfo {
+        private MediaStorageInfo imageAdmin;
+        private String textUnderImage;
         private String email;
         private String contacts;
     }
-
-
-
 }

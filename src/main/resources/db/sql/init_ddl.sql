@@ -226,5 +226,14 @@ create table if not exists reviews (
     version bigint
 );
 
+create table if not exists managers (
+    id uuid primary key not null,
+    text_under_image varchar(255),
+    email varchar(255),
+    contacts varchar(255),
+    image_admin_id uuid references media_storages (id),
+    version bigint
+);
+
 
 

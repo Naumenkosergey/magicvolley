@@ -5,5 +5,6 @@ import ru.magicvolley.entity.HomePageEntity;
 
 import java.util.UUID;
 
+
 public interface HomePageRepository extends JpaRepository<HomePageEntity, UUID> {
 }

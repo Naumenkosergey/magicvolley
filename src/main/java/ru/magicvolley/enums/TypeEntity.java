@@ -14,6 +14,7 @@ public enum TypeEntity {
     REVIEW,
     PAST_GALLERY,
     MAIN_IMAGE_CAMP,
-    CART_IMAGE_CAMP
+    CART_IMAGE_CAMP,
+    MANAGER_PHOTO
 }
  
