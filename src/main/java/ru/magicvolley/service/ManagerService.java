@@ -52,7 +52,6 @@ public class ManagerService {
 
         managerRepository.saveAll(managerEntities);
         return managerEntities;
-
     }
 
     private HomePageResponse.ManagerInfo mapManagerEntityToMAnagerInfo(ManagerEntity manager) {
@@ -68,14 +67,12 @@ public class ManagerService {
     public void deleteAllManagers() {
         List<ManagerEntity> all = managerRepository.findAll();
         managerRepository.deleteAll(all);
-
     }
 
     private static void setManagerPhoto(MediaStorageEntity mediaStorage, ManagerEntity managerEntity) {
         if (Objects.nonNull(mediaStorage)) {
             managerEntity.setImageAdmin(mediaStorage);
+            managerEntity.setImageAdminId(mediaStorage.getId());
         }
     }
-
-
 }

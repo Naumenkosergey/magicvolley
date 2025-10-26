@@ -232,8 +232,6 @@ create table if not exists managers (
     email varchar(255),
     contacts varchar(255),
     image_admin_id uuid references media_storages (id),
+    home_page_id uuid references home_page (id),
     version bigint
 );
-
-
-
