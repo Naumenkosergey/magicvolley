@@ -6,13 +6,13 @@ insert into roles (id, role, version)
 values('888f4834-c6e4-472e-808b-171febbb9137', 'USER', 0);
 
 insert into users(id, telephone, username, password, email,is_blocked, role_id, version)
-values ('68c8432c-b963-46c2-b1ff-345452609ecf','79969103047', 'Казина Татьяна', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za',
+values ('68c8432c-b963-46c2-b1ff-345452609ecf','71111111111', 'Казина Татьяна', '$2y$10$6lSrg0Ao0g8H1x7mp7bCRertVWA.thsfgIQY.TyNvpp6d51lWp9za',
 'kazina@mail.ru', false,'1ffdc9e5-ece0-4420-ba12-b4ac1ed25573', 0);
 insert into users(id, telephone, username, password, email, is_blocked, role_id, version)
-values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8','79998620452', 'Науменко Сергей', '$2y$10$OvF1JVol9zuT92MoqnwFceMle3hr88.dL6oe6Eb0ioAD434R1/BiG',
+values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8','72222222222', 'Науменко Сергей', '$2y$10$OvF1JVol9zuT92MoqnwFceMle3hr88.dL6oe6Eb0ioAD434R1/BiG',
 'naumeko@mail.ru', false, '888f4834-c6e4-472e-808b-171febbb9137', 0);
 insert into users(id, telephone, username, password, email, is_blocked, role_id, version)
-values ('e5050cc4-98c4-4b48-9e47-8b5057c6b46c','marozova', 'marozova natalia', '$2y$10$eFbYvZne/FFfGUlvJfyqzuWTAj9Hq/7gta/uQAm0ZW9nKw.XFypOu',
+values ('e5050cc4-98c4-4b48-9e47-8b5057c6b46c','73333333333', 'marozova natalia', '$2y$10$eFbYvZne/FFfGUlvJfyqzuWTAj9Hq/7gta/uQAm0ZW9nKw.XFypOu',
 'maroz@mail.ru', true, '1e6d19c6-4594-4d5f-8578-0a0479cd6caa', 0);
 
 
@@ -64,11 +64,11 @@ insert into camp_coaches(camp_id, coach_id, version) values ('7573f07f-3769-4f34
 
 insert into user_profile (user_id, image_id, ful_name, telephone, birthday, version)
 values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', null, 'Науменко Сергей',
-'79998620452','1993-03-24', 0);
+'72222222222','1993-03-24', 0);
 
 insert into user_profile (user_id, image_id, ful_name, telephone, birthday, version)
 values ('68c8432c-b963-46c2-b1ff-345452609ecf', null, 'Казина Татьяна',
-'79969103047', null, 0);
+'71111111111', null, 0);
 
 insert into profile_camps (profile_id, camp_id, is_past, is_booked, version)
 values ('a8fd2366-51d0-47d0-a06b-819f41af4cb8', 'dd5dc5ea-f858-47c0-b518-be2d1565856d', true, false, 0);
