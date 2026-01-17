@@ -18,8 +18,6 @@ public class ManagerEntity {
     @Column(name = "id")
     private UUID id;
     private String textUnderImage;
-    private String email;
-    private String contacts;
 
     @Column(name = "image_admin_id")
     private UUID imageAdminId;

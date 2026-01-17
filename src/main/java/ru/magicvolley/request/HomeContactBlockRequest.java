@@ -21,6 +21,8 @@ public class HomeContactBlockRequest {
     private String linkVk;
     private String linkTg;
     private String linkInstagram;
+    private String email;
+    private String contacts;
 
 
     @Data
@@ -30,7 +32,5 @@ public class HomeContactBlockRequest {
     public static class ManagerInfo {
         private MediaStorageInfo imageAdmin;
         private String textUnderImage;
-        private String email;
-        private String contacts;
     }
 }

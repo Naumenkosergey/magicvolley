@@ -15,8 +15,6 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="text_under_image" type="varchar(255)"/>
-            <column name="email" type="varchar(255)"/>
-            <column name="contacts" type="varchar(255)"/>
             <column name="image_admin_id" type="uuid"/>
             <column name="home_page_id" type="uuid"/>
             <column name="version" type="bigint"/>
@@ -29,17 +27,14 @@
         </preConditions>
 
         <sql>
-            insert into managers (id, text_under_image, email, contacts, home_page_id, version)
+            insert into managers (id, text_under_image, home_page_id, version)
             select
                 gen_random_uuid(),
                 hp.text_under_image,
-                hp.email,
-                hp.contacts,
                 hp.id,
                 hp.version
             from home_page hp
             where hp.title = 'Magic Volley';
-
         </sql>
         <rollback>
             <delete tableName="managers"/>

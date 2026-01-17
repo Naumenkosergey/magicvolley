@@ -45,6 +45,8 @@ public class HomePageResponse {
         private String linkVk;
         private String linkTg;
         private String linkInstagram;
+        private String email;
+        private String contacts;
     }
 
     @Data
@@ -54,7 +56,5 @@ public class HomePageResponse {
     public static class ManagerInfo {
         private MediaStorageInfo imageAdmin;
         private String textUnderImage;
-        private String email;
-        private String contacts;
     }
 }

@@ -26,6 +26,8 @@ public class HomePageEntity {
     private String linkVk;
     private String linkTg;
     private String linkInstagram;
+    private String email;
+    private String contacts;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", insertable = false, updatable = false)

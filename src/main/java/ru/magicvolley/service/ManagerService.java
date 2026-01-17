@@ -33,15 +33,13 @@ public class ManagerService {
     }
 
     @Transactional
-    public List<ManagerEntity> addManager(List<HomeContactBlockRequest.ManagerInfo> managerRequest) {
+    public void addManager(List<HomeContactBlockRequest.ManagerInfo> managerRequest) {
 
         List<ManagerEntity> managerEntities = managerRequest.stream()
                 .map(managerInfo -> {
                     ManagerEntity managerEntity = ManagerEntity.builder()
                             .id(UUID.randomUUID())
                             .textUnderImage(managerInfo.getTextUnderImage())
-                            .contacts(managerInfo.getContacts())
-                            .email(managerInfo.getEmail())
                             .build();
                     MediaStorageEntity managerPhoto = mediaService.mediaInfoToMediaStorage(managerInfo.getImageAdmin(),
                             managerEntity.getId(), TypeEntity.MANAGER_PHOTO);
@@ -51,19 +49,15 @@ public class ManagerService {
                 .toList();
 
         managerRepository.saveAll(managerEntities);
-        return managerEntities;
     }
 
     private HomePageResponse.ManagerInfo mapManagerEntityToMAnagerInfo(ManagerEntity manager) {
         return HomePageResponse.ManagerInfo.builder()
                 .imageAdmin(new MediaStorageInfo(manager.getImageAdmin(), prefixUrlMedia))
-                .contacts(manager.getContacts())
-                .email(manager.getEmail())
                 .textUnderImage(manager.getTextUnderImage())
                 .build();
     }
 
-    @Transactional
     public void deleteAllManagers() {
         List<ManagerEntity> all = managerRepository.findAll();
         managerRepository.deleteAll(all);

@@ -6,14 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.entity.HomePageEntity;
-import ru.magicvolley.entity.ManagerEntity;
 import ru.magicvolley.repository.HomePageRepository;
 import ru.magicvolley.request.HomeContactBlockRequest;
 import ru.magicvolley.request.HomeMainBlockRequest;
 import ru.magicvolley.response.HomePageResponse;
 import ru.magicvolley.response.LinkInfoResponse;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -42,6 +40,8 @@ public class HomeService {
                 .linkTg(homeFromDb.getLinkTg())
                 .linkVk(homeFromDb.getLinkVk())
                 .linkInstagram(homeFromDb.getLinkInstagram())
+                .email(homeFromDb.getEmail())
+                .contacts(homeFromDb.getContacts())
                 .build();
     }
 
@@ -79,11 +79,12 @@ public class HomeService {
                 .orElseThrow(() -> new RuntimeException("Home page not found"));
 
         managerService.deleteAllManagers();
-        List<ManagerEntity> managers = managerService.addManager(request.getManagers());
-        homeFromDb.setManagers(managers);
+        managerService.addManager(request.getManagers());
         homeFromDb.setLinkTg(request.getLinkTg());
         homeFromDb.setLinkVk(request.getLinkVk());
         homeFromDb.setLinkInstagram(request.getLinkInstagram());
+        homeFromDb.setContacts(request.getContacts());
+        homeFromDb.setEmail(request.getEmail());
         homePageRepository.save(homeFromDb);
         return homeFromDb.getId();
     }
