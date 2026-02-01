@@ -21,7 +21,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="copy_homepage_to_managers" author="naumenko_sn">
+    <changeSet id="copy_homepage_to_managers" author="naumenko_sn" runOnChange="true">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="managers"/>
         </preConditions>

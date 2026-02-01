@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="alter_table_camps_type_for_column_info_text" author="naumenko_sn">
+    <changeSet id="alter_table_camps_type_for_column_info_text" author="naumenko_sn" runOnChange="true">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="camps"/>
         </preConditions>
@@ -13,7 +13,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="alter_table_coaches_type_for_column_info_text" author="naumenko_sn">
+    <changeSet id="alter_table_coaches_type_for_column_info_text" author="naumenko_sn" runOnChange="true">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="coaches"/>
         </preConditions>
@@ -22,7 +22,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="alter_table_reviews_type_for_column_review_text" author="naumenko_sn">
+    <changeSet id="alter_table_reviews_type_for_column_review_text" author="naumenko_sn" runOnChange="true">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="reviews"/>
         </preConditions>

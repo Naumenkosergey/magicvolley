@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="alter_table_questions_for_column_answer_text" author="naumenko_sn">
+    <changeSet id="alter_table_questions_for_column_answer_text" author="naumenko_sn" runOnChange="true">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="questions"/>
         </preConditions>
@@ -13,7 +13,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet id="alter_table_questions_for_column_question_text" author="naumenko_sn">
+    <changeSet id="alter_table_questions_for_column_question_text" author="naumenko_sn" runOnChange="true">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="questions"/>
         </preConditions>

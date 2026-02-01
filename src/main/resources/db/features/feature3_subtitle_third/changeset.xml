@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="alter_table_about_us_page_add_column_subtitle_third" author="naumenko_sn">
+    <changeSet id="alter_table_about_us_page_add_column_subtitle_third" runOnChange="true" author="naumenko_sn">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="about_us_page"/>
         </preConditions>
