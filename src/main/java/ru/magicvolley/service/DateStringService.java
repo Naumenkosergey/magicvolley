@@ -28,7 +28,7 @@ public class DateStringService {
             case 1 -> "января";
             case 2 -> "февраля";
             case 3 -> "марта";
-            case 4 -> "апряля";
+            case 4 -> "апреля";
             case 5 -> "мая";
             case 6 -> "июня";
             case 7 -> "июля";
