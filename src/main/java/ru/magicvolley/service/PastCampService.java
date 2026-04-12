@@ -67,12 +67,8 @@ public class PastCampService {
         CampEntity campFromDb = campRepository.findById(campId)
                 .orElseThrow(() -> new EntityNotFoundException(CampEntity.class, campId));
 
-        loadGalleryForCamp(campRequest.getGallery(), campFromDb);
+        mediaService.loadGalleryForCamp(campRequest.getGallery(), campFromDb, TypeEntity.PAST_GALLERY);
         return campFromDb.getId();
-    }
-
-    private void loadGalleryForCamp(List<MediaStorageInfo> images, CampEntity campFromDb) {
-        mediaService.deletedOldImagesUploadNewImages(images, campFromDb.getId(), TypeEntity.PAST_GALLERY);
     }
 
     @Transactional

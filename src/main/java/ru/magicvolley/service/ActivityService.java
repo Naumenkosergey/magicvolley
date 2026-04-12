@@ -29,7 +29,7 @@ public class ActivityService {
         Map<UUID, ActivityEntity> mapActivityToId = activityRepository.findAll().stream()
                 .sorted(Comparator.comparing(ActivityEntity::getOrderNumber))
                 .collect(Collectors.toMap(ActivityEntity::getId, Function.identity(), (o1, o2) -> o1, LinkedHashMap::new));
-        Map<UUID, List<MediaStorageInfo>> allImagesForEntityIds = mediaService.getAllImagesForEntityIds(mapActivityToId.keySet(), TypeEntity.ACTIVITY);
+        Map<UUID, List<MediaStorageInfo>> allImagesForEntityIds = mediaService.getAllImagesForEntityIds(mapActivityToId.keySet(), Set.of(TypeEntity.ACTIVITY));
 
         return mapActivityToId.entrySet().stream().map(entry ->
                         AboutUsResponse.Activity.builder()
@@ -48,7 +48,7 @@ public class ActivityService {
 
         activityFromDb.setTitle(activityRequest.getName());
 
-        mediaService.deletedOldImagesUploadNewImages(activityRequest.getImages(), activityFromDb.getId(), TypeEntity.ACTIVITY);
+        mediaService.deletedOldImagesUploadNewImages(activityRequest.getImages(), activityFromDb.getId(), Set.of(TypeEntity.ACTIVITY));
 
         return true;
     }

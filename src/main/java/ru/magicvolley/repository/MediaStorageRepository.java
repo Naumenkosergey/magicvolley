@@ -20,7 +20,7 @@ public interface MediaStorageRepository extends JpaRepository<MediaStorageEntity
 
     List<MediaStorageEntity> findAllByEntityIdAndTypeEntity(UUID entityId, TypeEntity typeEntity);
 
-    List<MediaStorageEntity> findAllByEntityIdInAndTypeEntity(Collection<UUID> entityIds, TypeEntity typeEntity);
+    List<MediaStorageEntity> findAllByEntityIdInAndTypeEntityIn(Collection<UUID> entityIds, Collection<TypeEntity> typeEntity);
 
     @Query("SELECT m FROM MediaStorageEntity m INNER JOIN CampEntity c ON m.entityId = c.id " +
             "WHERE m.typeEntity = :typeEntity " +

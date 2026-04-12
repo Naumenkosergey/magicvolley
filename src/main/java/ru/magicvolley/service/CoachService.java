@@ -99,7 +99,7 @@ public class CoachService {
         List<MediaStorageInfo> coachImagesFromRequest = coach.getImages().stream()
                 .filter(x -> !x.getId().equals(mainImage.getId()))
                 .collect(Collectors.toList());
-        mediaService.deletedOldImagesUploadNewImages(coachImagesFromRequest, coachFromDb.getId(), TypeEntity.COACH);
+        mediaService.deletedOldImagesUploadNewImages(coachImagesFromRequest, coachFromDb.getId(), Set.of(TypeEntity.COACH));
     }
 
     private static void setAvatar(MediaStorageEntity mediaStorage, CoachEntity coachEntity) {
@@ -126,7 +126,7 @@ public class CoachService {
                 .map(CoachEntity::getId)
                 .collect(Collectors.toSet());
 
-        return Util.getSaveStream(mediaService.getAllImagesForEntityIds(coachesIds, TypeEntity.COACH).entrySet())
+        return Util.getSaveStream(mediaService.getAllImagesForEntityIds(coachesIds, Set.of(TypeEntity.COACH)).entrySet())
                 .flatMap(x -> x.getValue().stream()).toList();
     }
 

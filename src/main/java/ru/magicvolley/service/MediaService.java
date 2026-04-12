@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.magicvolley.Util;
 import ru.magicvolley.dto.MediaStorageInfo;
 import ru.magicvolley.dto.MediaUploadDto;
+import ru.magicvolley.entity.CampEntity;
 import ru.magicvolley.entity.MediaStorageEntity;
 import ru.magicvolley.enums.TypeEntity;
 import ru.magicvolley.exceptions.EntityNotFoundException;
@@ -165,8 +166,8 @@ public class MediaService {
         }
     }
 
-    public Map<UUID, List<MediaStorageInfo>> getAllImagesForEntityIds(Set<UUID> ids, TypeEntity typeEntity) {
-        return mediaRepository.findAllByEntityIdInAndTypeEntity(ids, typeEntity).stream()
+    public Map<UUID, List<MediaStorageInfo>> getAllImagesForEntityIds(Set<UUID> ids, Set<TypeEntity> typeEntities) {
+        return mediaRepository.findAllByEntityIdInAndTypeEntityIn(ids, typeEntities).stream()
                 .map(x -> new MediaStorageInfo(x, prefixUrlMedia))
                 .collect(Collectors.groupingBy(MediaStorageInfo::getEntityId));
     }
@@ -178,8 +179,9 @@ public class MediaService {
         return Collections.emptyList();
     }
 
-    public void deletedOldImagesUploadNewImages(List<MediaStorageInfo> imagesForRequest, UUID entityId, TypeEntity typeEntity) {
-        Map<UUID, List<MediaStorageInfo>> allImagesForActivityIds = getAllImagesForEntityIds(Set.of(entityId), typeEntity);
+    public void deletedOldImagesUploadNewImages(List<MediaStorageInfo> imagesForRequest, UUID entityId, Set<TypeEntity> typeEntities) {
+        Map<UUID, List<MediaStorageInfo>> allImagesForActivityIds = getAllImagesForEntityIds(Set.of(entityId), typeEntities);
+        TypeEntity typeEntity = typeEntities.stream().findFirst().orElseThrow(() -> new EntityNotFoundException("не указан тип медиа"));
         if (allImagesForActivityIds.isEmpty()) {
             Util.getSaveStream(imagesForRequest).forEach(image ->
                     mediaInfoToMediaStorage(image, entityId, typeEntity));
@@ -215,6 +217,10 @@ public class MediaService {
                 .findAllByEntityIdAndTypeEntity(entityId, typeEntity).stream()
                 .map(x -> new MediaStorageInfo(x, prefixUrlMedia))
                 .collect(Collectors.toList());
+    }
+
+    public void loadGalleryForCamp(List<MediaStorageInfo> images, CampEntity campFromDb, TypeEntity typeEntity) {
+        deletedOldImagesUploadNewImages(images, campFromDb.getId(), Set.of(typeEntity));
     }
 }
 

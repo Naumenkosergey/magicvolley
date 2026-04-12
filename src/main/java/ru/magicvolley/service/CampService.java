@@ -97,9 +97,9 @@ public class CampService {
 
     public CampDto buildCampDto(CampEntity campEntity) {
         boolean isPast = LocalDate.now().isAfter(campEntity.getDateEnd());
-        List<MediaStorageInfo> galleryImages = isPast
-                ? mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.PAST_GALLERY).get(campEntity.getId())
-                : List.of();
+        List<MediaStorageInfo> galleryImages = mediaService.getAllImagesForEntityIds(
+                Set.of(campEntity.getId()), Set.of(TypeEntity.PAST_GALLERY, TypeEntity.GALLERY))
+                .get(campEntity.getId());
 
         Boolean isAdminCurrentUser = Util.isAdminCurrentUser();
         return CampDto.builder()
@@ -118,7 +118,7 @@ public class CampService {
                 .packages(isPast ? List.of() : campEntity.getPackages().stream().map(CampPackageCardDto::new).toList())
                 .mainImage(new MediaStorageInfo(campEntity.getMainImage(), prefixUrlMedia))
                 .imageCart(new MediaStorageInfo(campEntity.getImageCart(), prefixUrlMedia))
-                .images(mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), TypeEntity.CAMP).get(campEntity.getId()))
+                .images(mediaService.getAllImagesForEntityIds(Set.of(campEntity.getId()), Set.of(TypeEntity.CAMP)).get(campEntity.getId()))
                 .users(!isAdminCurrentUser
                         ? null
                         : campUserService.getUsersForCampId(campEntity.getId()))
@@ -181,7 +181,14 @@ public class CampService {
         loadImagesForCamp(camp.getImages(), campEntity);
         createCampCoaches(camp.getCoaches(), campEntity);
         createCampPackages(camp.getPackages(), campEntity);
+        createCampGallery(camp.getGallery(), campEntity);
         return campEntity.getId();
+    }
+
+    private void createCampGallery(List<MediaStorageInfo> gallery, CampEntity campEntity) {
+        if (CollectionUtils.isNotEmpty(gallery)) {
+            mediaService.loadGalleryForCamp(gallery, campEntity, TypeEntity.GALLERY);
+        }
     }
 
     private void createCampPackages(List<CampPackageCardDto> packages, CampEntity campEntity) {
@@ -244,13 +251,17 @@ public class CampService {
         replaceCampCoaches(campRequest.getCoaches(), campFromDb);
         replaceCampPackages(campRequest.getPackages(), campFromDb);
         loadImagesForCamp(campRequest.getImages(), campFromDb);
+
+        if (CollectionUtils.isNotEmpty(campRequest.getGallery())){
+            mediaService.loadGalleryForCamp(campRequest.getGallery(), campFromDb, TypeEntity.GALLERY);
+        }
         campRepository.save(campFromDb);
         return campFromDb.getId();
     }
 
     private void loadImagesForCamp(List<MediaStorageInfo> images, CampEntity campFromDb) {
 
-        mediaService.deletedOldImagesUploadNewImages(images, campFromDb.getId(), TypeEntity.CAMP);
+        mediaService.deletedOldImagesUploadNewImages(images, campFromDb.getId(), Set.of(TypeEntity.CAMP));
     }
 
     private void replaceMainImage(MediaStorageInfo mainImageInfo, CampEntity campFromDb) {

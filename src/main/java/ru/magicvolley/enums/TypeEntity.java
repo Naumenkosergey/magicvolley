@@ -13,6 +13,7 @@ public enum TypeEntity {
     ACTIVITY,
     REVIEW,
     PAST_GALLERY,
+    GALLERY,
     MAIN_IMAGE_CAMP,
     CART_IMAGE_CAMP,
     MANAGER_PHOTO
